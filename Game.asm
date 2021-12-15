@@ -562,11 +562,68 @@ CheckSource MACRO Ins
     Found: ;EXIT  
 endm CheckSource
 
+;---------------DETECT SOURCE (Val)--------------
+
+CheckSourceVal MACRO Ins
+    PUSH BX
+    MOV DX, 0
+    MOV CL, 4
+    MOV BX, 0  
+    MainLoop:
+        MOV CH, BYTE PTR Ins[BX]
+        CMP CH, 57
+        JNC Str
+        SUB CH, 30h
+        JMP EXIT
+        Str:
+            SUB CH, 31h
+            CMP CH, 10h
+            JNE L1
+            MOV CH, 0Ah
+            JMP Exit
+            L1:
+            CMP CH, 11h
+            JNE L2
+            MOV CH, 0Bh
+            JMP Exit
+            L2:
+            CMP CH, 12h
+            JNE L3
+            MOV CH, 0Ch
+            JMP Exit
+            L3:
+            CMP CH, 13h
+            JNE L4
+            MOV CH, 0Dh
+            JMP Exit
+            L4:
+            CMP CH, 14h
+            JNE L5
+            MOV CH, 0Eh
+            JMP Exit
+            L5:
+            CMP CH, 15h
+            JNE L6
+            MOV CH, 0Fh
+            JMP Exit
+            L6:
+        Exit:
+            ADD DL, CH
+        CMP CL, 1
+        JZ PreventShift
+        SHL DX, 4
+        PreventShift:
+        INC BX
+        DEC CL
+    JNZ MainLoop
+    POP BX
+ENDM CheckSourceVal    
+
 ;----------------EXECUTE INSTRUCTION---------------- 
 
 executeInstruction macro input 
 CheckDestination input+6
-CheckSource input+9
+CheckSourceVal input+9
 checkInsruction  input+2
 endm executeInstruction
 
