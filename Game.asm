@@ -1,6 +1,6 @@
 .model small
 
-;----------------PRINT MESSAGE-------------------
+;--------------PRINT MESSAGE--------------------
 
 printmsg macro msg
     mov ah,9
@@ -16,7 +16,7 @@ readmsg macro msg
     int 21h
 endm readmsg
 
-;-----------------checkEQUALITY-------------------
+;--------------checkEQUALITY--------------------
 
 checkEQUALITY MACRO S1,S2 
     MOV CX, 2 
@@ -25,7 +25,7 @@ checkEQUALITY MACRO S1,S2
     REPE CMPSB     
 endm checkEQUALITY
 
-;-----------------checkInstructionEQUALITY-------------------
+;--------------checkInstructionEQUALITY---------
 
 checkINSEQUALITY MACRO S1,S2 
     MOV CX, 3 
@@ -34,7 +34,7 @@ checkINSEQUALITY MACRO S1,S2
     REPE CMPSB     
 endm checkINSEQUALITY
 
-;---------------DETECT REGISTER DESTINATION--------------
+;-----------DETECT REGISTER DESTINATION---------
 
 CheckDestination macro des
     checkEQUALITY des,ax_str
@@ -135,7 +135,7 @@ CheckDestination macro des
     jmp FoundDestination
 
     Check_DH:
-    checkEQUALITY des,ch_str
+    checkEQUALITY des,dh_str
     cmp cx,0
     jnz FoundDestination
     mov bx,offset DHREG 
@@ -566,8 +566,20 @@ endm CheckSource
 
 CheckSourceVal MACRO Ins
     PUSH BX
+    MOV CL, 0
+    MOV BX, 0
+    
+    ;------Determine string size--------
+    Size:
+        MOV CH, BYTE PTR Ins[BX]
+        INC BX
+        INC CL
+        CMP CH, 0Dh
+        JNE Size
+    DEC CL
+    ;-----------------------------------
+    
     MOV DX, 0
-    MOV CL, 4
     MOV BX, 0  
     MainLoop:
         MOV CH, BYTE PTR Ins[BX]
@@ -628,7 +640,8 @@ CheckSourceVal input+9
 checkInsruction  input+2
 endm executeInstruction
 
- ;--------------INPUTS-------------------
+;---------------------INPUTS------------------------
+
 .data
 instruction db 16,?, 16 dup('$') 
 newline db 10,13,'$'
