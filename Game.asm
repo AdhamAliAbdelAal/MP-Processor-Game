@@ -624,6 +624,7 @@ ENDM CheckSourceVal
 executeInstruction macro input 
 CheckDestination input+6
 CheckSourceVal input+9
+;CheckSource input+9
 checkInsruction  input+2
 endm executeInstruction
 
