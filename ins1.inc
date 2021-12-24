@@ -5,6 +5,7 @@ checkInsruction macro ins
     checkINSEQUALITY ins,mov_str
     jnz Check_Add
     POPF
+    ;printmsg adham
     mov [bx],dx 
     jmp FoundInstruction
 

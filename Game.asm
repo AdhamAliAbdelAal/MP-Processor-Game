@@ -1,4 +1,4 @@
-include des1.inc
+Include des1.inc
 include ins1.inc
 include ins2.inc
 include utility.inc
@@ -7,19 +7,104 @@ include srcval.inc
 .model huge
 ;----------------EXECUTE INSTRUCTION---------------- 
 
-executeInstruction macro input 
-CheckDestination input+6
-;CheckSourceVal input+9
-CheckSource input+9
-checkInsruction05  input+2
+executeInstruction macro input
+    cmp input+6,'['
+    jmp test0
+    ok0:
+    CheckDestination input+6
+    MOV DI,9 
+    jmp tosource
+    test0:
+    jz mshReg
+    jmp ok0
+    
+    mshReg:
+    cmp input+8,']'
+    jmp test1
+    ok1:
+    DirectDestination input+7
+    MOV DI,10 
+    jmp tosource
+    test1:
+    jnz mshDirect
+    jmp ok1
+    
+    mshDirect:
+    cmp input+9,']'
+    jmp test2
+    ok2:
+    RegIndirect input+7
+    mov di,11 
+    jmp tosource
+    test2:
+    jnz mshIndirect
+    jmp ok2
+    
+    mshIndirect:
+    cmp input+11,']'
+    jmp test3
+    ok3:
+    BasedRelativeDES input+7
+    mov di,13
+    jmp tosource
+    test3:
+    jnz tosource
+    jmp ok3
+            
+    tosource:
+    cmp di,9
+    JMP src0
+    oksrc0:
+    CheckSource input+9
+    jmp insjmp
+    src0:
+    jnz nextdi0
+    jmp oksrc0
+    
+    nextdi0:
+    cmp di,10
+    JMP src1
+    oksrc1:
+    CheckSource input+10
+    jmp insjmp
+    src1:
+    jnz nextdi1
+    jmp oksrc1
+    
+    nextdi1:
+    cmp di,11 
+    JMP src2
+    oksrc2:
+    CheckSource input+11
+    jmp insjmp
+    src2:
+    jnz nextdi2
+    jmp oksrc2
+    
+    nextdi2:
+    cmp di,13
+    JMP src3
+    oksrc3:
+    CheckSource input+13
+    jmp insjmp
+    src3:
+    jnz insjmp
+    jmp oksrc3
+    
+    
+    insjmp:
+    ;CheckSource
+    checkInsruction  input+2
 endm executeInstruction
 
 ;---------------------dataSegment------------------------
 
 .data
-instruction db 16,?, 16 dup('$') 
+instruction db 16,?, 16 dup('$')
+;input db 16,?, 16 dup('$')
 newline db 10,13,'$'
-adham db "adham$"  
+adham db "adham$"
+  
                
 ;---------------------REGISTERS---------------------
 
@@ -28,8 +113,8 @@ ALREG db 12H
 AHREG db 13H 
  
 BXREG LABEL WORD 
-BLREG db 18H 
-BHREG db 44H 
+BLREG db 05H 
+BHREG db 00H 
  
 CXREG LABEL WORD 
 CLREG db 8h 
@@ -39,9 +124,11 @@ DXREG LABEL WORD
 DLREG db 1h 
 DHREG db 34h
 
-SIREG dw ? 
-DIREG dw ? 
+SIREG dw 0007H 
+DIREG dw 000AH 
 BPREG dw ?
+
+memory db 16 dup(?)
 
 ;------------------INSTRUCTION STRINGS---------------
 
@@ -94,12 +181,17 @@ bp_str db "BP$"
         mov AX,@DATA
         mov DS,AX
         mov ES,AX
-        MOV BX,1234H
+        enterins:
+        ;push_all
         readmsg instruction
-        executeInstruction instruction  
+        executeInstruction instruction
         printmsg newline
-        mov dx,word ptr BLREG
-        printhexa dx
+        ;printmsg ADHAM
+        
+        ;pop_all
+        jmp enterins  
+        ;mov dx,word ptr BLREG
+        ;printhexa dx
         ;MOV CX, 3 
         ;MOV SI, offset ax_str  
         ;MOV DI, offset ax_str 
@@ -108,6 +200,11 @@ bp_str db "BP$"
         ;add dl,30h
         ;mov ah,2
         ;int 21h
-         
-main endp 
+HLT         
+main endp
+sub0 proc
+    CheckDestination instruction+6
+    mov di,9
+    RET
+sub0 endp 
 end main

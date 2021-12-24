@@ -1,6 +1,22 @@
 ;---------------DETECT SOURCE--------------
  
-CheckSource MACRO Ins  
+CheckSource MACRO Ins
+    local JumpAX
+    local JumpBX
+    local JumpCX
+    local JumpDX
+    local JumpAL
+    local JumpAH
+    local JumpBL
+    local JumpBH
+    local JumpCL
+    local JumpCH
+    local JumpDL
+    local JumpDH
+    local JumpDI
+    local JumpSI
+    local JumpBP
+    local Found  
     checkEQUALITY ax_str,Ins    
     JNZ JumpAX  
     MOV DX, WORD PTR ALREG  

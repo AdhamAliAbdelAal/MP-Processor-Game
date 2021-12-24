@@ -19,15 +19,12 @@ endm readmsg
 .STACK 64
 
 .DATA
-msg db 16,?, 16 dup('$')
-newline db 10,13,'$'
+G DB ?
 .CODE
 MAIN PROC
 MOV AX, @DATA
 MOV DS, AX
-mov ah,0ah
-readmsg msg
-printmsg newline
-printmsg msg+2
+mov aX,12AEH
+MOV [0],12H
 MAIN ENDP
 END MAIN

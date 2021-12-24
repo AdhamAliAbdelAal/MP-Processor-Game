@@ -1,0 +1,8 @@
+adham 	mov [1234],ax
+	mov [bx],ax
+	mov ax,[1234]
+eslam 	mov [bx+2],5363
+	mov AX,[bx+2]
+hamdy 	mov bx,[bx]
+	mov bx,[2556]
+	

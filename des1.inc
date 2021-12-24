@@ -1,5 +1,20 @@
 ;-----------DETECT REGISTER DESTINATION---------
 CheckDestination macro des
+    local Check_BX
+    local Check_CX
+    local Check_DX
+    local Check_SI
+    local Check_DI
+    local Check_BP
+    local Check_AL
+    local Check_AH
+    local Check_BL
+    local Check_BH
+    local Check_CL
+    local Check_CH
+    local Check_DL
+    local Check_DH
+    local FoundDestination
     checkEQUALITY des,ax_str
     jnz Check_BX
     mov bx,offset AXREG 
@@ -47,7 +62,7 @@ CheckDestination macro des
     mov bx,offset ALREG 
     jmp FoundDestination
     
-     Check_AH:
+    Check_AH:
     checkEQUALITY des,ah_str
     jnz Check_BL
     mov bx,offset AHREG 
@@ -90,4 +105,36 @@ CheckDestination macro des
     jmp FoundDestination
 
     FoundDestination:
-endm CheckDestination
+endm CheckDestination 
+
+;-----------DETECT DIRECT DESTINATION---------
+DirectDestination macro des
+    local harf
+    local Dexite
+    mov bx,offset memory
+    mov dh,0
+    mov dl,des
+    sub dl,30h
+    cmp dl,9
+    ja harf
+    add bx,dx
+    jmp Dexite
+    harf:
+    sub dl,7
+    add bx,dx
+    Dexite: 
+endm DirectDestination
+;-----------DETECT INDIRECT DESTINATION---------    
+RegIndirect macro des
+    CheckDestination des
+    mov ax,[bx]
+    mov bx,offset memory
+    add bx,ax    
+endm RegIndirect
+
+BasedRelativeDES macro des
+    CheckDestination des
+    mov ax,[bx]
+    DirectDestination des+3
+    add bx,ax    
+endm BasedRelativeDES

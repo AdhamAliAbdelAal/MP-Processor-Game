@@ -58,3 +58,25 @@ printhexa macro num
         int 21h
         loop notZero
 endm printhexa
+;-------------------------------------------------
+push_all macro                  ;; push all
+    push ax
+    push bx
+    push cx
+    push dx
+    push si
+    push di
+    push bp
+    push sp
+endm push_all   
+;;**********  
+pop_all macro                  ;; pop all
+    pop sp
+    pop bp
+    pop di
+    pop si
+    pop dx
+    pop cx
+    pop bx 
+    pop ax 
+endm pop_all
