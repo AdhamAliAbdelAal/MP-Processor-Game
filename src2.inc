@@ -14,10 +14,9 @@ RegisterIndirect MACRO input
     MOV CX, WORD PTR BLREG
     CMP CX, 001Eh
     JNC RI_Found
-    MOV BL, offset memory
-    ADD BL, CL
-    MOV DL, [BX]
-    MOV DH, 0  
+    MOV BX, offset memory
+    ADD BX, CX
+    MOV DX, [BX]  
     JMP RI_Found  
     RegBX:   
      
@@ -26,10 +25,9 @@ RegisterIndirect MACRO input
     MOV CX, WORD PTR SIREG
     CMP CX, 001Eh
     JNC RI_Found
-    MOV BL, offset memory
-    ADD BL, CL
-    MOV DL, [BX]
-    MOV DH, 0  
+    MOV BX, offset memory
+    ADD BX, CX
+    MOV DX, [BX]  
     JMP RI_Found  
     RegSI: 
      
@@ -38,10 +36,9 @@ RegisterIndirect MACRO input
     MOV CX, WORD PTR DIREG
     CMP CX, 001Eh
     JNC RI_Found
-    MOV BL, offset memory
-    ADD BL, CL
-    MOV DL, [BX]
-    MOV DH, 0  
+    MOV BX, offset memory
+    ADD BX, CX
+    MOV DX, [BX]  
     JMP RI_Found  
     RegDI: 
      
@@ -119,7 +116,7 @@ Direct MACRO input
         
     ExitValA:
         ADD BL,CH
-        MOV DL,[BX]
+        MOV DX,[BX]
         
     NotPossible:
     POP BX    
