@@ -16,7 +16,7 @@ DetectSourceMode MACRO input
     local BasedRelative 
     PUSH CX
     MOV CL, BYTE PTR input
-    CMP CL, 93 ; ]
+    CMP CL, 91 ; [
     JZ StartBracket
     MOV CL, BYTE PTR input+1
     CMP CL, 73 ; i
