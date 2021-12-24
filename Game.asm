@@ -91,10 +91,54 @@ executeInstruction macro input
     jnz insjmp
     jmp oksrc3
     
-    
     insjmp:
-    ;CheckSource
+    mov al,checkDesSize
+    mov ah,checkSrcSize
+    cmp al,ah
+    
+    jmp instest0
+    insok0:
+    cmp al,0
+    jmp instest1
+    insok1:
+    
+    cmp al,1
+    jmp  instest2
+    insok2:
+    jmp executeins
+    instest2:
+    jnz insok2
+    jmp executeins05 
+    
+    
+    
+    instest1:
+    jnz insok1
+    jmp invalidop
+    
+    instest0:
+    
+    jz insok0
+    add al,ah
+    cmp al,2
+    jmp instest4
+    insok4:
+    cmp al,1
+    jmp instest2
+    instest4:
+    jbe insok4 
+    jmp invalidop
+    
+    executeins:
     checkInsruction  input+2
+    jmp leaveexecute
+    executeins05:
+    checkInsruction05  input+2
+    jmp leaveexecute
+    invalidop:
+    printmsg invalid
+    jmp leaveexecute
+    leaveexecute:
 endm executeInstruction
 
 ;---------------------dataSegment------------------------
@@ -103,7 +147,7 @@ endm executeInstruction
 instruction db 16,?, 16 dup('$')
 ;input db 16,?, 16 dup('$')
 newline db 10,13,'$'
-adham db "adham$"
+invalid db "invalid Operation$"
   
                
 ;---------------------REGISTERS---------------------
@@ -174,6 +218,10 @@ dh_str db "DH$"
 si_str db "SI$"
 di_str db "DI$"
 bp_str db "BP$"
+
+;--------------------Validation Variables---------------
+checkDesSize db 0
+checkSrcSize db 0
                
 ;----------------------------------------------------
 .code
@@ -186,6 +234,7 @@ bp_str db "BP$"
         readmsg instruction
         executeInstruction instruction
         printmsg newline
+        ;mov checkDesSize,2
         ;printmsg ADHAM
         
         ;pop_all
@@ -202,9 +251,4 @@ bp_str db "BP$"
         ;int 21h
 HLT         
 main endp
-sub0 proc
-    CheckDestination instruction+6
-    mov di,9
-    RET
-sub0 endp 
 end main
