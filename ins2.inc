@@ -10,7 +10,7 @@ checkInsruction05 macro ins
 
     Check_Add05:
     checkINSEQUALITY ins,add_str
-    jnz Check_Add05
+    jnz Check_ADC05
     POPF
     add [bx],dl 
     jmp FoundInstruction05

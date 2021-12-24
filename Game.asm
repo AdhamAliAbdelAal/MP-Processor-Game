@@ -18,7 +18,8 @@ endm executeInstruction
 
 .data
 instruction db 16,?, 16 dup('$') 
-newline db 10,13,'$'  
+newline db 10,13,'$'
+adham db "adham$"  
                
 ;---------------------REGISTERS---------------------
 
@@ -99,6 +100,14 @@ bp_str db "BP$"
         printmsg newline
         mov dx,word ptr BLREG
         printhexa dx
+        ;MOV CX, 3 
+        ;MOV SI, offset ax_str  
+        ;MOV DI, offset ax_str 
+        ;REPE CMPSB
+        ;MOV DL,CL
+        ;add dl,30h
+        ;mov ah,2
+        ;int 21h
          
 main endp 
 end main

@@ -55,7 +55,7 @@ CheckDestination macro des
 
     Check_BL:
     checkEQUALITY des,bl_str
-    jnz Check_BH
+    jnz Check_BH  
     mov bx,offset BLREG 
     jmp FoundDestination
 

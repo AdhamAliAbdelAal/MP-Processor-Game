@@ -17,7 +17,7 @@ endm readmsg
 ;--------------checkEQUALITY--------------------
 
 checkEQUALITY MACRO S1,S2 
-    MOV CX, 2 
+    MOV CX, 3 
     MOV SI, offset S1  
     MOV DI, offset S2 
     REPE CMPSB
@@ -27,7 +27,7 @@ endm checkEQUALITY
 ;--------------checkInstructionEQUALITY---------
 
 checkINSEQUALITY MACRO S1,S2 
-    MOV CX, 3 
+    MOV CX, 4 
     MOV SI, offset S1  
     MOV DI, offset S2 
     REPE CMPSB
