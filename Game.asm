@@ -3,8 +3,57 @@ include ins1.inc
 include ins2.inc
 include utility.inc
 include src1.inc
+include src2.inc
 include srcval.inc
 .model huge
+
+DetectSourceMode MACRO input
+    local Number
+    local StartBracket
+    local ExitSrcMode
+    local DirectMode
+    local RegIndirect
+    local BasedRelative 
+    PUSH CX
+    MOV CL, BYTE PTR input
+    CMP CL, 93 ; ]
+    JZ StartBracket
+    MOV CL, BYTE PTR input+1
+    CMP CL, 73 ; i
+    JC Number
+    CheckSource input ; 1st
+    JMP ExitSrcMode
+    
+    Number:
+    CheckSourceVal input ; 2nd
+    JMP ExitSrcMode
+    
+    StartBracket:
+    MOV CL, BYTE PTR input+2
+    CMP CL, 73 ; i
+    JC DirectMode 
+    MOV CL, BYTE PTR input+3
+    CMP CL, 93 ; ]
+    JZ RegIndirect
+    JMP BasedRelative
+    
+    
+    DirectMode:
+    Direct input+1 ; 3rd
+    JMP ExitSrcMode
+    
+    RegIndirect:
+    RegisterIndirect input+1 ; 4th 
+    JMP ExitSrcMode
+    
+    BasedRelative:
+    ;BasedRelative input+1 ; 5th
+    
+    ExitSrcMode:
+    POP CX
+             
+endM DetectSourceMode
+
 ;----------------EXECUTE INSTRUCTION---------------- 
 
 executeInstruction macro input
@@ -55,7 +104,7 @@ executeInstruction macro input
     cmp di,9
     JMP src0
     oksrc0:
-    CheckSource input+9
+    DetectSourceMode input+9
     jmp insjmp
     src0:
     jnz nextdi0
@@ -65,7 +114,7 @@ executeInstruction macro input
     cmp di,10
     JMP src1
     oksrc1:
-    CheckSource input+10
+    DetectSourceMode input+10
     jmp insjmp
     src1:
     jnz nextdi1
@@ -75,7 +124,7 @@ executeInstruction macro input
     cmp di,11 
     JMP src2
     oksrc2:
-    CheckSource input+11
+    DetectSourceMode input+11
     jmp insjmp
     src2:
     jnz nextdi2
@@ -85,7 +134,7 @@ executeInstruction macro input
     cmp di,13
     JMP src3
     oksrc3:
-    CheckSource input+13
+    DetectSourceMode input+13
     jmp insjmp
     src3:
     jnz insjmp

@@ -1,6 +1,11 @@
 ;----------REGISTER INDIRECT ADDRESSING MODE----------
 
 RegisterIndirect MACRO input
+    local RegBX
+    local RI_Found
+    local RegSI
+    local RegDI
+    
     PUSH BX
     PUSH CX
       
@@ -49,6 +54,15 @@ endM RegisterIndirect
 ;---------------DIRECT ADDRESSING MODE----------------
 
 Direct MACRO input
+    local NotPossible
+    local Letter
+    local ExitValA
+    local strL1
+    local strL2
+    local strL3
+    local strL4
+    local strL5
+    local strL6
     PUSH BX
     
     MOV BX, 0  

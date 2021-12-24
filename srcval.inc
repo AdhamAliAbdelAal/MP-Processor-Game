@@ -1,5 +1,16 @@
 ;---------------DETECT SOURCE (Val)--------------
 CheckSourceVal MACRO Ins
+    local Sizeloop
+    local MainLoop
+    local Str
+    local Exitval
+    local PreventShift
+    local L1
+    local L2
+    local L3
+    local L4
+    local L5
+    local L6
     PUSH BX
     MOV CL, 0
     MOV BX, 0
