@@ -3,15 +3,19 @@ include ins1.inc
 include ins2.inc
 include utility.inc
 include src1.inc
-include srcval.inc
+include srcval.inc  
+include src2.inc
+
 .model huge
 ;----------------EXECUTE INSTRUCTION---------------- 
 
 executeInstruction macro input 
 CheckDestination input+6
 ;CheckSourceVal input+9
-CheckSource input+9
-checkInsruction05  input+2
+;RegisterIndirect input+10
+;CheckSource input+9
+Direct input+10
+checkInsruction input+2
 endm executeInstruction
 
 ;---------------------dataSegment------------------------
@@ -19,17 +23,18 @@ endm executeInstruction
 .data
 instruction db 16,?, 16 dup('$') 
 newline db 10,13,'$'
+memory db 1h,3h,0Ah,7h,8h,0Eh,6h,2h,0Fh,10h,0Bh,0Ch,13h,14h,15h,16h
 adham db "adham$"  
                
 ;---------------------REGISTERS---------------------
 
 AXREG LABEL WORD 
-ALREG db 12H 
-AHREG db 13H 
+ALREG db 18H 
+AHREG db 44H 
  
 BXREG LABEL WORD 
-BLREG db 18H 
-BHREG db 44H 
+BLREG db 0FH 
+BHREG db 00H 
  
 CXREG LABEL WORD 
 CLREG db 8h 
@@ -39,8 +44,8 @@ DXREG LABEL WORD
 DLREG db 1h 
 DHREG db 34h
 
-SIREG dw ? 
-DIREG dw ? 
+SIREG dw 7h 
+DIREG dw 0Ah 
 BPREG dw ?
 
 ;------------------INSTRUCTION STRINGS---------------
@@ -97,9 +102,9 @@ bp_str db "BP$"
         MOV BX,1234H
         readmsg instruction
         executeInstruction instruction  
-        printmsg newline
-        mov dx,word ptr BLREG
-        printhexa dx
+        ;printmsg newline
+        ;mov dx,word ptr BLREG
+        ;printhexa dx
         ;MOV CX, 3 
         ;MOV SI, offset ax_str  
         ;MOV DI, offset ax_str 
