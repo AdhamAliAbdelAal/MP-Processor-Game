@@ -5,6 +5,7 @@ include utility.inc
 include src1.inc
 include src2.inc
 include srcval.inc
+include BasRel.inc
 .model huge
 
 DetectSourceMode MACRO input
@@ -16,10 +17,10 @@ DetectSourceMode MACRO input
     local BasedRelative 
     PUSH CX
     MOV CL, BYTE PTR input
-    CMP CL, 91 ; [
+    CMP CL, '['
     JZ StartBracket
     MOV CL, BYTE PTR input+1
-    CMP CL, 73 ; i
+    CMP CL, 'I'
     JC Number
     CheckSource input ; 1st
     JMP ExitSrcMode
@@ -30,13 +31,12 @@ DetectSourceMode MACRO input
     
     StartBracket:
     MOV CL, BYTE PTR input+2
-    CMP CL, 73 ; i
-    JC DirectMode 
+    CMP CL, ']'
+    JZ DirectMode 
     MOV CL, BYTE PTR input+3
-    CMP CL, 93 ; ]
+    CMP CL, ']'
     JZ RegIndirect
     JMP BasedRelative
-    
     
     DirectMode:
     Direct input+1 ; 3rd
