@@ -1,8 +1,7 @@
-.MODEL SMALL
 ;--------------Based Relative--------------------
 
 BasedRelative macro Ins 
-    local JumpBX
+    local JumpBX1
     local Found_ES
     local exit_ES_N
     local exit_ES 
@@ -13,16 +12,17 @@ BasedRelative macro Ins
     LOCAL strL4_ES
     LOCAL strL5_ES
     LOCAL strL6_ES
+    local ExitValA_ES
     push ax
     push bx
     push cx
      checkEQUALITY bp_str,Ins   
-    JNZ JumpBX  
+    JNZ JumpBX1  
     MOV AX, WORD PTR BPREG
     CMP AX, 001Eh
      JNC exit_ES_N  
     JMP Found_ES  
-    JumpBX:  
+    JumpBX1:  
       
     checkEQUALITY bx_str,Ins     
     JNZ exit_ES_N  
@@ -95,8 +95,7 @@ BasedRelative macro Ins
            ADD AX, offset memory
            CMP BX,AX
            JNC exit_ES  
-           MOV DL, [BX]
-           MOV DH, 0       
+           MOV DX, [BX]       
     exit_ES:
  
     pop cx

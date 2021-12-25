@@ -14,7 +14,7 @@ DetectSourceMode MACRO input
     local ExitSrcMode
     local DirectMode
     local RegIndirect
-    local BasedRelative 
+    local BasedRelativeMode 
     PUSH CX
     MOV CL, BYTE PTR input
     CMP CL, '['
@@ -36,7 +36,7 @@ DetectSourceMode MACRO input
     MOV CL, BYTE PTR input+3
     CMP CL, ']'
     JZ RegIndirect
-    JMP BasedRelative
+    JMP BasedRelativeMode
     
     DirectMode:
     Direct input+1 ; 3rd
@@ -46,8 +46,8 @@ DetectSourceMode MACRO input
     RegisterIndirect input+1 ; 4th 
     JMP ExitSrcMode
     
-    BasedRelative:
-    ;BasedRelative input+1 ; 5th
+    BasedRelativeMode:
+    BasedRelative input+1 ; 5th
     
     ExitSrcMode:
     POP CX
