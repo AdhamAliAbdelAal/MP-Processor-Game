@@ -61,16 +61,14 @@ Direct MACRO input
     local strL5
     local strL6
     PUSH BX
-    
-    MOV BX, 0  
-    MOV CH, BYTE PTR input[BX]
-    INC BX
-    MOV CL, BYTE PTR input[BX]
+ 
+    MOV CH, BYTE PTR input
+    MOV CL, BYTE PTR input[1]
     CMP CL,93
     JNZ NotPossible
     MOV DX, 0
     MOV BX, offset memory
-    MOV AH,57
+    MOV AH,58
     CMP CH,AH
     JNC Letter
     SUB CH, 30h

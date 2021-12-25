@@ -40,7 +40,7 @@ BasedRelative macro Ins
         push ax
         push bx
          
-                MOV AH,57
+                MOV AH,58
                 CMP CH,AH
                 JNC Letter_ES
                 SUB CH, 30h
