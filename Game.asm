@@ -14,20 +14,33 @@ DetectSourceMode MACRO input
     local ExitSrcMode
     local DirectMode
     local RegIndirect
-    local BasedRelativeMode 
+    local BasedRelativeMode
+    local testHamdy1
+    local testHamdy2
+    local testHamdy3
+    local okHamdy1
+    local okHamdy2
+    local okHamdy3
     PUSH CX
     MOV CL, BYTE PTR input
     CMP CL, '['
-    JZ StartBracket
+    jmp testHamdy1
+    okHamdy1:
     MOV CL, BYTE PTR input+1
     CMP CL, 'I'
-    JC Number
+    jmp testHamdy2
+    okHamdy2:
     CheckSource input ; 1st
     JMP ExitSrcMode
-    
+    testHamdy2:
+    JC Number
+    jmp okHamdy2
     Number:
     CheckSourceVal input ; 2nd
     JMP ExitSrcMode
+    testHamdy1:
+    JZ StartBracket
+    jmp okHamdy1
     
     StartBracket:
     MOV CL, BYTE PTR input+2
@@ -35,12 +48,19 @@ DetectSourceMode MACRO input
     JZ DirectMode 
     MOV CL, BYTE PTR input+3
     CMP CL, ']'
-    JZ RegIndirect
+    jmp testHamdy3
+    okHamdy3:
     JMP BasedRelativeMode
     
     DirectMode:
     Direct input+1 ; 3rd
     JMP ExitSrcMode
+    
+    testHamdy3:
+    JZ RegIndirect
+    jmp okHamdy3
+    
+    
     
     RegIndirect:
     RegisterIndirect input+1 ; 4th 
