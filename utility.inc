@@ -186,3 +186,33 @@ Start:
   pop_all  
 ENDING:
 endm Draw_BK
+;------------------------------------
+resetins macro ins
+    push_all 
+    mov cx,16
+    mov al,'$'
+    mov di,offset ins
+    REP STOSB
+    pop_all
+endm clearins  
+;--------------------------------------------
+clearins macro
+    mov ah,9 ;Display
+    mov bh,0 ;Page 0
+    mov al,'M' ;Letter D
+    mov cx,16 ;5 times
+    mov bl,00h ;Green (A) on white(F) background
+    int 10h
+endm clearins
+;----------------------------------------------------
+INPUTFIELD MACRO
+     mov si,444ah
+        mov_cursor si
+        clearins
+        mov si,434ah
+        mov_cursor si
+        clearins
+        mov si,454ah
+        mov_cursor si
+        clearins
+ENDM INPUTFIELD

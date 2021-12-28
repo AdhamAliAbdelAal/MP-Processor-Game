@@ -81,6 +81,7 @@ endM DetectSourceMode
 ;----------------EXECUTE INSTRUCTION---------------- 
 
 executeInstruction macro input
+    push_all
     cmp input+6,'['
     jmp test0
     ok0:
@@ -209,9 +210,10 @@ executeInstruction macro input
     checkInsruction05  input+2
     jmp leaveexecute
     invalidop:
-    printmsg invalid
+    ;printmsg invalid
     jmp leaveexecute
-    leaveexecute:
+    leaveexecute: 
+    pop_all
 endm executeInstruction
 
 ;---------------------dataSegment------------------------
@@ -1902,7 +1904,17 @@ img DB 138, 138, 138, 138, 137, 137, 137, 137, 137, 137, 137, 137, 137, 137, 137
  DB 29, 29, 29, 29, 29, 29, 29, 29, 29, 16, 29, 29, 29, 29, 29, 29, 29, 29, 29, 16, 29, 29, 29, 29, 29, 29, 29, 29, 29, 29, 16, 29, 29, 29, 29, 29, 29, 29, 29, 29;;*****************************            
 
 ;----------------------------------------------------
-
+INPUTFIELD MACRO
+     mov si,444ah
+        mov_cursor si
+        clearins
+        mov si,434ah
+        mov_cursor si
+        clearins
+        mov si,454ah
+        mov_cursor si
+        clearins
+        ENDM INPUTFIELD
 .code
     main proc far
         mov AX,@DATA
@@ -1914,17 +1926,21 @@ img DB 138, 138, 138, 138, 137, 137, 137, 137, 137, 137, 137, 137, 137, 137, 137
         Draw_BK
         
         enterins:
-        ;push_all
-        mov si,45A0h
-        mov_cursor si
+        ;push_all 
+        INPUTFIELD
         draw
         drawbyte
+        mov si,444Bh
+        mov_cursor si
         readmsg instruction
         executeInstruction instruction
-        printmsg newline
+        mov si,444ah
+        mov_cursor si
+        ;printmsg newline
         ;mov checkDesSize,2
         ;printmsg ADHAM
-        
+        resetins instruction+2
+       
         ;pop_all
         jmp enterins  
         ;mov dx,word ptr BLREG
