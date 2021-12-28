@@ -221,6 +221,7 @@ instruction db 16,?, 16 dup('$')
 ;input db 16,?, 16 dup('$')
 newline db 10,13,'$'
 invalid db "invalid Operation$"
+adham db "hamdy el 3abeet$"
   
                
 ;---------------------REGISTERS---------------------

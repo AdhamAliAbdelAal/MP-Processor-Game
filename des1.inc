@@ -114,6 +114,7 @@ CheckDestination macro des
 
     Check_DH:
     checkEQUALITY des,dh_str
+    printmsg adham
     jnz FoundDestination
     mov bx,offset DHREG
     mov checkDesSize,1 
