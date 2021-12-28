@@ -128,7 +128,7 @@ endm printhexa05
 draw macro
     local jjj
     push_all 
-        mov si,391bh
+        mov si,3A1bh
         mov cx,7
         mov bx,0
         jjj:
@@ -143,8 +143,9 @@ endm draw
 ;------------------------------------
 drawbyte macro
     local jjjk
+    local jjjl
     push_all 
-        mov si,0000h
+        mov si,0200h
         mov cx,8
         mov bx,0
         jjjk:
@@ -155,16 +156,27 @@ drawbyte macro
         add si,2h
         add bx,1
         loop jjjk
+        
+        mov si,0500h
+        mov cx,8
+        mov bx,8
+        jjjl:
+        mov_cursor si  
+        mov ah,memory[BX]
+        MOV al,0 
+        printhexa05 ax
+        add si,2h
+        add bx,1
+        loop jjjl
      pop_all
-endm drawbyte 
-;------------------------------------------
+endm drawbyte  
+;-----------------------------------------
+
 Draw_BK macro 
  push_all      
    MOV AH,0
    MOV AL,13H
    INT 10H
-   
-   
    MOV AH,0Bh   	;set the configuration
    MOV CX, imgW  	;set the width (X) up to image width (based on image resolution)
    MOV DX, imgH 	;set the hieght (Y) up to image height (based on image resolution)
@@ -196,23 +208,27 @@ resetins macro ins
     pop_all
 endm clearins  
 ;--------------------------------------------
-clearins macro
+clearins macro 
+    push_all
     mov ah,9 ;Display
     mov bh,0 ;Page 0
     mov al,'M' ;Letter D
     mov cx,16 ;5 times
     mov bl,00h ;Green (A) on white(F) background
     int 10h
+    pop_all
 endm clearins
 ;----------------------------------------------------
 INPUTFIELD MACRO
-     mov si,444ah
-        mov_cursor si
-        clearins
-        mov si,434ah
-        mov_cursor si
-        clearins
-        mov si,454ah
-        mov_cursor si
-        clearins
+    push_all
+    mov si,444ch
+    mov_cursor si
+    clearins
+    mov si,434ch
+    mov_cursor si
+    clearins
+    mov si,454ch
+    mov_cursor si
+    clearins
+    pop_all
 ENDM INPUTFIELD
