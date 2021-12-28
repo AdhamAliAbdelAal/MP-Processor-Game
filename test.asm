@@ -19,12 +19,16 @@ endm readmsg
 .STACK 64
 
 .DATA
-G DB ?
+instruction db 16,?, 16 dup('$')
+;input db 16,?, 16 dup('$')
+newline db 10,13,'$'
 .CODE
 MAIN PROC
 MOV AX, @DATA
 MOV DS, AX
-mov aX,12AEH
-MOV [0],12H
+mov ah,0
+mov al,13h
+int 10h
+readmsg 
 MAIN ENDP
 END MAIN

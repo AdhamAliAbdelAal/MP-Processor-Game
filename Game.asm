@@ -37,6 +37,7 @@ DetectSourceMode MACRO input
     jmp okHamdy2
     Number:
     CheckSourceVal input ; 2nd
+    mov checkSrcSize,0
     JMP ExitSrcMode
     testHamdy1:
     JZ StartBracket
@@ -53,7 +54,8 @@ DetectSourceMode MACRO input
     JMP BasedRelativeMode
     
     DirectMode:
-    Direct input+1 ; 3rd
+    Direct input+1 ; 3rd 
+    mov checkSrcSize,0
     JMP ExitSrcMode
     
     testHamdy3:
@@ -64,10 +66,12 @@ DetectSourceMode MACRO input
     
     RegIndirect:
     RegisterIndirect input+1 ; 4th 
+    mov checkSrcSize,0
     JMP ExitSrcMode
     
     BasedRelativeMode:
-    BasedRelative input+1 ; 5th
+    BasedRelative input+1 ; 5th 
+    mov checkSrcSize,0
     
     ExitSrcMode:
     POP CX

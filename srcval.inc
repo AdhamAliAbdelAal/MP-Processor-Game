@@ -30,7 +30,7 @@ CheckSourceVal MACRO Ins
     MOV BX, 0  
     MainLoop:
         MOV CH, BYTE PTR Ins[BX]
-        MOV AH,57
+        MOV AH,58
         CMP CH,AH
         JNC Str
         SUB CH, 30h
