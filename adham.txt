@@ -1643,25 +1643,6 @@ endm printmsg
 
 ;--------------READ MESSAGE---------------------
 
-; Print with color
-
-printC macro msg
-    local msgloop_AHF
-    push_all
-    msgloop_AHF:
-    mov ah,9 ;Display
-    mov bh,0 ;Page 0
-    mov di,offset msg
-    mov al,[di]
-    mov cx,1h ;1 time
-    mov bl,70h ;grey (A) on black(F) background
-    INC DI
-    int 10h
-    cmp [di],'$'
-    jnz msgloop_AHF
-    pop_all  
-endm printC
-
 readmsg macro msg
     mov ah,0ah
     mov dx,offset msg
@@ -1691,9 +1672,7 @@ endm mov_cursor
 
 
 
-instruction db 40,?, 16 dup('$')
-;input db 16,?, 16 dup('$')
-newline db 10,13,'$'  
+instruction db 16,?, 16 dup('$')  
 a db 's'
 
 .CODE
@@ -1737,10 +1716,8 @@ MAIN PROC FAR
 	       DEC DX       	;  loop iteration in y direction
 	       JZ  ENDING   	;  both x and y reached 00 so end program
 		   Jmp Drawit  
-		ENDING:
-		  mov_cursor 4620h 
-		  readmsg instruction
-          printmsg instruction+2
+		ENDING:   
+		  
 		
 	
 
