@@ -1,4 +1,32 @@
-                               
+printhexa macro num
+    local rakam
+    local notZero
+    local kammel
+    push_all
+        mov bx,num
+        mov cx,4
+        notZero:
+        mov dl,bh
+        push cx
+        mov cl,4
+        shr dl,cl
+        pop cx
+        cmp dl,9
+        jle rakam
+        add dl,55
+        jmp kammel
+        rakam: 
+        add dl,30h
+        kammel:
+        push cx
+        mov cl,4 
+        shl bx,cl
+        pop cx
+        mov ah,2
+        int 21h
+        loop notZero
+        pop_all
+endm printhexa                               
    
 .model small
 .Stack 64
@@ -1738,9 +1766,28 @@ MAIN PROC FAR
 	       JZ  ENDING   	;  both x and y reached 00 so end program
 		   Jmp Drawit  
 		ENDING:
-		  mov_cursor 4620h 
-		  readmsg instruction
-          printmsg instruction+2
+		  ;mov_cursor 461bh 
+		  ;readmsg instruction
+          ;printmsg instruction+2 
+          ;printhexa 1234h  
+          ;mov_cursor 441bh 
+		  ;readmsg instruction
+          ;printmsg instruction+2 
+          ;printhexa 1234h
+          
+          
+          mov si,471bh
+          mov cx,7
+          jjj:
+          ;push cx
+          mov_cursor si  
+		  ;readmsg instruction
+          ;printmsg instruction+2 
+          printhexa 1234h
+          sub si,200h
+          loop jjj
+          
+         
 		
 	
 
