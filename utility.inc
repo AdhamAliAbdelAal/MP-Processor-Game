@@ -1,17 +1,21 @@
 ;--------------PRINT MESSAGE--------------------
 
-printmsg macro msg
+printmsg macro msg       
+    push_all
     mov ah,9
     mov dx,offset msg
-    int 21h
+    int 21h     
+    pop_all
 endm printmsg
 
 ;--------------READ MESSAGE---------------------
 
-readmsg macro msg
+readmsg macro msg   
+    push_all
     mov ah,0ah
     mov dx,offset msg
-    int 21h
+    int 21h         
+    pop_all
 endm readmsg
 
 ;--------------checkEQUALITY--------------------
@@ -72,11 +76,9 @@ push_all macro                  ;; push all
     push si
     push di
     push bp
-    push sp
 endm push_all   
 ;;**********  
 pop_all macro                  ;; pop all
-    pop sp
     pop bp
     pop di
     pop si
@@ -194,9 +196,9 @@ Start:
    mov Cx, imgW 	;  if loop iteration in y direction, then x should start over so that we sweep the grid
    DEC DX       	;  loop iteration in y direction
    JZ  ENDING   	;  both x and y reached 00 so end program
-   Jmp Drawit
-  pop_all  
-ENDING:
+   Jmp Drawit  
+ENDING:     
+pop_all
 endm Draw_BK
 ;------------------------------------
 resetins macro ins

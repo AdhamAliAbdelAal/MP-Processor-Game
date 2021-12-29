@@ -1706,7 +1706,8 @@ img DB 138, 138, 138, 138, 137, 137, 137, 137, 137, 137, 137, 137, 137, 137, 137
         mov ES,AX
         mov ah,0
         mov al,13h
-        int 10h
+        int 10h 
+        PUSHF
         Draw_BK
         enterins: 
         INPUTFIELD
