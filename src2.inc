@@ -22,7 +22,8 @@ RegisterIndirect MACRO input
     CMP CX, 001Eh
     JNC RI_Found
     ADD BX, CX
-    MOV DX, [BX]  
+    MOV DX, [BX]
+    mov checkSrcSize,0   
     JMP RI_Found  
     RegBX:   
      
@@ -32,7 +33,8 @@ RegisterIndirect MACRO input
     CMP CX, 001Eh
     JNC RI_Found
     ADD BX, CX
-    MOV DX, [BX]  
+    MOV DX, [BX] 
+    mov checkSrcSize,0 
     JMP RI_Found  
     RegSI: 
      
@@ -42,7 +44,8 @@ RegisterIndirect MACRO input
     CMP CX, 001Eh
     JNC RI_Found
     ADD BX, CX
-    MOV DX, [BX]  
+    MOV DX, [BX] 
+    mov checkSrcSize,0 
     JMP RI_Found  
     RegDI: 
      
@@ -121,5 +124,6 @@ Direct MACRO input
         MOV DX,[BX]
         
     NotPossible:
+    mov checkSrcSize,0
     POP BX    
 endM Direct

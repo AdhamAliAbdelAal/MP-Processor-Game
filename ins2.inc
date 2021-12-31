@@ -49,8 +49,14 @@ checkInsruction05 macro ins
     POPF
     mov al,ALREG
     mov dl,[bx]
-    mul dl
+    mul dl 
+    cmp player,1
+    je p1               
+    mov AXREG2,ax 
+    jmp FoundInstruction05
+    p1:
     mov AXREG,ax 
+    printhexa AXREG
     jmp FoundInstruction05
     
     Check_DIV05:
@@ -58,9 +64,16 @@ checkInsruction05 macro ins
     jnz Check_XOR05
     POPF
     mov ax,word ptr ALREG 
-    mov dl,[bx]
+    mov dl,[bx]    
+    ;printhexa AXREG 
     div dl
+    cmp player,1
+    je p12               
+    mov AXREG2,ax 
+    jmp FoundInstruction05
+    p12:
     mov AXREG,ax 
+    printhexa AXREG
     jmp FoundInstruction05
 
     Check_XOR05:

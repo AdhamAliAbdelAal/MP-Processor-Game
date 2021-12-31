@@ -114,7 +114,7 @@ CheckDestination macro des
 
     Check_DH:
     checkEQUALITY des,dh_str
-    printmsg adham
+    ;printmsg adham
     jnz FoundDestination
     checkPlayer_des DHREG,DHREG2
     mov checkDesSize,1 
@@ -123,6 +123,33 @@ CheckDestination macro des
     FoundDestination:
 endm CheckDestination 
 
+
+;-----------DETECT INDIRECT DESTINATION---------    
+RegIndirect macro des  
+    checkEQUALITY des,bx_str
+    jnz Check_SI_INDIRECT
+    checkPlayer_des BXREG,BXREG2  
+    mov checkDesSize,0 
+    jmp inderctcontinue
+
+    Check_SI_INDIRECT:
+    checkEQUALITY des,si_str
+    jnz Check_DI_INDIRECT
+    checkPlayer_des SIREG,SIREG2    
+    mov checkDesSize,0 
+    jmp inderctcontinue
+
+    Check_DI_INDIRECT:
+    checkEQUALITY des,di_str
+    jnz inderctcontinue
+    checkPlayer_des DIREG,DIREG2
+    mov checkDesSize,0    
+    
+    inderctcontinue:
+    mov ax,[bx]
+    checkPlayer_des memory,memory2
+    add bx,ax   
+endm RegIndirect
 ;-----------DETECT DIRECT DESTINATION---------
 DirectDestination macro des
     local harf
@@ -141,19 +168,23 @@ DirectDestination macro des
     Dexite: 
     mov checkDesSize,0
 endm DirectDestination
-;-----------DETECT INDIRECT DESTINATION---------    
-RegIndirect macro des
-    CheckDestination des
-    mov ax,[bx]
-    checkPlayer_des memory,memory2
-    add bx,ax
-    mov checkDesSize,0    
-endm RegIndirect
-
+;------------------------------------------
 BasedRelativeDES macro des
-    CheckDestination des
+    checkEQUALITY des,bx_str
+    jnz Check_BP_BASED
+    checkPlayer_des BXREG,BXREG2
+    mov checkDesSize,0 
+    jmp BasedRelativecontinue
+
+
+    Check_BP_BASED:
+    checkEQUALITY des,bp_str
+    jnz BasedRelativecontinue
+    checkPlayer_des BPREG,BPREG2
+    mov checkDesSize,0  
+    
+    BasedRelativecontinue: 
     mov ax,[bx]
     DirectDestination des+3
-    add bx,ax
-    mov checkDesSize,0    
+    add bx,ax    
 endm BasedRelativeDES

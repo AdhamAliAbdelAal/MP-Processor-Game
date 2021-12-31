@@ -45,7 +45,6 @@ DetectSourceMode MACRO input
     
     DirectMode:
     Direct input+1 ; 3rd 
-    mov checkSrcSize,0
     JMP ExitSrcMode
     
     testHamdy3:
@@ -56,12 +55,10 @@ DetectSourceMode MACRO input
     
     RegIndirect:
     RegisterIndirect input+1 ; 4th 
-    mov checkSrcSize,0
     JMP ExitSrcMode
     
     BasedRelativeMode:
     BasedRelative input+1 ; 5th 
-    mov checkSrcSize,0
     
     ExitSrcMode:
     POP CX
@@ -191,9 +188,10 @@ executeInstruction macro input
     
     insjmp:
     mov al,checkDesSize
-    mov ah,checkSrcSize
-    cmp al,ah
-    
+    mov ah,checkSrcSize 
+    mov_cursor 424Ah 
+    printhexa AX
+    cmp al,ah 
     jmp instest0
     insok0:
     cmp al,0
@@ -224,7 +222,9 @@ executeInstruction macro input
     cmp al,1
     jmp instest2
     instest3:
-    jbe insok3 
+    jbe insok3
+    mov_cursor 404Ah 
+    printhexa AX 
     jmp invalidop
     
     executeins:
@@ -233,9 +233,12 @@ executeInstruction macro input
     executeins05:
     checkInsruction05  input+2
     jmp leaveexecute
-    invalidop:
+    invalidop:     
+    ;mov_cursor 424ch
     printmsg invalid
     jmp leaveexecute
     leaveexecute: 
+    MOV checkDesSize, 100
+    MOV checkSrcSize , 50
     pop_all
 endm executeInstruction

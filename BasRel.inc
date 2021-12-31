@@ -97,7 +97,7 @@ BasedRelative macro Ins
            JNC exit_ES  
            MOV DX, [BX]       
     exit_ES:
- 
+    mov checkSrcSize,0
     pop cx
     pop bx 
     pop ax 

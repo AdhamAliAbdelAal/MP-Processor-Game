@@ -49,11 +49,18 @@ checkInsruction macro ins
     POPF
     mov ax,word ptr ALREG
     mov dx,[bx]
-    mul dx
+    mul dx 
+    cmp player,1
+    je pp1               
+    mov AXREG2,ax
+    mov DXREG2,dx 
+    jmp FoundInstruction
+    pp1:
     mov AXREG,ax
     mov DXREG,dx
-    ;printhexa ax 
+    printhexa AXREG
     jmp FoundInstruction
+    
     
     Check_DIV:
     checkINSEQUALITY ins,div_str
@@ -63,10 +70,16 @@ checkInsruction macro ins
     mov dx,[bx]
     printhexa DX
     div dx
+    cmp player,1
+    je pp12               
+    mov AXREG2,ax
+    mov DXREG2,dx 
+    jmp FoundInstruction
+    pp12:
     mov AXREG,ax
     mov DXREG,dx
-    printhexa ax 
-    jmp FoundInstruction
+    ;printhexa AXREG
+    jmp FoundInstruction 
 
     Check_XOR:
     checkINSEQUALITY ins,xor_str
