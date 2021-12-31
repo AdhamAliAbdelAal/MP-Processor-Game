@@ -48,19 +48,24 @@ checkInsruction macro ins
     jnz Check_DIV
     POPF
     mov ax,word ptr ALREG
+    mov dx,[bx]
     mul dx
     mov AXREG,ax
-    mov DXREG,dx 
+    mov DXREG,dx
+    ;printhexa ax 
     jmp FoundInstruction
     
     Check_DIV:
     checkINSEQUALITY ins,div_str
     jnz Check_XOR
     POPF
-    mov ax,word ptr ALREG
+    mov ax,word ptr ALREG  
+    mov dx,[bx]
+    printhexa DX
     div dx
     mov AXREG,ax
-    mov DXREG,dx 
+    mov DXREG,dx
+    printhexa ax 
     jmp FoundInstruction
 
     Check_XOR:

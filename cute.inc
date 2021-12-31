@@ -200,7 +200,7 @@ executeInstruction macro input
     checkInsruction05  input+2
     jmp leaveexecute
     invalidop:
-    ;printmsg invalid
+    printmsg invalid
     jmp leaveexecute
     leaveexecute: 
     pop_all

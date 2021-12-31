@@ -48,6 +48,7 @@ checkInsruction05 macro ins
     jnz Check_DIV05
     POPF
     mov al,ALREG
+    mov dl,[bx]
     mul dl
     mov AXREG,ax 
     jmp FoundInstruction05
@@ -56,7 +57,8 @@ checkInsruction05 macro ins
     checkINSEQUALITY ins,div_str
     jnz Check_XOR05
     POPF
-    mov ax,word ptr ALREG
+    mov ax,word ptr ALREG 
+    mov dl,[bx]
     div dl
     mov AXREG,ax 
     jmp FoundInstruction05

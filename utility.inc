@@ -127,10 +127,10 @@ printhexa05 macro num
         pop_all
 endm printhexa05  
 ;-------------------------------
-draw macro
+draw macro position
     local jjj
     push_all 
-        mov si,3A1bh
+        mov si,position
         mov cx,7
         mov bx,0
         jjj:
@@ -143,11 +143,12 @@ draw macro
         pop_all
 endm draw
 ;------------------------------------
-drawbyte macro
+drawbyte macro position
     local jjjk
     local jjjl
     push_all 
         mov si,0200h
+        add si,position
         mov cx,8
         mov bx,0
         jjjk:
@@ -157,9 +158,10 @@ drawbyte macro
         printhexa05 ax
         add si,2h
         add bx,1
-        loop jjjk
+        loop jjjk  
         
-        mov si,0500h
+        mov si,0500h 
+        add si,position
         mov cx,8
         mov bx,8
         jjjl:
@@ -234,3 +236,10 @@ INPUTFIELD MACRO
     clearins
     pop_all
 ENDM INPUTFIELD
+;--------------------------------------
+GO MACRO
+        mov ah,0
+        mov al,13h
+        int 10h 
+ENDM GO    
+;--------------------------------------
