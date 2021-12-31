@@ -16,30 +16,30 @@ BasedRelative macro Ins
     push ax
     push bx
     push cx
-     checkEQUALITY bp_str,Ins   
+    checkEQUALITY bp_str,Ins   
     JNZ JumpBX1  
-    MOV AX, WORD PTR BPREG
+    checkPlayer_srcbr BPREG,BPREG2
     CMP AX, 001Eh
-     JNC exit_ES_N  
-    JMP Found_ES  
-    JumpBX1:  
+    JNC exit_ES_N  
+    JMP Found_ES
       
+    JumpBX1:    
     checkEQUALITY bx_str,Ins     
     JNZ exit_ES_N  
-    MOV AX, WORD PTR BLREG 
-     CMP AX, 001Eh
-     JNC exit_ES_N 
+    checkPlayer_srcbr BLREG,BLREG2 
+    CMP AX, 001Eh
+    JNC exit_ES_N 
     JMP Found_ES 
     
     exit_ES_N:
-         JMP exit_ES 
+    JMP exit_ES
+     
     Found_ES:
-           mov Bx,offset memory 
+           checkPlayer_des memory,memory2 
            MOV CL,0H
            MOV CH,BYTE PTR Ins+3 
-        push ax
-        push bx
-         
+           push ax
+           push bx
                 MOV AH,58
                 CMP CH,AH
                 JNC Letter_ES
@@ -92,7 +92,7 @@ BasedRelative macro Ins
            ADD bX,cX
            add Bx,Ax
            MOV AX, 001Eh
-           ADD AX, offset memory
+           checkPlayer_srcbr2 memory,memory2
            CMP BX,AX
            JNC exit_ES  
            MOV DX, [BX]       

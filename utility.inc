@@ -127,12 +127,12 @@ printhexa05 macro num
         pop_all
 endm printhexa05  
 ;-------------------------------
-draw macro position
+draw macro position,p
     local jjj
     push_all 
         mov si,position
         mov cx,7
-        mov bx,0
+        mov bx,p
         jjj:
         mov_cursor si  
         mov ax,AXREG[bx] 
@@ -143,14 +143,14 @@ draw macro position
         pop_all
 endm draw
 ;------------------------------------
-drawbyte macro position
+drawbyte macro position,p
     local jjjk
     local jjjl
     push_all 
         mov si,0200h
         add si,position
         mov cx,8
-        mov bx,0
+        mov bx,p
         jjjk:
         mov_cursor si  
         mov ah,memory[BX]
@@ -163,7 +163,8 @@ drawbyte macro position
         mov si,0500h 
         add si,position
         mov cx,8
-        mov bx,8
+        add p,cx
+        mov bx,p
         jjjl:
         mov_cursor si  
         mov ah,memory[BX]
@@ -242,4 +243,91 @@ GO MACRO
         mov al,13h
         int 10h 
 ENDM GO    
-;--------------------------------------
+;--------------CHECK PLAYER-------------------
+checkPlayer_des macro s1,s2
+    local p1_dest2
+    local next_dest1
+    mov bl,player
+    cmp bl,1
+    je p1_dest2
+    mov bx,offset s1
+    jmp next_dest1
+    p1_dest2:
+    mov bx,offset s2
+    next_dest1:    
+endm checkPlayer_des
+
+;-------------------------------------------------
+
+checkPlayer_src macro s1,s2
+    local p1_src2
+    local next_src1
+    mov dl,player
+    cmp dl,1
+    je p1_src2
+    mov dx,WORD PTR s1
+    jmp next_src1
+    p1_src2:
+    mov dx,WORD PTR s2
+    next_src1:    
+endm checkPlayer_src
+
+;-------------------------------------------------
+
+checkPlayer_src05 macro s1,s2
+    local p1_src05
+    local next_src05
+    mov dl,player
+    cmp dl,1
+    je p1_src05
+    mov dl, s1
+    jmp next_src05
+    p1_src05:
+    mov dl, s2
+    next_src05:    
+endm checkPlayer_src05
+
+;-------------------------------------------------
+
+checkPlayer_src10 macro s1,s2
+    local p1_src10
+    local next_src10
+    mov cl,player
+    cmp cl,1
+    je p1_src10
+    mov cx, WORD PTR s1
+    jmp next_src10
+    p1_src10:
+    mov cx, WORD PTR s2
+    next_src10:    
+endm checkPlayer_src10
+
+;-------------------------------------------------
+
+checkPlayer_srcbr macro s1,s2
+    local p1_srcbr
+    local next_srcbr
+    mov al,player
+    cmp al,1
+    je p1_srcbr
+    mov ax, WORD PTR s1
+    jmp next_srcbr
+    p1_srcbr:
+    mov ax, WORD PTR s2
+    next_srcbr:    
+endm checkPlayer_srcbr
+
+;-------------------------------------------------
+
+checkPlayer_srcbr2 macro s1,s2
+    local p1_srcbr2
+    local next_srcbr2
+    mov dl,player
+    cmp dl,1
+    je p1_srcbr2
+    add ax, offset s1
+    jmp next_srcbr2
+    p1_srcbr2:
+    add ax, offset s2
+    next_srcbr2:    
+endm checkPlayer_srcbr2

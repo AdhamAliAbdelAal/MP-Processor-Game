@@ -17,106 +17,106 @@ CheckDestination macro des
     local FoundDestination
     checkEQUALITY des,ax_str
     jnz Check_BX
-    mov bx,offset AXREG
+    checkPlayer_des AXREG,AXREG2
     mov checkDesSize,2 
     jmp FoundDestination
 
     Check_BX:
     checkEQUALITY des,bx_str
     jnz Check_CX
-    mov bx,offset BXREG
+    checkPlayer_des BXREG,BXREG2
     mov checkDesSize,2 
     jmp FoundDestination
 
     Check_CX:
     checkEQUALITY des,cx_str
     jnz Check_DX
-    mov bx,offset CXREG
+    checkPlayer_des CXREG,CXREG2
     mov checkDesSize,2 
     jmp FoundDestination
 
     Check_DX:
     checkEQUALITY des,dx_str
     jnz Check_SI
-    mov bx,offset DXREG
+    checkPlayer_des DXREG,DXREG2
     mov checkDesSize,2 
     jmp FoundDestination
 
     Check_SI:
     checkEQUALITY des,si_str
     jnz Check_DI
-    mov bx,offset SIREG
+    checkPlayer_des SIREG,SIREG2
     mov checkDesSize,2 
     jmp FoundDestination
 
     Check_DI:
     checkEQUALITY des,di_str
     jnz Check_BP
-    mov bx,offset DIREG
+    checkPlayer_des DIREG,DIREG2
     mov checkDesSize,2 
     jmp FoundDestination
 
     Check_BP:
     checkEQUALITY des,bp_str
     jnz Check_AL
-    mov bx,offset BPREG
+    checkPlayer_des BPREG,BPREG2
     mov checkDesSize,2 
     jmp FoundDestination
     
     Check_AL:
     checkEQUALITY des,al_str
     jnz Check_AH
-    mov bx,offset ALREG
+    checkPlayer_des ALREG,ALREG2
     mov checkDesSize,1 
     jmp FoundDestination
     
     Check_AH:
     checkEQUALITY des,ah_str
     jnz Check_BL
-    mov bx,offset AHREG
+    checkPlayer_des AHREG,AHREG2
     mov checkDesSize,1 
     jmp FoundDestination
 
     Check_BL:
     checkEQUALITY des,bl_str
     jnz Check_BH  
-    mov bx,offset BLREG
+    checkPlayer_des BLREG,BLREG2
     mov checkDesSize,1 
     jmp FoundDestination
 
     Check_BH:
     checkEQUALITY des,bh_str
     jnz Check_CL
-    mov bx,offset BHREG
+    checkPlayer_des BHREG,BHREG2
     mov checkDesSize,1 
     jmp FoundDestination
 
     Check_CL:
     checkEQUALITY des,cl_str
     jnz Check_CH
-    mov bx,offset CLREG
+    checkPlayer_des CLREG,CLREG2
     mov checkDesSize,1 
     jmp FoundDestination
 
     Check_CH:
     checkEQUALITY des,ch_str
     jnz Check_DL
-    mov bx,offset CHREG
+    checkPlayer_des CHREG,CHREG2
     mov checkDesSize,1 
     jmp FoundDestination
 
     Check_DL:
     checkEQUALITY des,dl_str
     jnz Check_DH
-    mov bx,offset DLREG
+    checkPlayer_des DLREG,DLREG2
     mov checkDesSize,1 
     jmp FoundDestination
 
     Check_DH:
     checkEQUALITY des,dh_str
-    ;printmsg adham
+    printmsg adham
     jnz FoundDestination
-    mov bx,offset DHREG
+    checkPlayer_des DHREG,DHREG2
     mov checkDesSize,1 
     jmp FoundDestination
 
@@ -127,7 +127,7 @@ endm CheckDestination
 DirectDestination macro des
     local harf
     local Dexite
-    mov bx,offset memory
+    checkPlayer_des memory,memory2
     mov dh,0
     mov dl,des
     sub dl,30h
@@ -145,7 +145,7 @@ endm DirectDestination
 RegIndirect macro des
     CheckDestination des
     mov ax,[bx]
-    mov bx,offset memory
+    checkPlayer_des memory,memory2
     add bx,ax
     mov checkDesSize,0    
 endm RegIndirect

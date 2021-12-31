@@ -5,16 +5,22 @@ RegisterIndirect MACRO input
     local RI_Found
     local RegSI
     local RegDI
-    
+    local temp1_ah
+    local cont1
+    local execah1
+    local temp1_ah2
+    local cont2
+    local execah2
     PUSH BX
     PUSH CX
-      
+    
+    checkPlayer_des memory,memory2  
+    
     checkEQUALITY bx_str,input     
     JNZ RegBX  
-    MOV CX, WORD PTR BLREG
+    checkPlayer_src10 BLREG,BLREG2
     CMP CX, 001Eh
     JNC RI_Found
-    MOV BX, offset memory
     ADD BX, CX
     MOV DX, [BX]  
     JMP RI_Found  
@@ -22,10 +28,9 @@ RegisterIndirect MACRO input
      
     checkEQUALITY si_str,input     
     JNZ RegSI  
-    MOV CX, WORD PTR SIREG
+    checkPlayer_src10 SIREG,SIREG2
     CMP CX, 001Eh
     JNC RI_Found
-    MOV BX, offset memory
     ADD BX, CX
     MOV DX, [BX]  
     JMP RI_Found  
@@ -33,10 +38,9 @@ RegisterIndirect MACRO input
      
     checkEQUALITY di_str,input     
     JNZ RegDI  
-    MOV CX, WORD PTR DIREG
+    checkPlayer_src10 DIREG,DIREG2
     CMP CX, 001Eh
     JNC RI_Found
-    MOV BX, offset memory
     ADD BX, CX
     MOV DX, [BX]  
     JMP RI_Found  
@@ -67,7 +71,7 @@ Direct MACRO input
     CMP CL,93
     JNZ NotPossible
     MOV DX, 0
-    MOV BX, offset memory
+    checkPlayer_des memory,memory2
     MOV AH,58
     CMP CH,AH
     JNC Letter

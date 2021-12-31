@@ -1,5 +1,3 @@
-;---------------DETECT SOURCE--------------
- 
 CheckSource MACRO Ins
     local JumpAX
     local JumpBX
@@ -19,105 +17,105 @@ CheckSource MACRO Ins
     local Found  
     checkEQUALITY ax_str,Ins    
     JNZ JumpAX  
-    MOV DX, WORD PTR ALREG 
+    checkPlayer_src ALREG,ALREG2 
     mov checkSrcSize,2 
     JMP Found  
     JumpAX:  
       
     checkEQUALITY bx_str,Ins     
     JNZ JumpBX  
-    MOV DX, WORD PTR BLREG
+    checkPlayer_src BLREG,BLREG2
     mov checkSrcSize,2  
     JMP Found  
     JumpBX:  
       
     checkEQUALITY cx_str,Ins    
     JNZ JumpCX  
-    MOV DX, WORD PTR CLREG
+    checkPlayer_src CLREG,CLREG2
     mov checkSrcSize,2  
     JMP Found  
     JumpCX:  
       
     checkEQUALITY dx_str,Ins     
     JNZ JumpDX  
-    MOV DX, WORD PTR DLREG
+    checkPlayer_src DLREG,DLREG2
     mov checkSrcSize,2  
     JMP Found  
     JumpDX: 
      
     checkEQUALITY al_str,Ins     
     JNZ JumpAL
-    MOV DL, ALREG
+    checkPlayer_src05 ALREG,ALREG2
     mov checkSrcSize,1  
     JMP Found  
     JumpAL: 
             
     checkEQUALITY ah_str,Ins     
     JNZ JumpAH     
-    MOV DL, AHREG
+    checkPlayer_src05 AHREG,AHREG2
     mov checkSrcSize,1  
     JMP Found  
     JumpAH: 
      
     checkEQUALITY bl_str,Ins     
     JNZ JumpBL  
-    MOV DL, BLREG
+    checkPlayer_src05 BLREG,BLREG2
     mov checkSrcSize,1  
     JMP Found  
     JumpBL: 
      
     checkEQUALITY bh_str,Ins     
     JNZ JumpBH  
-    MOV DL, BHREG
+    checkPlayer_src05 BHREG,BHREG2
     mov checkSrcSize,1  
     JMP Found  
     JumpBH: 
      
     checkEQUALITY cl_str,Ins     
     JNZ JumpCL  
-    MOV DL, CLREG
+    checkPlayer_src05 CLREG,CLREG2
     mov checkSrcSize,1  
     JMP Found  
     JumpCL: 
      
     checkEQUALITY ch_str,Ins     
     JNZ JumpCH  
-    MOV DL, CHREG
+    checkPlayer_src05 CHREG,CHREG2
     mov checkSrcSize,1  
     JMP Found  
     JumpCH: 
      
     checkEQUALITY dl_str,Ins    
     JNZ JumpDL  
-    MOV DL, DLREG
+    checkPlayer_src05 DLREG,DLREG2
     mov checkSrcSize,1  
     JMP Found  
     JumpDL: 
      
     checkEQUALITY dh_str,Ins     
     JNZ JumpDH  
-    MOV DL, DHREG 
+    checkPlayer_src05 DHREG,DHREG2 
     mov checkSrcSize,1 
     JMP Found  
     JumpDH: 
      
     checkEQUALITY si_str,Ins     
     JNZ JumpSI  
-    MOV DX, SIREG
+    checkPlayer_src SIREG,SIREG2
     mov checkSrcSize,2  
     JMP Found  
     JumpSI: 
      
     checkEQUALITY di_str,Ins     
     JNZ JumpDI  
-    MOV DX, DIREG
+    checkPlayer_src DIREG,DIREG2
     mov checkSrcSize,2  
     JMP Found  
     JumpDI: 
      
     checkEQUALITY bp_str,Ins     
     JNZ JumpBP  
-    MOV DX, BPREG
+    checkPlayer_src BPREG,BPREG2
     mov checkSrcSize,2  
     JMP Found  
     JumpBP: 

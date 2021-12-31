@@ -70,8 +70,42 @@ endM DetectSourceMode
 
 ;----------------EXECUTE INSTRUCTION---------------- 
 
-executeInstruction macro input
+executeInstruction macro input 
+    local test0  
+    local test1
+    local test2
+    local test3
+    local ok0
+    local ok1
+    local ok2 
+    local ok3
+    local mshReg
+    local mshDirect
+    local mshIndirect 
+    local tosource
+    local oksrc0
+    local oksrc1
+    local oksrc2
+    local oksrc3
+    local src0
+    local src1
+    local src2
+    local src3    
+    local nextdi0  
+    local nextdi1
+    local nextdi2
+    local insjmp
+    local insok0 
+    local insok1  
+    local insok2
+    local insok3
+    local instest0
+    local instest1
+    local instest2
+    local instest3     
+    local invalidop
     push_all
+    
     cmp input+6,'['
     jmp test0
     ok0:
@@ -185,12 +219,12 @@ executeInstruction macro input
     jz insok0
     add al,ah
     cmp al,2
-    jmp instest4
-    insok4:
+    jmp instest3
+    insok3:
     cmp al,1
     jmp instest2
-    instest4:
-    jbe insok4 
+    instest3:
+    jbe insok3 
     jmp invalidop
     
     executeins:
