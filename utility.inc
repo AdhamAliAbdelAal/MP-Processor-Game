@@ -19,6 +19,26 @@ readmsg macro msg
     pop_all
 endm readmsg
 
+;--------------READ CHAR------------------------
+
+readchar macro char
+    push_all
+    mov ah,0
+    int 16h
+    mov char, al
+    pop_all    
+endm readchar
+
+;--------------DISPLAY CHAR---------------------
+
+printchar macro char
+    push dx
+    mov ah,2
+    mov dl,char
+    int 21h
+    pop dx
+endm printchar
+
 ;--------------checkEQUALITY--------------------
 
 checkEQUALITY MACRO S1,S2 
@@ -332,3 +352,32 @@ checkPlayer_srcbr2 macro s1,s2
     add ax, offset s2
     next_srcbr2:    
 endm checkPlayer_srcbr2
+
+display_string_off macro mystring   ;; Display offset sting
+    push_all 
+mov ah,09H
+mov dx, mystring
+int 21h
+pop_all
+endm display_string
+;;**************************** 
+clear macro                     ;; Clear string 
+     push_all
+    mov ax,0600h
+    mov bh,07
+    mov cx,0
+    mov dx,184FH
+    int 10h  
+    pop_all
+endm clear  
+;;****************************   
+wait_enter macro                     ;; Wait enter  
+    push_all
+  Enter:
+    mov ah,0
+    int 16h
+    cmp ah,1ch
+  jnz Enter  
+pop_all                       
+endm wait_enter  
+;;****************************

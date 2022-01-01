@@ -6,7 +6,8 @@ include src1.inc
 include src2.inc
 include srcval.inc
 include BasRel.inc
-include cute.inc     
+include cute.inc
+include FL.inc     
 
 .model huge
 
@@ -19,6 +20,29 @@ instruction db 16,?, 16 dup('$')
 newline db 10,13,'$'
 invalid db "invalid Operation$"
 ;adham db "hamdy el 3abeet$"
+FL1 db ?
+FL2 db ?
+FL_Found1 db 0
+FL_Found2 db 0
+FL_str  db   '        ',0ah,0dh
+    DB   '                ====================================================',0ah,0dh
+    DB   '               ||                                                  ||',0ah,0dh                                        
+    DB   '               ||            *    MP Processor Game   *            ||',0ah,0dh
+    DB   '               ||                                                  ||',0ah,0dh
+    DB   '               ||--------------------------------------------------||',0ah,0dh 
+    DB   '               ||                                                  ||',0ah,0dh
+    DB   '               ||                                                  ||',0ah,0dh      
+    DB   '               ||  Enter Forbidden Letter (player 1):              ||',0ah,0dh
+    DB   '               ||                                                  ||',0ah,0dh   
+    DB   '               ||                                                  ||',0ah,0dh
+    DB   '               ||  Enter Forbidden Letter (player 2):              ||',0ah,0dh
+    DB   '               ||                                                  ||',0ah,0dh   
+    DB   '               ||                                                  ||',0ah,0dh         
+    DB   '                ====================================================',0ah,0dh  
+    db   '                                                                    ',0ah,0dh     
+    db   '                                                                    ',0ah,0dh
+    DB   '$',0ah,0dh
+FL_changed db 0
   
                
 ;---------------------REGISTERS---------------------  
@@ -153,6 +177,7 @@ ENDM DRAWREG_PLAYERS
         mov DS,AX
         mov ES,AX
         PUSHF
+        FL_screen
         GO
         ;Draw_BK
         mov cl,1
@@ -194,7 +219,16 @@ ENDM DRAWREG_PLAYERS
         CheckP3:
         checkEQUALITY pow3,instruction+2
         jnz CheckP4 
-        ;hamdy logic
+        MOV CL,1
+        MOV FL_changed,CL
+        MOV CL,player
+        CMP CL,0
+        je ch0
+        readchar FL2
+        printchar FL2
+        ch0:
+        readchar FL1
+        printchar FL1           
         jmp ENDCHECKS
         
         CheckP4:
