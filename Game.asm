@@ -19,7 +19,7 @@ instruction db 16,?, 16 dup('$')
 ;input db 16,?, 16 dup('$')
 newline db 10,13,'$'
 invalid db "invalid Operation$"
-;adham db "hamdy el 3abeet$"
+forbidden_Letter db "NOT ALLOWED!$"
 FL1 db ?
 FL2 db ?
 FL_Found1 db 0
@@ -158,7 +158,7 @@ OFFSET_P4 dw ?
 IS_P4 db 1
 ;------------------------------------------------
 DRAWREG_PLAYERS MACRO
-    INPUTFIELD
+    INPUTFIELD 444ch
     ;player one drawings
     mov bp,0
     draw  3A1bh,bp
@@ -187,7 +187,7 @@ ENDM DRAWREG_PLAYERS
         checkEQUALITY pow1,instruction+2
         jmp Checkp2Jump 
         OkP1: 
-        INPUTFIELD
+        INPUTFIELD 444ch
         resetins instruction+2
         readmsg instruction 
         xor player,1
@@ -203,7 +203,7 @@ ENDM DRAWREG_PLAYERS
         checkEQUALITY pow2,instruction+2
         jmp Checkp3Jump
         OkP2:  
-        INPUTFIELD
+        INPUTFIELD 444ch
         resetins instruction+2
         readmsg instruction 
         CALL executeInstruction 
@@ -257,14 +257,14 @@ ENDM DRAWREG_PLAYERS
         mov ax,[bx]
         and ax,0FFFEH
         mov [bx],ax 
-        mov_cursor 374ch
-        printhexa AX
+        ;mov_cursor 374ch
+        ;printhexa AX
         mov IS_P4,1 
         
         
         ENDCHECKS:
         resetins instruction+2 
-        xor player,1
+        xor player,1  
         jmp enterins    
 HLT         
 main endp
@@ -272,6 +272,21 @@ main endp
 
 executeInstruction PROC near 
     push_all
+    INPUTFIELD 494ch       
+    cmp player,0
+    jz playerOne
+    mov al,FL2
+    playerOne:
+    mov al,FL1
+    
+    mov cl,instruction+1
+    mov ch,0 
+    mov di,2
+    add di,offset instruction 
+    REPNE SCASB
+    cmp cx,0
+    jmp TestForbidden
+    YallaNafez:
     cmp instruction+6,'['
     jmp test0
     ok0:
@@ -359,8 +374,8 @@ executeInstruction PROC near
     insjmp:
     mov al,checkDesSize
     mov ah,checkSrcSize 
-    mov_cursor 424Ah 
-    printhexa AX
+    ;mov_cursor 424Ah 
+    ;printhexa AX
     cmp al,ah 
     jmp instest0
     insok0:
@@ -393,8 +408,8 @@ executeInstruction PROC near
     jmp instest2
     instest3:
     jbe insok3
-    mov_cursor 404Ah 
-    printhexa AX 
+    ;mov_cursor 404Ah 
+    ;printhexa AX 
     jmp invalidop
     
     executeins:
@@ -404,12 +419,23 @@ executeInstruction PROC near
     checkInsruction05  instruction+2
     jmp leaveexecute
     invalidop:     
-    ;mov_cursor 424ch
+    mov_cursor 494ch
     printmsg invalid
     jmp leaveexecute
+    TestForbidden:
+    PUSHF
+    ;mov_cursor 404ch
+    ;printhexa cx 
+    POPF
+    jnz Forbidden
+    jmp YallaNafez
+    Forbidden:
+    mov_cursor 494ch
+    printmsg forbidden_Letter
+    xor player,1
     leaveexecute: 
     MOV checkDesSize, 100
-    MOV checkSrcSize , 50
+    MOV checkSrcSize , 50 
     pop_all        
     ret
 executeInstruction endp

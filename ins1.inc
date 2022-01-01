@@ -58,7 +58,7 @@ checkInsruction macro ins
     pp1:
     mov AXREG,ax
     mov DXREG,dx
-    printhexa AXREG
+    ;printhexa AXREG
     jmp FoundInstruction
     
     
@@ -68,7 +68,7 @@ checkInsruction macro ins
     POPF
     mov ax,word ptr ALREG  
     mov dx,[bx]
-    printhexa DX
+    ;printhexa DX
     div dx
     cmp player,1
     je pp12               

@@ -56,7 +56,7 @@ checkInsruction05 macro ins
     jmp FoundInstruction05
     p1:
     mov AXREG,ax 
-    printhexa AXREG
+    ;printhexa AXREG
     jmp FoundInstruction05
     
     Check_DIV05:
@@ -73,7 +73,7 @@ checkInsruction05 macro ins
     jmp FoundInstruction05
     p12:
     mov AXREG,ax 
-    printhexa AXREG
+    ;printhexa AXREG
     jmp FoundInstruction05
 
     Check_XOR05:

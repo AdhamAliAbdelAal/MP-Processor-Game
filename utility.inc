@@ -12,7 +12,6 @@ endm printmsg
 
 readmsg macro msg   
     push_all    
-     mov_cursor 444ch
     mov ah,0ah
     mov dx,offset msg
     int 21h         
@@ -200,9 +199,6 @@ endm drawbyte
 
 Draw_BK macro 
  push_all      
-   MOV AH,0
-   MOV AL,13H
-   INT 10H
    MOV AH,0Bh   	;set the configuration
    MOV CX, imgW  	;set the width (X) up to image width (based on image resolution)
    MOV DX, imgH 	;set the hieght (Y) up to image height (based on image resolution)
@@ -239,21 +235,23 @@ clearins macro
     mov ah,9 ;Display
     mov bh,0 ;Page 0
     mov al,'M' ;Letter D
-    mov cx,16 ;5 times
+    mov cx,17 ;5 times
     mov bl,00h ;Green (A) on white(F) background
     int 10h
     pop_all
 endm clearins
 ;----------------------------------------------------
-INPUTFIELD MACRO
+INPUTFIELD MACRO pos
     push_all
-    mov si,444ch
+    mov si,pos
     mov_cursor si
     clearins
-    mov si,434ch
+    mov si,pos
+    sub si,100h
     mov_cursor si
     clearins
-    mov si,454ch
+    mov si,pos
+    add si,100h
     mov_cursor si
     clearins
     pop_all
