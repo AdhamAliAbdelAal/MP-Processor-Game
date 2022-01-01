@@ -391,5 +391,48 @@ DRAWREG_PLAYERS MACRO
     draw  3A39h,bp
     add bp,2
     drawbyte 0018h,bp
+    mov_cursor 5000h
+    mov DH,Point
+    MOV DL,0
+    printhexa05 DX
+    mov_cursor 5039h
+    mov DH,Point2
+    MOV DL,0
+    printhexa05 DX
     mov_cursor 444ch
 ENDM DRAWREG_PLAYERS
+;;****************************  
+;;--------------- cahnge target first player---------------- 
+taget_1 macro 
+ push_all    
+ printmsg  TARGET1_STR 
+   mov_cursor 0000h  
+    mov_cursor 092ch 
+    readmsg  Target1_VAL_STR  
+    CheckSourceVal  Target1_VAL_STR+2 
+    mov target1,dx  
+    wait_enter  
+ pop_all 
+endm taget_1 
+;;*******************************    
+;;--------------- cahnge target second player---------------- 
+taget_2 macro 
+ push_all              
+ mov_cursor 0000h 
+ printmsg  TARGET2_STR  
+     mov_cursor 092ch 
+    readmsg  Target2_VAL_STR  
+    
+     CheckSourceVal  Target2_VAL_STR+2 
+    mov target2,dx   
+    wait_enter  
+ pop_all 
+endm taget_2
+;-----------------------------------------
+Text_Mode macro  
+    push_all
+mov ah,0
+mov al,3
+int 10h 
+pop_all   
+endm Text_Mode

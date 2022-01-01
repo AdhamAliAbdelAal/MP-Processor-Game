@@ -235,9 +235,7 @@ msg_keyEnter db 9,9,9,"Press enter key to continue $"
 
 
 STR_Point db  10,?,10 duP('$')
-STR_Point2 db  10,?,10 duP('$')
-POINT DB ?
-Point2 DB ?  
+STR_Point2 db  10,?,10 duP('$')  
 player_name db 15,?,15 dup('$') 
 player_name2 db 15,?,15 dup('$') 
 tab db 9,9,9,'$'      
@@ -264,14 +262,69 @@ pow5 db "P5$"
 OFFSET_P4 dw ?      
 IS_P4 db 1
 ;------------------------------------------------
-;-------------------------------
-Text_Mode macro  
-    push_all
-mov ah,0
-mov al,3
-int 10h 
-pop_all   
-endm Text_Mode
+Target1_VAL_STR db  10,?,10 duP('$') 
+Target2_VAL_STR db  10,?,10 duP('$') 
+TARGET1 DW ? 
+TARGET2 DW ?
+;------------Targets screen----------
+TARGET1_STR  db   '        ',0ah,0dh 
+    DB   '                ====================================================',0ah,0dh 
+    DB   '               ||                                                  ||',0ah,0dh                                         
+    DB   '               ||            *    MP Processor Game   *            ||',0ah,0dh 
+    DB   '               ||                                                  ||',0ah,0dh 
+    DB   '               ||--------------------------------------------------||',0ah,0dh  
+    DB   '               ||                                                  ||',0ah,0dh 
+    DB   '               ||                                                  ||',0ah,0dh 
+    DB   '               ||                                                  ||',0ah,0dh       
+    DB   '               ||  Target of First Player:                         ||',0ah,0dh 
+    DB   '               ||                                                  ||',0ah,0dh 
+    DB   '               ||                                                  ||',0ah,0dh 
+    DB   '               ||                                                  ||',0ah,0dh   
+    DB   '                ====================================================',0ah,0dh   
+    db   '                                                                    ',0ah,0dh      
+    db   '                                                                    ',0ah,0dh 
+    DB   '$',0ah,0dh  
+  
+  TARGET2_STR  db   '        ',0ah,0dh 
+    DB   '                ====================================================',0ah,0dh 
+    DB   '               ||                                                  ||',0ah,0dh                                         
+    DB   '               ||            *    MP Processor Game   *            ||',0ah,0dh 
+    DB   '               ||                                                  ||',0ah,0dh 
+    DB   '               ||--------------------------------------------------||',0ah,0dh  
+    DB   '               ||                                                  ||',0ah,0dh 
+    DB   '               ||                                                  ||',0ah,0dh 
+    DB   '               ||                                                  ||',0ah,0dh       
+    DB   '               ||  Target of second Player:                        ||',0ah,0dh 
+    DB   '               ||                                                  ||',0ah,0dh 
+    DB   '               ||                                                  ||',0ah,0dh 
+    DB   '               ||                                                  ||',0ah,0dh   
+    DB   '                ====================================================',0ah,0dh   
+    db   '                                                                    ',0ah,0dh      
+    db   '                                                                    ',0ah,0dh 
+    DB   '$',0ah,0dh
+;-------------------------------- 
+;------Initial Points---------
+POINT DB ?
+POINT2 DB ?
+;-------------------------------------   
+decPoints macro num
+        mov bx,offset Point
+        add bl,player
+        mov al,[bx]
+        sub al,num
+        mov [bx],al 
+endm decPoints 
+detectPoints macro num 
+    local Hayenfa3pow
+    mov bx,offset Point
+    add bl,player
+    mov al,[bx]
+    cmp al,num
+    jae Hayenfa3pow
+    jmp ENDCHECKS
+    Hayenfa3pow:
+endm detectPoints
+
 
 .code
     main proc far
@@ -280,12 +333,12 @@ endm Text_Mode
         mov ES,AX
         PUSHF
         ;;;;;;;;;;;;;;;;;;;;;;;;;;; first screen (Defining Usernames) 
-        ;clear      
-        ;start_screen   
+        clear      
+        start_screen   
                              
         ;;;;;;;;;;;;;;;;;;;;;;;;;;; second screen (Main Screen) 
-        ;clear     
-        ;main_screen
+        clear     
+        main_screen
         GO
         ;Draw_BK
         mov cl,1
@@ -294,23 +347,27 @@ endm Text_Mode
         readmsg instruction 
         checkEQUALITY pow1,instruction+2
         jmp Checkp2Jump 
-        OkP1: 
+        OkP1:
+        detectPoints 5  
         INPUTFIELD 444ch
         resetins instruction+2
         readmsg instruction 
         xor player,1
         CALL executeInstruction 
-        xor player,1 
+        xor player,1
+        decPoints 5 
         jmp ENDCHECKS      
         
         Checkp2Jump:
         jnz CheckP2
-        jmp OkP1 
+        jmp OkP1
+         
 
         CheckP2:
         checkEQUALITY pow2,instruction+2
         jmp Checkp3Jump
-        OkP2:  
+        OkP2:
+        detectPoints 3  
         INPUTFIELD 444ch
         resetins instruction+2
         readmsg instruction 
@@ -318,6 +375,7 @@ endm Text_Mode
         xor player,1  
         CALL executeInstruction
         xor player,1
+        decPoints 3
         jmp ENDCHECKS
         
         Checkp3Jump:
@@ -327,7 +385,8 @@ endm Text_Mode
         CheckP3:
         checkEQUALITY pow3,instruction+2
         jmp CheckForP4
-        YesPower3: 
+        YesPower3:
+        detectPoints 8 
         MOV CL,player
         CMP CL,0
         jmp TestFlTest
@@ -336,6 +395,7 @@ endm Text_Mode
         MOV FL_changed2,CL
         FL_screen2
         GO
+        decPoints 8
         jmp ENDCHECKS 
         TestFlTest:
         je ch0
@@ -344,7 +404,8 @@ endm Text_Mode
         MOV CL,1
         MOV FL_changed1,CL
         FL_screen
-        GO          
+        GO 
+        decPoints 8         
         jmp ENDCHECKS
         
         CheckForP4:
@@ -354,20 +415,33 @@ endm Text_Mode
         
         CheckP4:
         checkEQUALITY pow4,instruction+2
-        jnz CheckP5 
+        jmp LawP5
+        ya3amP4:
+        detectPoints 2 
         mov IS_P4,0
+        decPoints 2
+        INPUTFIELD 494ch
         jmp ENDCHECKS
-        
+         
+        LawP5: 
+        jnz CheckP5
+        jmp ya3amP4
+         
         CheckP5:
         checkEQUALITY pow5,instruction+2
-        jnz NORMALEXE 
+        jmp lawnormal
+        ya3amP5:
+        detectPoints 30  
         mov al,0
         mov cx,28
         MOV DI,offset ALREG
         REP STOSB
+        decPoints 30 
+        INPUTFIELD 494ch
         jmp ENDCHECKS
-          
-         
+        lawnormal:
+        jnz NORMALEXE  
+        jmp ya3amP5 
          
         NORMALEXE: 
         CALL executeInstruction
@@ -392,8 +466,7 @@ main endp
 ;----------------EXECUTE INSTRUCTION---------------- 
 
 executeInstruction PROC near 
-    push_all
-    INPUTFIELD 494ch       
+    push_all       
     cmp player,0
     jz playerOne
     mov al,FL2
@@ -408,7 +481,11 @@ executeInstruction PROC near
     REPNE SCASB
     cmp cx,0
     jmp TestForbidden
-    YallaNafez:
+    YallaNafez:   
+    checkINSEQUALITY instruction+2,nop_str
+    jnz mshnop
+    jmp leaveexecute
+    mshnop:
     cmp instruction+6,'['
     jmp test0
     ok0:
@@ -543,6 +620,7 @@ executeInstruction PROC near
     invalidop:     
     mov_cursor 494ch
     printmsg invalid
+    decPoints 1
     jmp leaveexecute
     TestForbidden:
     PUSHF
@@ -554,6 +632,7 @@ executeInstruction PROC near
     Forbidden:
     mov_cursor 494ch
     printmsg forbidden_Letter
+    decPoints 1
     xor player,1
     leaveexecute: 
     MOV checkDesSize, 100
