@@ -1,6 +1,7 @@
 FL_screen macro ;; Start Screen
  push_all
     clear 
+    Text_Mode
     mov_cursor 0400h 
     printmsg  FL_str1 
     mov_cursor 0c37h
@@ -13,6 +14,7 @@ endm FL_screen
 FL_screen2 macro ;; Start Screen
  push_all
     clear 
+    Text_Mode
     mov_cursor 0400h 
     printmsg  FL_str2
     mov_cursor 0C37h

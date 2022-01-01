@@ -379,4 +379,17 @@ wait_enter macro
   jnz Enter  
 pop_all                       
 endm wait_enter  
-;;****************************
+;;**************************** 
+DRAWREG_PLAYERS MACRO
+    INPUTFIELD 444ch
+    ;player one drawings
+    mov bp,0
+    draw  3A1bh,bp
+    drawbyte 0000h,bp 
+    ;player two drawings 
+    mov bp,14
+    draw  3A39h,bp
+    add bp,2
+    drawbyte 0018h,bp
+    mov_cursor 444ch
+ENDM DRAWREG_PLAYERS

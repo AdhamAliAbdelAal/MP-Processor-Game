@@ -24,7 +24,7 @@ forbidden_Letter db "NOT ALLOWED!$"
 FL1 db ?
 FL2 db ?
 FL_Found1 db 0
-FL_Found2 db 0
+FL_Found2 db 0 
 FL_str1  db   '                                                                ',0ah,0dh
     DB   '        ===============================================================',0ah,0dh
     DB   '        ||                                                           ||',0ah,0dh                                        
@@ -264,19 +264,14 @@ pow5 db "P5$"
 OFFSET_P4 dw ?      
 IS_P4 db 1
 ;------------------------------------------------
-DRAWREG_PLAYERS MACRO
-    INPUTFIELD 444ch
-    ;player one drawings
-    mov bp,0
-    draw  3A1bh,bp
-    drawbyte 0000h,bp 
-    ;player two drawings 
-    mov bp,14
-    draw  3A39h,bp
-    add bp,2
-    drawbyte 0018h,bp
-    mov_cursor 444ch
-ENDM DRAWREG_PLAYERS
+;-------------------------------
+Text_Mode macro  
+    push_all
+mov ah,0
+mov al,3
+int 10h 
+pop_all   
+endm Text_Mode
 
 .code
     main proc far
@@ -285,12 +280,12 @@ ENDM DRAWREG_PLAYERS
         mov ES,AX
         PUSHF
         ;;;;;;;;;;;;;;;;;;;;;;;;;;; first screen (Defining Usernames) 
-        clear      
-        start_screen   
+        ;clear      
+        ;start_screen   
                              
         ;;;;;;;;;;;;;;;;;;;;;;;;;;; second screen (Main Screen) 
-        clear     
-        main_screen
+        ;clear     
+        ;main_screen
         GO
         ;Draw_BK
         mov cl,1
@@ -331,18 +326,31 @@ ENDM DRAWREG_PLAYERS
 
         CheckP3:
         checkEQUALITY pow3,instruction+2
-        jnz CheckP4 
+        jmp CheckForP4
+        YesPower3: 
         MOV CL,player
         CMP CL,0
-        je ch0
+        jmp TestFlTest
+        Yesp1:
         MOV CL,1
         MOV FL_changed2,CL
-        ;FL_screen2
-        ch0:
+        FL_screen2
+        GO
+        jmp ENDCHECKS 
+        TestFlTest:
+        je ch0
+        jmp Yesp1 
+        ch0:            
         MOV CL,1
         MOV FL_changed1,CL
-        ;FL_screen           
+        FL_screen
+        GO          
         jmp ENDCHECKS
+        
+        CheckForP4:
+        jnz CheckP4
+        jmp YesPower3
+        
         
         CheckP4:
         checkEQUALITY pow4,instruction+2
