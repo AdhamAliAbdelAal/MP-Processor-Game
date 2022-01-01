@@ -11,7 +11,8 @@ endm printmsg
 ;--------------READ MESSAGE---------------------
 
 readmsg macro msg   
-    push_all
+    push_all    
+    mov_cursor 394Ah
     mov ah,0ah
     mov dx,offset msg
     int 21h         
