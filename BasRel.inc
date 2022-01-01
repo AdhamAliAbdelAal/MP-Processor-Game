@@ -12,10 +12,10 @@ BasedRelative macro Ins
     LOCAL strL4_ES
     LOCAL strL5_ES
     LOCAL strL6_ES
-    local ExitValA_ES
+    local ExitValA_ES     
     push ax
     push bx
-    push cx
+    push cx   
     checkEQUALITY bp_str,Ins   
     JNZ JumpBX1  
     checkPlayer_srcbr BPREG,BPREG2
@@ -31,10 +31,11 @@ BasedRelative macro Ins
     JNC exit_ES_N 
     JMP Found_ES 
     
-    exit_ES_N:
+    exit_ES_N:     
     JMP exit_ES
      
-    Found_ES:
+    Found_ES:  
+           mov checkSrcSize,0
            checkPlayer_des memory,memory2 
            MOV CL,0H
            MOV CH,BYTE PTR Ins+3 
@@ -97,7 +98,6 @@ BasedRelative macro Ins
            JNC exit_ES  
            MOV DX, [BX]       
     exit_ES:
-    mov checkSrcSize,0
     pop cx
     pop bx 
     pop ax 

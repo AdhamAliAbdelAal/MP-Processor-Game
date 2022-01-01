@@ -248,7 +248,7 @@ checkPlayer_des macro s1,s2
     local p1_dest2
     local next_dest1
     mov bl,player
-    cmp bl,1
+    cmp bl,0
     je p1_dest2
     mov bx,offset s1
     jmp next_dest1
@@ -263,7 +263,7 @@ checkPlayer_src macro s1,s2
     local p1_src2
     local next_src1
     mov dl,player
-    cmp dl,1
+    cmp dl,0
     je p1_src2
     mov dx,WORD PTR s1
     jmp next_src1
@@ -278,7 +278,7 @@ checkPlayer_src05 macro s1,s2
     local p1_src05
     local next_src05
     mov dl,player
-    cmp dl,1
+    cmp dl,0
     je p1_src05
     mov dl, s1
     jmp next_src05
@@ -293,7 +293,7 @@ checkPlayer_src10 macro s1,s2
     local p1_src10
     local next_src10
     mov cl,player
-    cmp cl,1
+    cmp cl,0
     je p1_src10
     mov cx, WORD PTR s1
     jmp next_src10
@@ -308,7 +308,7 @@ checkPlayer_srcbr macro s1,s2
     local p1_srcbr
     local next_srcbr
     mov al,player
-    cmp al,1
+    cmp al,0
     je p1_srcbr
     mov ax, WORD PTR s1
     jmp next_srcbr
@@ -323,7 +323,7 @@ checkPlayer_srcbr2 macro s1,s2
     local p1_srcbr2
     local next_srcbr2
     mov dl,player
-    cmp dl,1
+    cmp dl,0
     je p1_srcbr2
     add ax, offset s1
     jmp next_srcbr2

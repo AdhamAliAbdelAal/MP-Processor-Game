@@ -17,7 +17,7 @@ DetectSourceMode MACRO input
     jmp testHamdy1
     okHamdy1:
     MOV CL, BYTE PTR input+1
-    CMP CL, 'I'
+    CMP CL, 'G'
     jmp testHamdy2
     okHamdy2:
     CheckSource input ; 1st
