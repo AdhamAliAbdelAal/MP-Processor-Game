@@ -208,6 +208,7 @@ ENDM DRAWREG_PLAYERS
         jnz NORMALEXE 
         mov al,0
         mov cx,28
+        MOV DI,offset ALREG
         REP STOSB
         jmp ENDCHECKS
           
@@ -222,6 +223,8 @@ ENDM DRAWREG_PLAYERS
         mov ax,[bx]
         and ax,0FFFEH
         mov [bx],ax 
+        mov_cursor 374ch
+        printhexa AX
         mov IS_P4,1 
         
         
