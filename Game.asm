@@ -7,10 +7,11 @@ include src2.inc
 include srcval.inc
 include BasRel.inc
 include cute.inc
-include FL.inc     
+include FL.inc
+include MAIN.inc     
 
 .model huge
-
+.stack 64
 
 ;---------------------dataSegment------------------------
 
@@ -24,25 +25,55 @@ FL1 db ?
 FL2 db ?
 FL_Found1 db 0
 FL_Found2 db 0
-FL_str  db   '        ',0ah,0dh
+FL_str1  db   '                                                                ',0ah,0dh
+    DB   '        ===============================================================',0ah,0dh
+    DB   '        ||                                                           ||',0ah,0dh                                        
+    DB   '        ||              *    MP Processor Game   *                   ||',0ah,0dh
+    DB   '        ||                                                           ||',0ah,0dh
+    DB   '        ||-----------------------------------------------------------||',0ah,0dh 
+    DB   '        ||                                                           ||',0ah,0dh
+    DB   '        ||                                                           ||',0ah,0dh      
+    DB   '        ||           Enter Forbidden Letter (player 1):              ||',0ah,0dh
+    DB   '        ||                                                           ||',0ah,0dh      
+    DB   '        ||                                                           ||',0ah,0dh         
+    DB   '        ===============================================================',0ah,0dh  
+    db   '                                                                    ',0ah,0dh     
+    db   '                                                                    ',0ah,0dh
+    DB   '$',0ah,0dh
+    
+FL_str2  db   '                                                               ',0ah,0dh
+    DB   '        ===============================================================',0ah,0dh
+    DB   '        ||                                                           ||',0ah,0dh                                        
+    DB   '        ||              *    MP Processor Game   *                   ||',0ah,0dh
+    DB   '        ||                                                           ||',0ah,0dh
+    DB   '        ||-----------------------------------------------------------||',0ah,0dh 
+    DB   '        ||                                                           ||',0ah,0dh   
+    DB   '        ||                                                           ||',0ah,0dh
+    DB   '        ||           Enter Forbidden Letter (player 2):              ||',0ah,0dh
+    DB   '        ||                                                           ||',0ah,0dh   
+    DB   '        ||                                                           ||',0ah,0dh         
+    DB   '        ===============================================================',0ah,0dh  
+    db   '                                                                    ',0ah,0dh     
+    db   '                                                                    ',0ah,0dh
+    DB   '$',0ah,0dh
+FL_changed1 db 0
+FL_changed2 db 0
+
+Level_selection  db   '                                                       ',0ah,0dh
     DB   '                ====================================================',0ah,0dh
     DB   '               ||                                                  ||',0ah,0dh                                        
     DB   '               ||            *    MP Processor Game   *            ||',0ah,0dh
     DB   '               ||                                                  ||',0ah,0dh
     DB   '               ||--------------------------------------------------||',0ah,0dh 
-    DB   '               ||                                                  ||',0ah,0dh
-    DB   '               ||                                                  ||',0ah,0dh      
-    DB   '               ||  Enter Forbidden Letter (player 1):              ||',0ah,0dh
     DB   '               ||                                                  ||',0ah,0dh   
     DB   '               ||                                                  ||',0ah,0dh
-    DB   '               ||  Enter Forbidden Letter (player 2):              ||',0ah,0dh
+    DB   '               ||            Choose Level (player 1):              ||',0ah,0dh
     DB   '               ||                                                  ||',0ah,0dh   
     DB   '               ||                                                  ||',0ah,0dh         
     DB   '                ====================================================',0ah,0dh  
     db   '                                                                    ',0ah,0dh     
     db   '                                                                    ',0ah,0dh
     DB   '$',0ah,0dh
-FL_changed db 0
   
                
 ;---------------------REGISTERS---------------------  
@@ -146,7 +177,83 @@ checkDesSize db 100
 checkSrcSize db 50
                
 ;---------------------------------------------------- 
-player db 0          
+player db 0
+level db 0
+
+pointer dw ?   
+GAME_Main_STR  db   '        ',0ah,0dh
+    DB   '                ====================================================',0ah,0dh
+    DB   '               ||                                                  ||',0ah,0dh                                        
+    DB   '               ||            *    MP Processor Game   *            ||',0ah,0dh
+    DB   '               ||                                                  ||',0ah,0dh
+    DB   '               ||--------------------------------------------------||',0ah,0dh   
+    DB   '               ||                                                  ||',0ah,0dh
+    DB   '               ||                                                  ||',0ah,0dh
+    DB   '               ||            To Start chatting press F1            ||',0ah,0dh
+    DB   '               ||                                                  ||',0ah,0dh   
+    DB   '               ||            To start the game press F2            ||',0ah,0dh
+    DB   '               ||                                                  ||',0ah,0dh
+    DB   '               ||            To end the program press ESC          ||',0ah,0dh
+    DB   '               ||                                                  ||',0ah,0dh 
+    DB   '               ||                                                  ||',0ah,0dh
+    DB   '               ||                                                  ||',0ah,0dh
+    DB   '                ====================================================',0ah,0dh  
+    db   '                                                                    ',0ah,0dh     
+    db   '                                                                    ',0ah,0dh
+    db   '                                                                    ',0ah,0dh  
+    DB   80 DUP('-'),'$',0ah,0dh  
+    DB   '$',0ah,0dh 
+           
+GAME_Start_STR  db   '        ',0ah,0dh
+    DB   '                ====================================================',0ah,0dh
+    DB   '               ||                                                  ||',0ah,0dh                                        
+    DB   '               ||            *    MP Processor Game   *            ||',0ah,0dh
+    DB   '               ||                                                  ||',0ah,0dh
+    DB   '               ||--------------------------------------------------||',0ah,0dh 
+    DB   '               ||  Enter your First Player:                        ||',0ah,0dh
+    DB   '               ||                                                  ||',0ah,0dh
+    DB   '               ||                                                  ||',0ah,0dh      
+    DB   '               ||  Intial Points for First Player:                 ||',0ah,0dh
+    DB   '               ||                                                  ||',0ah,0dh   
+    DB   '               ||                                                  ||',0ah,0dh
+    DB   '               ||  Enter your Second Player:                       ||',0ah,0dh
+    DB   '               ||                                                  ||',0ah,0dh   
+    DB   '               ||                                                  ||',0ah,0dh   
+    DB   '               ||  Intial Points for Second Player:                ||',0ah,0dh
+    DB   '               ||                                                  ||',0ah,0dh   
+    DB   '               ||                                                  ||',0ah,0dh  
+    DB   '               ||               Press Enter key to continue        ||',0ah,0dh
+    DB   '               ||               * MAX Name 15 characters *         ||',0ah,0dh   
+    DB   '                ====================================================',0ah,0dh  
+    db   '                                                                    ',0ah,0dh     
+    db   '                                                                    ',0ah,0dh
+    DB   '$',0ah,0dh 
+      
+msg_name db 9,9,9,"Enter your name:" ,10,13," $"
+msg_point db 9,9,9,"intial points:",10,13," $"
+msg_keyEnter db 9,9,9,"Press enter key to continue $"
+
+
+STR_Point db  10,?,10 duP('$')
+STR_Point2 db  10,?,10 duP('$')
+POINT DB ?
+Point2 DB ?  
+player_name db 15,?,15 dup('$') 
+player_name2 db 15,?,15 dup('$') 
+tab db 9,9,9,'$'      
+    
+
+emptysttr db "$"        
+ClEAR_LINE    DB 80 DUP(' '),'$'
+F1_STR  DB '-You send a chat invitation to ','$'
+F2_STR  DB '-You send a game invitation to ','$'
+
+get1_STR  DB 'Sent a chat invitation tO you ','$'
+get2_STR  DB 'Sent a game invitation tO you ','$'
+
+
+begin_nof db 0      
+notication db 80 DUP('$'),'$'          
 ;-------------------POWER UPS--------------------
 pow1 db "P1$" 
 pow2 db "P2$"
@@ -177,7 +284,13 @@ ENDM DRAWREG_PLAYERS
         mov DS,AX
         mov ES,AX
         PUSHF
-        FL_screen
+        ;;;;;;;;;;;;;;;;;;;;;;;;;;; first screen (Defining Usernames) 
+        clear      
+        start_screen   
+                             
+        ;;;;;;;;;;;;;;;;;;;;;;;;;;; second screen (Main Screen) 
+        clear     
+        main_screen
         GO
         ;Draw_BK
         mov cl,1
@@ -219,16 +332,16 @@ ENDM DRAWREG_PLAYERS
         CheckP3:
         checkEQUALITY pow3,instruction+2
         jnz CheckP4 
-        MOV CL,1
-        MOV FL_changed,CL
         MOV CL,player
         CMP CL,0
         je ch0
-        readchar FL2
-        printchar FL2
+        MOV CL,1
+        MOV FL_changed2,CL
+        ;FL_screen2
         ch0:
-        readchar FL1
-        printchar FL1           
+        MOV CL,1
+        MOV FL_changed1,CL
+        ;FL_screen           
         jmp ENDCHECKS
         
         CheckP4:
@@ -276,9 +389,10 @@ executeInstruction PROC near
     cmp player,0
     jz playerOne
     mov al,FL2
+    JMP HAMDYEDIT
     playerOne:
     mov al,FL1
-    
+    HAMDYEDIT:
     mov cl,instruction+1
     mov ch,0 
     mov di,2

@@ -369,7 +369,8 @@ clear macro                     ;; Clear string
     pop_all
 endm clear  
 ;;****************************   
-wait_enter macro                     ;; Wait enter  
+wait_enter macro
+    LOCAL Enter                     ;; Wait enter  
     push_all
   Enter:
     mov ah,0
