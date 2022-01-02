@@ -1,3 +1,4 @@
+;;---------------- Draw Target -------------------------------
 Draw_Target macro TEMP_X , TEMP_Y
           local   DRAW_BALL_HORIZONTAL
           local   light_blue
@@ -87,25 +88,25 @@ endm Move_Target
 
 ;;----------------  initial target    -------------------------------
 initial_target macro TEMP_Xx ,TEMP_Y,START1
-           local exit
-           local first
+          ; local exit
+           ;local first
            push_all  
            inc turn
-           cmp turn, 5  ;; SET GUN 1 TO SWITCH PLAYER
-           jne first
-            mov gun,1
+           ;cmp turn, 5  ;; SET GUN 1 TO SWITCH PLAYER
+           ;jne first
+            ;mov gun,1
            
-           first:
+           ;first:
            
  MOV AX,START1          
            
  mov TEMP_Xx ,AX
 mov	TEMP_Y , 15h
  inc level_color   ;; SWITCH COLOR
- cmp level_color,5h        ;; SWITCH TO INITIAL VALUE (0)
- jne exit
-      mov level_color,0h
- exit:          
+ ;cmp level_color,5h        ;; SWITCH TO INITIAL VALUE (0)
+ ;jne exit
+    ;  mov level_color,0h
+; exit:          
  
  pop_all
 endm initial_target
@@ -122,7 +123,7 @@ Draw_paddles   macro
 	
 	DRAW_PADDLE_LEFT_HORIZONTAL:
 			MOV AH,0Ch 		;12			 ;set the configuration to writing a pixel
-			MOV AL,0Fh 		;15			 ;choose white as color
+			MOV AL,3h 		;15			 ;choose white as color
 			MOV BH,00h 					 ;set the page number 
 			INT 10h    					 ;execute the configuration
 			
@@ -146,7 +147,7 @@ Draw_paddles   macro
 		
 			DRAW_PADDLE_RIGHT_HORIZONTAL:
 			MOV AH,0Ch 					 ;set the configuration to writing a pixel
-			MOV AL,0Fh 					 ;choose white as color
+			MOV   AL,0Ch 	
 			MOV BH,00h 					 ;set the page number 
 			INT 10h    					 ;execute the configuration
 			
@@ -169,8 +170,9 @@ endm   Draw_paddles
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;  
 
 ;;----------------  Move paddles    -------------------------------
- MOVE_PADDLES macro TEMP_X , TEMP_Y , b_x, b_y ,W_W ,LEFT_LIMIT ,NUMOFBALLS
-                       local EXIT_PADDLE_MOVEMENT  
+ MOVE_PADDLES macro 
+                       local EXIT_PADDLE_MOVEMENT
+                       local EXIT_PADDLE_MOVEMENT2  
                        local MOVE_PADDLE_LEFT  
                        local FIX_PADDLE_LEFT_TOP_POSITION    
                        local FIX_PADDLE_LEFT_BOTTOM_POSITION
@@ -183,7 +185,26 @@ endm   Draw_paddles
                        local lol                      
                        local FIX_PADDLE_LEFT_TOP_POSITION0
                        local FIX_PADDLE_LEFT_TOP_POSITION1
-                       local FIX_PADDLE_LEFT_TOP_POSITION2
+                       local FIX_PADDLE_LEFT_TOP_POSITION2  
+                       local MOVE_PADDLE_RIGHT_UP  
+                       local MOVE_PADDLE_RIGHT_DOWN
+                       local MOVE_PADDLE_RIGHT_RIGHT
+                       local MOVE_PADDLE_RIGHT_LEFT 
+                       local FIX_PADDLE_RIGHT_POSITION   
+                       local FIX_PADDLE_RIGHT_POSITION1
+                       local FIX_PADDLE_RIGHT_POSITION2
+                       local FIX_PADDLE_RIGHT_POSITION3
+                       local FIX_PADDLE_RIGHT_POSITION4
+                       local lol2
+                       local Ball2
+                       local exit_c
+                       local MOVE_P_D_N
+                       local MOVE_P_R_R_N
+                       local MOVE_P_R_L_N
+                       local MOVE_P_R_U_N
+                       local MOVE_P_R_D_N
+                       
+                       
                        push_all
            ;       Left paddle movement
 		
@@ -191,53 +212,101 @@ endm   Draw_paddles
 		MOV AH,01h
 		INT 16h
 		JZ momo ;ZF = 1, JZ -> Jump If Zero
-		
+		 
+		 
+		 
 		;check which key is being pressed (AL = ASCII character)
 		MOV AH,00h
 		INT 16h
 		
+		;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;move left paddle
+		
 		;if it is '' or 'W' move up
 		CMP AH,4Dh ;'w'
 		JE MOVE_PADDLE_RIGHT
-		;CMP AL,57h ;'W'
-		;JE MOVE_LEFT_PADDLE_RIGHT
 		
-		;if it is 's' or 'S' move down
+		
+		
 		CMP AH,4Bh ;'s'
 		JE MOVE_PADDLE_LEFT
-	;	CMP AL,53h ;'S'
-		;JE MOVE_LEFT_PADDLE_LEFT
+	
 		
 		CMP AH,48h 
 		JE MOVE_PADDLE_UP 
 		
 		
 		CMP AH,50h 
-		JE MOVE_PADDLE_DOWN
+		JNE MOVE_P_D_N  
 		
 		
-		 CMP AL,20H  
+		   JMP MOVE_PADDLE_DOWN
+		MOVE_P_D_N:   
+		
+		CMP AL,20H  
 		 
-		  JE lol
+		  JE lol 
+		  
+		
+		  
+		;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;move right paddle;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+		 
+		;if it is 'u' move right 
+		CMP AL,55h 
+		JNE MOVE_P_R_R_N   
+		
+		  JMP MOVE_PADDLE_RIGHT_RIGHT
+		 MOVE_P_R_R_N:
+		
+		 ;if it is 't' move left
+		
+		CMP AL,54h 
+		JNE MOVE_P_R_L_N 
+		
+		  JMP MOVE_PADDLE_RIGHT_LEFT
+		
+		 MOVE_P_R_L_N:
+	
+		 ;if it is 'y' move up
+		CMP AL,59h 
+		JNE MOVE_P_R_U_N 
+		 
+		JMP MOVE_PADDLE_RIGHT_UP
+		MOVE_P_R_U_N:
+		
+		
+		 ;if it is 'v' move down
+		CMP AL,56h 
+		JNE MOVE_P_R_D_N  
+		 
+		 JMP MOVE_PADDLE_RIGHT_DOWN
+		
+		MOVE_P_R_D_N:
+		 
+		 ;shotting with q
+		
+		 CMP AL,51H  
+		 
+		  JE lol2
 		    ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;; 
-		    
-		    momo:
-		    
-		  JMP EXIT_PADDLE_MOVEMENT
-		  
+		  momo:  
+		 jmp EXIT_PADDLE_MOVEMENT   
+		  lol2:
+		  jmp BALL2  
+		                
 		  lol:
-		  jmp BALL  
-		  
+		  jmp BALL             		                
+		                
+		                
 		MOVE_PADDLE_RIGHT:
 			MOV AX,PADDLE_VELOCITY
-			ADD TEMP_X,AX
+			ADD PADDLE_LEFT_X,AX
 			
-			MOV AX,W_W
-			CMP TEMP_X,AX
+			MOV AX,WINDOW_WIDTH2
+			CMP PADDLE_LEFT_X,AX
 			JL FIX_PADDLE_LEFT_TOP_POSITION
 			
 			MOV AX,PADDLE_VELOCITY
-			SUB TEMP_X,AX
+			SUB PADDLE_LEFT_X,AX
 			
 			 
 			
@@ -251,16 +320,16 @@ endm   Draw_paddles
 			
 		MOVE_PADDLE_LEFT:
 		         MOV AX,PADDLE_VELOCITY
-                 SUB TEMP_X,AX  
+                 SUB PADDLE_LEFT_X,AX  
 		        
 	  
-                MOV AX,LEFT_LIMIT
-                CMP TEMP_X,AX
+                MOV AX,LEFT_PADDEL_LIMIT_FROM_LEFT
+                CMP PADDLE_LEFT_X,AX
                 Jg FIX_PADDLE_LEFT_BOTTOM_POSITION
                 
                 
                 MOV AX,PADDLE_VELOCITY
-                add TEMP_X,AX     
+                add PADDLE_LEFT_X,AX     
                 
                 FIX_PADDLE_LEFT_TOP_POSITION0:
 			     
@@ -277,10 +346,10 @@ endm   Draw_paddles
          MOVE_PADDLE_UP:
 		        
 		        MOV AX,PADDLE_VELOCITY_Y
-                SUB TEMP_Y,AX  
+                SUB PADDLE_LEFT_Y,AX  
 		        
                 MOV AX,WINDOW_HEIGHT_TOP
-                CMP TEMP_Y,AX
+                CMP PADDLE_LEFT_Y,AX
                 Jg FIX_PADDLE_LEFT_BOTTOM_POSITION 
                 
                 
@@ -288,7 +357,7 @@ endm   Draw_paddles
                 
                 
                 MOV AX,PADDLE_VELOCITY_Y
-                add TEMP_Y,AX  
+                add PADDLE_LEFT_Y,AX  
               
               FIX_PADDLE_LEFT_TOP_POSITION1:  
                   cmp gun,1
@@ -300,10 +369,10 @@ endm   Draw_paddles
 		MOVE_PADDLE_DOWN:     
 		
 		          MOV AX,PADDLE_VELOCITY_Y
-                ADD TEMP_Y,AX  
+                ADD PADDLE_LEFT_Y,AX  
 		
                 MOV AX,WINDOW_HEIGHT_BOTTOM
-                CMP TEMP_Y,AX
+                CMP PADDLE_LEFT_Y,AX
                 JL FIX_PADDLE_LEFT_BOTTOM_POSITION 
                 
                 
@@ -311,7 +380,7 @@ endm   Draw_paddles
                 
                 
                 MOV AX,PADDLE_VELOCITY_Y
-                sub TEMP_Y,AX  
+                sub PADDLE_LEFT_Y,AX  
                  FIX_PADDLE_LEFT_TOP_POSITION2: 
                   cmp gun,1
                     
@@ -320,33 +389,175 @@ endm   Draw_paddles
 				    jmp  EXIT_PADDLE_MOVEMENT  
 		
 				    
-				    ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+				    ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;  
+				    
+				    
+				    
+				
         	
 			FIX_PADDLE_LEFT_BOTTOM_POSITION:
 		
                     
                     MOV BX,10h
-                    ADD BX,TEMP_X
-                    MOV b_x,BX
+                    ADD BX,PADDLE_LEFT_X
+                    MOV BALL_X,BX
                    
-                    MOV BX,TEMP_Y
-                    MOV b_y,BX   
-				JMP EXIT_PADDLE_MOVEMENT
+                    MOV BX,PADDLE_LEFT_Y
+                    MOV BALL_Y,BX   
+				JMP EXIT_PADDLE_MOVEMENT       
 				
 				
-		
-		EXIT_PADDLE_MOVEMENT:
+				
+	EXIT_PADDLE_MOVEMENT:
 		            
 		            jmp exit_p
               Ball:
                     
-                    CMP NUMOFBALLS,4
-                    JE exit_p 
-                  INC NUMOFBALLS  
+                    CMP bullet,2
+                    JE exit_c 
+                  INC bullet  
                    MOV DH,0  
                    MOV GUN,DH     
                 
-                exit_p:
+                
+                exit_c:
+             jmp exit_p  			
+				
+	;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;RIGHT			
+				
+	MOVE_PADDLE_RIGHT_RIGHT: 
+	
+	  	
+	MOV AX,PADDLE_VELOCITY
+			ADD PADDLE_RIGHT_X,AX
+			
+			MOV AX,WINDOW_WIDTH2
+			CMP PADDLE_RIGHT_X,AX
+			JL  FIX_PADDLE_RIGHT_POSITION1
+			
+			MOV AX,PADDLE_VELOCITY
+			SUB PADDLE_RIGHT_X,AX
+			
+			 
+			
+			 FIX_PADDLE_RIGHT_POSITION1:
+				
+                      cmp gun2,1
+                   
+                    je  FIX_PADDLE_RIGHT_POSITION     
+                    
+	
+	            JMP  EXIT_PADDLE_MOVEMENT2     
+	
+	
+	MOVE_PADDLE_RIGHT_LEFT:
+	
+		
+		
+		         MOV AX,PADDLE_VELOCITY
+                 SUB PADDLE_RIGHT_X,AX  
+		        
+	  
+                MOV AX,LEFT_PADDEL_LIMIT_FROM_LEFT
+                CMP PADDLE_RIGHT_X,AX
+                Jg FIX_PADDLE_RIGHT_POSITION
+                
+                
+                MOV AX,PADDLE_VELOCITY
+                add PADDLE_RIGHT_X,AX     
+                
+                FIX_PADDLE_RIGHT_POSITION2:
+			     
+                  cmp gun2,1
+                    
+                    je  FIX_PADDLE_RIGHT_POSITION     
+                    
+				    jmp  EXIT_PADDLE_MOVEMENT2   
+	
+	
+	MOVE_PADDLE_RIGHT_UP: 
+	
+	 MOV AX,PADDLE_VELOCITY_Y
+                SUB PADDLE_RIGHT_Y,AX  
+		        
+                MOV AX,WINDOW_HEIGHT_TOP
+                CMP PADDLE_RIGHT_Y,AX
+                Jg FIX_PADDLE_RIGHT_POSITION 
+                
+                
+                
+                
+                
+                MOV AX,PADDLE_VELOCITY_Y
+                add PADDLE_RIGHT_Y,AX  
+              
+               FIX_PADDLE_RIGHT_POSITION3:  
+                  cmp gun2,1
+                    
+                    je  FIX_PADDLE_RIGHT_POSITION     
+                    
+				    jmp  EXIT_PADDLE_MOVEMENT2  
+	
+	MOVE_PADDLE_RIGHT_DOWN:
+	   
+	     MOV AX,PADDLE_VELOCITY_Y
+                ADD PADDLE_RIGHT_Y,AX  
+		
+                MOV AX,WINDOW_HEIGHT_BOTTOM
+                CMP PADDLE_RIGHT_Y,AX
+                JL FIX_PADDLE_RIGHT_POSITION 
+                
+                
+                
+                
+                
+                MOV AX,PADDLE_VELOCITY_Y
+                sub PADDLE_RIGHT_Y,AX  
+                  FIX_PADDLE_RIGHT_POSITION4: 
+                  cmp gun2,1
+                    
+                    je  FIX_PADDLE_RIGHT_POSITION     
+                    
+				    jmp  EXIT_PADDLE_MOVEMENT2  
+		
+	 
+	 FIX_PADDLE_RIGHT_POSITION:
+		
+                    
+                    MOV BX,10h
+                    ADD BX,PADDLE_RIGHT_X
+                    MOV BALL2_X,BX
+                   
+                    MOV BX,PADDLE_RIGHT_Y
+                    MOV BALL2_Y,BX   
+				JMP EXIT_PADDLE_MOVEMENT2   
+	
+				
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;				
+				
+		
+		
+             
+             
+             EXIT_PADDLE_MOVEMENT2:
+             
+             
+                    jmp exit_p
+              Ball2:
+                    
+                    CMP bullet2,2
+                    JE exit_p 
+                  INC bullet2  
+                   MOV DH,0  
+                   MOV GUN2,DH     
+      
+             
+                
+                exit_p: 
+                
+                
+       
+                
           
                pop_all
  endm MOVE_PADDLES
@@ -449,7 +660,7 @@ CLEAR_SCREEN macro
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 ;;---------------- Draw Ball   -------------------------------
-Draw_Ball macro   TEMP_X , TEMP_Y
+Draw_Ball macro   TEMP_X , TEMP_Y,co
                   local   DRAW_BALL_HORIZONTAL 
                   
                   push_all
@@ -458,7 +669,7 @@ Draw_Ball macro   TEMP_X , TEMP_Y
 		
 		DRAW_BALL_HORIZONTAL:
 			MOV AH,0Ch                   ;set the configuration to writing a pixel
-			MOV AL,0Fh 					 ;choose white as color
+			MOV AL,co 					 ;choose white as color
 			MOV BH,00h 					 ;set the page number 
 			INT 10h    					 ;execute the configuration
 			
@@ -482,7 +693,7 @@ endm    Draw_Ball
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 ;;---------------- MOVE BALL   -------------------------------
- MOVE_BALL macro TEMP_X , TEMP_Y , T_x, T_y ,P_x,P_y,T_START ,tgc,tblc,tyc,trc,tbc,tpc  
+ MOVE_BALL macro TEMP_X , TEMP_Y , T_x, T_y ,P_x,P_y,T_START ,tgc,tblc,tyc,trc,tbc,tpc,gg  
                    LOCAL RESET_POSITION
                    LOCAL exit_c
                    LOCAL Ball_border
@@ -532,9 +743,9 @@ endm    Draw_Ball
         jmp exit_c
         
          RESET_POSITION:
-               
+            
              MOV DH,1h
-           MOV GUN,DH
+           MOV gg,DH
              FIX_BALL_POSITION1 TEMP_X , TEMP_Y , P_x,P_y
                         
            
@@ -589,21 +800,3 @@ printnum2 macro num
 endm printnum2        
 
 ;;;;;;;;;;;;;;;;;;;
-;;----------------------------DRAW VERTICAL LINE ---------------------
-
-DRAW_LINE MACRO   
-    
-    push_all
-
-         MOV CX,160
-           MOV DX,0
-           MOV AL,5
-           MOV AH,0Ch
-           
-           BACK:INT 10h
-           INC DX
-           CMP DX, 150
-           JNZ BACK       
-    
-          pop_all
-ENDM DRAW_LINE    
