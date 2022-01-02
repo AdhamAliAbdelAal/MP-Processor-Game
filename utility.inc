@@ -446,6 +446,8 @@ CONG macro NUM,MSG1,MSG2,msg3
      
     clear   
     
+    Text_Mode
+    
     mov_cursor 0000h  
     
     
@@ -456,11 +458,13 @@ CONG macro NUM,MSG1,MSG2,msg3
     printmsg MSG1
            
     mov ah,2
-    mov dl,number
+    mov dl,NUM
     add dl,30h
     int 21h 
            
     printmsg MSG2     
+    
+    wait_enter
     
 ENDM cong
 
@@ -469,15 +473,29 @@ ENDM cong
 CheckWinner1 MACRO ; Check regs l tany 3la Target1
     local Player1_WON
     local ex_p11
+    local cont_check
+    local testfathi
+    local chfix
     push_all
+    cmp point,0
+    JNE chfix
+    jmp testfathi
+    chfix:
+    jmp cont_check
+    testfathi:
+    cong 2,WINNER,WON,cong_screen
+    jmp ex_p11
+    cont_check:
     MOV AX,TARGET2
     MOV DI, offset AXREG2
-    MOV CX,7
+    MOV CX,8
     REPNE SCASW
     cmp cx,0
     JNE Player1_WON
     jmp ex_p11
     Player1_WON:
+    MOV CL,1
+    MOV FE_PLAYER_KESEB,CL
     cong 1,WINNER,WON,cong_screen
     ex_p11:
     pop_all     
@@ -486,5 +504,32 @@ ENDM CheckWinner1
 ;-----------------------------------------
 
 CheckWinner2 MACRO
-     
+    local Player2_WON
+    local ex_p12
+    local cont_check2
+    local testfathi2
+    local chfix2
+    push_all
+    cmp point2,0
+    JNE chfix2
+    jmp testfathi2
+    chfix2:
+    jmp cont_check2
+    testfathi2:
+    cong 1,WINNER,WON,cong_screen
+    jmp ex_p12
+    cont_check2:
+    MOV AX,TARGET1
+    MOV DI, offset AXREG
+    MOV CX,8
+    REPNE SCASW
+    cmp cx,0
+    JNE Player2_WON
+    jmp ex_p12
+    Player2_WON:
+    MOV CL,1
+    MOV FE_PLAYER_KESEB,CL
+    cong 2,WINNER,WON,cong_screen
+    ex_p12:
+    pop_all      
 ENDM CheckWinner2

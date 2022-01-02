@@ -464,7 +464,7 @@ TARGET1_STR  db   '        ',0ah,0dh
 number db ?
 WINNER DB 'CONGRATULATIONS PLAYER',' $'
 WON DB ' HAS WON$'
-
+FE_PLAYER_KESEB DB 0
   
   
 cong_screen    db   '        ',0ah,0dh
@@ -490,7 +490,8 @@ cong_screen    db   '        ',0ah,0dh
 ;------Initial Points---------
 POINT DB ?
 POINT2 DB ?
-;-------------------------------------   
+;-------------------------------------
+   
 decPoints macro num
         mov bx,offset Point
         add bl,player
@@ -509,7 +510,6 @@ detectPoints macro num
     Hayenfa3pow: 
     decPoints num
 endm detectPoints
-
 
 .code
     main proc far
@@ -544,6 +544,13 @@ endm detectPoints
         mov cl,1
         enterins:
         CheckWinner1
+        CheckWinner2
+        CMP FE_PLAYER_KESEB,1
+        JE RAND_END
+        JMP CONTINUE_GAME
+        RAND_END:
+        JMP ENDGAME
+        CONTINUE_GAME:
         DRAWREG_PLAYERS 
         readmsg instruction 
         checkEQUALITY pow1,instruction+2
@@ -659,7 +666,7 @@ endm detectPoints
         ENDCHECKS:
         resetins instruction+2 
         xor player,1
-             ;---------------------------------------
+        ;---------------------------------------
              MOV AH, 00h  ; interrupts to get system time        
    INT 1AH      ; CX:DX now hold number of clock ticks since midnight      
                 ; lets just take the lower bits of DL for a start..
@@ -668,7 +675,7 @@ endm detectPoints
    CMP AH, BH   ; compare with value in  DL,      
    JA RANDOM ; if more, regenerate. if not, continue... 
 
-   MOV BH, 0  ; set limit to 48 (ASCII FOR 0)
+   MOV BH, 30  ; set limit to 48 (ASCII FOR 0)
    MOV AH, DL   
    CMP AH, BH   ; compare with value in DL
    JB RANDOM ; if less, regenerate.   
@@ -777,10 +784,8 @@ int 10h
                   
                 CLEAR_SCREEN
      ;--------------------------------------   
-        
-        
-       
-        jmp enterins    
+        jmp enterins
+        ENDGAME:    
 HLT         
 main endp
 ;----------------EXECUTE INSTRUCTION---------------- 
