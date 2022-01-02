@@ -493,26 +493,40 @@ cong_screen    db   '        ',0ah,0dh
 ;------Initial Points---------
 POINT DB ?
 POINT2 DB ?
-;-------------------------------------
-   
-decPoints macro num
-        mov bx,offset Point
-        add bl,player
-        mov al,[bx]
-        sub al,num
-        mov [bx],al 
-endm decPoints 
-detectPoints macro num 
-    local Hayenfa3pow
-    mov bx,offset Point
-    add bl,player
-    mov al,[bx]
-    cmp al,num
-    jae Hayenfa3pow
-    jmp ENDCHECKS
-    Hayenfa3pow: 
-    decPoints num
-endm detectPoints
+;-------------------------------------   
+;--------Power Ups Limits--------
+LimitP31 db 0
+LimitP32 db 0
+LimitP51 db 0
+LimitP52 db 0
+
+;--------------------------------   
+Is_limitedP3 macro 
+    local nafezP3ady
+     mov bx,offset LimitP31
+     add bl,player
+     mov al,[bx]
+     cmp al,1
+     jnz nafezP3ady
+     jmp ENDCHECKS  
+     nafezP3ady:  
+     mov al,1
+     mov [bx],al   
+endm Is_limitedP3    
+Is_limitedP5 macro  
+    local nafezP5ady
+     mov bx,offset LimitP51
+     add bl,player
+     mov al,[bx]
+     cmp al,1
+     jnz nafezP5ady
+     jmp ENDCHECKS  
+     nafezP5ady:
+     mov al,1
+     mov [bx],al   
+endm Is_limitedP5
+
+     
 
 .code
     main proc far
@@ -598,6 +612,7 @@ endm detectPoints
         checkEQUALITY pow3,instruction+2
         jmp CheckForP4
         YesPower3:
+        Is_limitedP3
         detectPoints 8
         MOV CL,player
         CMP CL,0
@@ -641,7 +656,8 @@ endm detectPoints
         CheckP5:
         checkEQUALITY pow5,instruction+2
         jmp lawnormal
-        ya3amP5:
+        ya3amP5:  
+        Is_limitedP5
         detectPoints 30  
         mov al,0
         mov cx,28

@@ -560,4 +560,23 @@ Flag_reg_check_POP macro
     POP FREG  
     al_POP:
     ;pop_all
-endm Flag_reg_check_POP 
+endm Flag_reg_check_POP      
+;--------------------
+decPoints macro num
+        mov bx,offset Point
+        add bl,player
+        mov al,[bx]
+        sub al,num
+        mov [bx],al 
+endm decPoints 
+detectPoints macro num 
+    local Hayenfa3pow
+    mov bx,offset Point
+    add bl,player
+    mov al,[bx]
+    cmp al,num
+    jae Hayenfa3pow
+    jmp ENDCHECKS
+    Hayenfa3pow: 
+    decPoints num
+endm detectPoints
