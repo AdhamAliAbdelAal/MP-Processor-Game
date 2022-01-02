@@ -1,7 +1,7 @@
 ;----------DETECT Instruction Half Register--------
 
 checkInsruction05 macro ins
-    
+    Flag_reg_check_PUSH
     checkINSEQUALITY ins,mov_str
     jnz Check_Add05
     POPF
@@ -181,5 +181,6 @@ checkInsruction05 macro ins
     MOV [BX],AL   
     jmp FoundInstruction05
     FoundInstruction05:   
-    PUSHF
+    PUSHF      
+    Flag_reg_check_POP
 endm checkInsruction05

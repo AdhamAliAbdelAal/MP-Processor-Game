@@ -176,7 +176,10 @@ DIREG2 dw 000BH
 BPREG2 dw ?
 
 memory db 0,1,2,3,4,5,6,7,8,9,0ah,0bh,0ch,0dh,0eh,0fh   
-memory2 db 16 dup(?)
+memory2 db 16 dup(?)   
+
+FREG dw 0
+FREG2 dw 0
 ;-----------------------------------------------
 
 ;------------------INSTRUCTION STRINGS---------------
@@ -516,7 +519,7 @@ endm detectPoints
         mov AX,@DATA
         mov DS,AX
         mov ES,AX
-        PUSHF
+        ;PUSHF
         
         ;;;;;;;;;;;;;;;;;;;;;;;;;;; first screen (Defining Usernames) 
         clear      

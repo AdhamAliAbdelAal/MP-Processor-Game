@@ -1,6 +1,7 @@
 ;---------------DETECT INSTRUCTION--------------
 
-checkInsruction macro ins 
+checkInsruction macro ins  
+    Flag_reg_check_PUSH
     checkINSEQUALITY ins,mov_str
     jnz Check_Add
     POPF
@@ -181,6 +182,7 @@ checkInsruction macro ins
     sub [bx],dx    
     jmp FoundInstruction   
     FoundInstruction:  
-    PUSHF
+    PUSHF   
+    Flag_reg_check_POP
 endm checkInsruction
 

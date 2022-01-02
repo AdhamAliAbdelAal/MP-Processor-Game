@@ -532,4 +532,32 @@ CheckWinner2 MACRO
     cong 2,WINNER,WON,cong_screen
     ex_p12:
     pop_all      
-ENDM CheckWinner2
+ENDM CheckWinner2    
+;-----Flag Register---------------
+Flag_reg_check_PUSH macro
+    local alFl
+    local FlP1
+    ;push_all 
+    cmp player,0
+    je FlP1
+    PUSH FREG2
+    jmp alFl
+    FlP1:
+    PUSH FREG  
+    alFl:    
+    ;pop_all
+endm Flag_reg_check_PUSH 
+;----------------------
+Flag_reg_check_POP macro 
+    local al_POP
+    local Fl_POP 
+    ;push_all
+    cmp player,0
+    je Fl_POP
+    POP FREG2
+    jmp al_POP
+    Fl_POP:
+    POP FREG  
+    al_POP:
+    ;pop_all
+endm Flag_reg_check_POP 
