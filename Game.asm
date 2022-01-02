@@ -370,13 +370,13 @@ notication db 80 DUP('$'),'$'
 	GUN DB 1h 
 	GUN2 DB 1h
 	
-	level_color db 0h
+	level_color db 0
 	
-	green_color db 0h
-	light_blue_color db 0h
-	yellow_color db 0h
-	red_color db 0h
-	blue_color db 0h  
+	green_color db 0
+	light_blue_color db 0
+	yellow_color db 0
+	red_color db 0
+	blue_color db 0  
 	 
 	 
 	Target_x dw 10h 
@@ -413,11 +413,11 @@ notication db 80 DUP('$'),'$'
                
      level_color2 db 0h
 	
-	green_color2 db 0h
-	light_blue_color2 db 0h
-	yellow_color2 db 0h
-	red_color2 db 0h
-	blue_color2 db 0h     
+	green_color2 db 0
+	light_blue_color2 db 0
+	yellow_color2 db 0
+	red_color2 db 0
+	blue_color2 db 0     
      turn db 0                  
 	 bullet db 0
 	 bullet2 db 0 
@@ -1646,7 +1646,9 @@ endm Is_limitedP5
 	    
 	    DRAW_BK 320,176,262,114,IMG4
         mov cl,1
+        
         enterins:
+        
         SelectProcessor
         CheckWinner1
         CheckWinner2
@@ -1658,6 +1660,8 @@ endm Is_limitedP5
         CONTINUE_GAME:
         DRAWREG_PLAYERS
         DrawTargetPoints
+        DrawTargetPoints2
+        mov_cursor 444ch
         readmsg instruction 
         checkEQUALITY pow1,instruction+2
         jmp Checkp2Jump 
@@ -1810,17 +1814,23 @@ endm Is_limitedP5
             ; CLEAR_SCREEN
              
              ;;;;;;;;;;;;;;;;;;
-                 
-             mov ah,2
-mov dx,0000h
-int 10h
-                                               
-                MOV AH, 06h   
+             MOV AH, 06h   
                 XOR AL, AL    
                 XOR CX, CX     
                 MOV DX, 184FH  
                 MOV BH, 0h    
                 INT 10H
+                 
+             draw_bk 153,117,0,0,img1
+	  
+	               
+	    DRAW_BK 56,176,0,117,IMG2
+	     
+	     
+	    DRAW_bk 320,113,171,0,IMG3 
+	    
+	    
+	    DRAW_BK 320,176,262,114,IMG4
                              
                                            
                          
@@ -1906,7 +1916,13 @@ int 10h
                 MOV bullet,0  
                 MOV bullet2,0
           mov gun,1
-          mov gun2,1   
+          mov gun2,1
+          MOV AH, 06h   
+                XOR AL, AL    
+                XOR CX, CX     
+                MOV DX, 184FH  
+                MOV BH, 0h    
+                INT 10H   
         jmp enterins
         ENDGAME:    
 HLT         

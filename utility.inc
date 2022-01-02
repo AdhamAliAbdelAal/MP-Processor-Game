@@ -725,8 +725,9 @@ Start:
 ENDM draw_bk
 
 print_dec2 macro num               
-       Push_all       
-       mov aL,NUM
+       Push_all
+       MOV AX,0       
+       mov aL, NUM
        mov cl,10
        div cl
        
@@ -754,7 +755,7 @@ DrawTargetPoints MACRO
         mov_cursor 6f14h
         print_dec2 light_blue_color   
         
-        mov_cursor 6f16h
+        mov_cursor 6f18h
         print_dec2 blue_color  
         
         mov_cursor 7310h
@@ -763,3 +764,20 @@ DrawTargetPoints MACRO
         mov_cursor 7314h
         print_dec2 red_color 
 ENDM DrawTargetPoints
+
+DrawTargetPoints2 MACRO
+        mov_cursor 6f18h
+        print_dec2 green_color2   
+        
+        mov_cursor 6f1ch
+        print_dec2 light_blue_color2   
+        
+        mov_cursor 6f20h
+        print_dec2 blue_color2  
+        
+        mov_cursor 7318h
+        print_dec2 yellow_color2  
+        
+        mov_cursor 731ch
+        print_dec2 red_color2 
+ENDM DrawTargetPoints2
