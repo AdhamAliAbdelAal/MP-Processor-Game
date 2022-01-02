@@ -15,94 +15,101 @@ read_num macro mydata  ;;Read num
      pop_all
 endm read_num 
 ;;*****************************       ;; read_number
-read_number macro ins,TEMP 
-    LOCAL MainLoop
-    LOCAL PreventShift
-    LOCAL Sizeloop 
-    LOCAL LOOP_MM 
-    LOCAL ZERO 
-    LOCAL EXIT 
-    LOCAL MM
-    push_all
-    MOV DX,0
-    MOV CL, 0
-    MOV BX, 0
-    
-    ;------Determine string size--------
-    Sizeloop:
-        MOV CH, BYTE PTR Ins[BX]
-        INC BX
-        INC CL
-        MOV AH,0DH
-        CMP CH, AH
-        JNE Sizeloop
+read_number macro ins,TEMP  
+    LOCAL MainLoop 
+    LOCAL PreventShift 
+    LOCAL Sizeloop  
+    LOCAL LOOP_MM  
+    LOCAL ZERO  
+    LOCAL EXIT  
+    LOCAL MM 
+    push_all 
+    MOV DX,0 
+    MOV CL, 0 
+    MOV BX, 0 
+     
+    ;------Determine string size-------- 
+    Sizeloop: 
+        MOV CH, BYTE PTR Ins[BX] 
+        INC BX 
+        INC CL 
+        MOV AH,0DH 
+        CMP CH, AH 
+        JNE Sizeloop 
+    DEC CL  
+      MOV DX,0  
+      MOV AX,0 
+    MOV AL,10 
+    MOV BL,CL  
     DEC CL 
-      MOV DX,0 
-      MOV AX,0
-    MOV AL,10
-    MOV BL,CL 
-    DEC CL
-    CMP CL,0
-    JZ  ZERO
-    DEC CL 
-    CMP CL,0
-    JZ MM
-    LOOP_MM:
-         MUL AL
+    CMP CL,0 
+    JZ  ZERO 
+    DEC CL  
+    CMP CL,0 
+    JZ MM 
+    LOOP_MM: 
+        MUL AL 
+        DEC CL  
+        JNZ LOOP_MM    
+        MOV CL,BL 
+        MOV DL,0     
+        MOV BX,0   
+        jmp  MainLoop 
+         
+        MM: 
+            MOV AL,10  
+            MOV CL,BL 
+            MOV DL,0     
+            MOV BX,0 
+     
+   MainLoop: 
+           MOV CH, BYTE PTR Ins[BX] 
+           SUB CH,30H 
+           push ax 
+           MUL CH  
+            
+           ADD DL,AL  
+           pop ax 
+            MOV DH, 10 
+            DIV DH 
+           INC BX 
          DEC CL 
-         JNZ LOOP_MM   
-          MOV CL,BL
-          MOV DL,0    
-    MOV BX,0  
-         jmp  MainLoop
-   
-    MM:
-      MOV AL,10 
-       MOV CL,BL
-    MOV DL,0    
-    MOV BX,0
-    
-   MainLoop:
-           MOV CH, BYTE PTR Ins[BX]
-           SUB CH,30H
-           MUL CH 
-           
-           ADD DL,AL
-            MOV DH, 10
-            DIV DH
-           INC BX
-         DEC CL
-    JNZ MainLoop
-    
-    mov TEMP,DL 
-    JMP EXIT   
-    
-      ZERO:
-       MOV BX,0
-        MOV CH,BYTE PTR Ins[BX] 
-          SUB CH,30H
-        MOV TEMP,CH  
-    EXIT:
-        pop_all
+        JNZ MainLoop 
+         
+        mov TEMP,DL  
+        JMP EXIT    
+         
+        ZERO: 
+        MOV BX,0 
+        MOV CH,BYTE PTR Ins[BX]  
+          SUB CH,30H 
+        MOV TEMP,CH   
+    EXIT: 
+        pop_all 
  endm  read_number
 ;;**************************** 
-start_screen macro                     ;; Start Screen
- push_all 
-    mov_cursor 0000h 
-    printmsg  GAME_Start_STR 
-    mov_cursor 062ch
-    readmsg  player_name
-    mov_cursor 0933h
-    readmsg  STR_Point
-    read_number STR_Point+2,POINT
-    mov_cursor 0C2Dh
-    readmsg  player_name2
-    mov_cursor 0F34h
-    readmsg  STR_Point2
-    read_number STR_Point2+2,POINT2  
-    wait_enter    
- pop_all
-endm start_screen   
+start_screen macro                     ;; Start Screen 
+ push_all  
+    mov_cursor 0000h  
+    printmsg  GAME_Start_STR  
+    mov_cursor 082ch 
+    readmsg  player_name 
+    mov_cursor 0b33h 
+    readmsg  STR_Point 
+    read_number STR_Point+2,POINT2 
+     
+    wait_enter 
+     clear     
+    mov_cursor 0000h  
+    printmsg GAME_Start2_STR 
+    mov_cursor 082ch 
+    readmsg  player_name2 
+    mov_cursor 0b33h 
+    readmsg  STR_Point2 
+    read_number STR_Point2+2,POINT   
+    wait_enter     
+ pop_all 
+endm start_screen
 ;;**************************** 
 main_screen macro                     ;; Main Screen 
      push_all          
@@ -221,4 +228,66 @@ SelectLevel MACRO
     printchar level 
     wait_enter    
  pop_all 
-ENDM SelectLevel 
+ENDM SelectLevel
+
+DrawInitialP1 MACRO
+     push_all
+    clear 
+    mov_cursor 0400h 
+    printmsg  InitialP1
+    MOV SI, 0827h
+    MOV BX, offset ALREG
+    MOV CX,7
+    JMP ReadIP1     
+    T:
+    JNZ ReadIP1
+    JMP LEAVEHAMDY
+    ReadIP1:
+    PUSH AX
+    PUSH CX
+    mov_cursor SI
+    readmsg regval
+    CheckSourceVal regval+2
+    POP CX
+    POP AX
+    MOV [BX], DX
+    ADD SI,0200h
+    ADD BX,2
+    DEC CX 
+    JMP T
+    LEAVEHAMDY:
+    mov_cursor SI
+    wait_enter    
+ pop_all     
+ENDM DrawInitialP1
+
+DrawInitialP2 MACRO
+    push_all
+    clear 
+    mov_cursor 0400h 
+    printmsg  InitialP2
+    MOV SI, 0827h
+    MOV BX, offset ALREG2
+    MOV CX,7
+    JMP ReadIP2     
+    T2:
+    JNZ ReadIP2
+    JMP LEAVEHAMDY2
+    ReadIP2:
+    PUSH AX
+    PUSH CX
+    mov_cursor SI
+    readmsg regval
+    CheckSourceVal regval+2
+    POP CX
+    POP AX
+    MOV [BX], DX
+    ADD SI,0200h
+    ADD BX,2
+    DEC CX 
+    JMP T2
+    LEAVEHAMDY2:
+    mov_cursor SI
+    wait_enter    
+ pop_all    
+ENDM DrawInitialP2

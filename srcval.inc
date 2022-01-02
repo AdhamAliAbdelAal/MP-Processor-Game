@@ -27,7 +27,10 @@ CheckSourceVal MACRO Ins
     DEC CL 
     ;----------------------------------- 
     CMP CL,0 
-    JE exit_AH11 
+    JE exit_AH11
+    CMP CL,4
+    JG exit_AH11
+     
     MOV DX, 0 
     MOV BX, 0   
     MainLoop: 

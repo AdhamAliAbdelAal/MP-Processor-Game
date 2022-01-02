@@ -9,7 +9,7 @@ include BasRel.inc
 include cute.inc
 include FL.inc
 include MAIN.inc     
-
+include GUN.INC
 .model huge
 .stack 64
 
@@ -75,7 +75,59 @@ Level_selection  db   '                                                       ',
     db   '                                                                    ',0ah,0dh
     DB   '$',0ah,0dh
   
-               
+InitialP1  db   '                                                             ',0ah,0dh
+    DB   '               =====================================================',0ah,0dh
+    DB   '               ||                                                  ||',0ah,0dh                                        
+    DB   '               ||            *    MP Processor Game   *            ||',0ah,0dh
+    DB   '               ||                                                  ||',0ah,0dh
+    DB   '               ||--------------------------------------------------||',0ah,0dh
+    DB   '               ||                    (PLAYER 1)                    ||',0ah,0dh
+    DB   '               ||                                                  ||',0ah,0dh 
+    DB   '               ||                   AX:                            ||',0ah,0dh   
+    DB   '               ||                                                  ||',0ah,0dh
+    DB   '               ||                   BX:                            ||',0ah,0dh
+    DB   '               ||                                                  ||',0ah,0dh   
+    DB   '               ||                   CX:                            ||',0ah,0dh
+    DB   '               ||                                                  ||',0ah,0dh
+    DB   '               ||                   DX:                            ||',0ah,0dh
+    DB   '               ||                                                  ||',0ah,0dh
+    DB   '               ||                   SI:                            ||',0ah,0dh
+    DB   '               ||                                                  ||',0ah,0dh
+    DB   '               ||                   DI:                            ||',0ah,0dh
+    DB   '               ||                                                  ||',0ah,0dh
+    DB   '               ||                   BP:                            ||',0ah,0dh         
+    DB   '                ====================================================',0ah,0dh  
+    db   '                                                                    ',0ah,0dh     
+    db   '                                                                    ',0ah,0dh
+    DB   '$',0ah,0dh
+    
+InitialP2  db   '                                                             ',0ah,0dh
+    DB   '               =====================================================',0ah,0dh
+    DB   '               ||                                                  ||',0ah,0dh                                        
+    DB   '               ||            *    MP Processor Game   *            ||',0ah,0dh
+    DB   '               ||                                                  ||',0ah,0dh
+    DB   '               ||--------------------------------------------------||',0ah,0dh
+    DB   '               ||                    (PLAYER 2)                    ||',0ah,0dh
+    DB   '               ||                                                  ||',0ah,0dh 
+    DB   '               ||                   AX:                            ||',0ah,0dh   
+    DB   '               ||                                                  ||',0ah,0dh
+    DB   '               ||                   BX:                            ||',0ah,0dh
+    DB   '               ||                                                  ||',0ah,0dh   
+    DB   '               ||                   CX:                            ||',0ah,0dh
+    DB   '               ||                                                  ||',0ah,0dh
+    DB   '               ||                   DX:                            ||',0ah,0dh
+    DB   '               ||                                                  ||',0ah,0dh
+    DB   '               ||                   SI:                            ||',0ah,0dh
+    DB   '               ||                                                  ||',0ah,0dh
+    DB   '               ||                   DI:                            ||',0ah,0dh
+    DB   '               ||                                                  ||',0ah,0dh
+    DB   '               ||                   BP:                            ||',0ah,0dh         
+    DB   '                ====================================================',0ah,0dh  
+    db   '                                                                    ',0ah,0dh     
+    db   '                                                                    ',0ah,0dh
+    DB   '$',0ah,0dh
+  
+regval db 10,?, 10 dup('$')               
 ;---------------------REGISTERS---------------------  
 ;xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
 
@@ -204,30 +256,52 @@ GAME_Main_STR  db   '        ',0ah,0dh
     DB   80 DUP('-'),'$',0ah,0dh  
     DB   '$',0ah,0dh 
            
-GAME_Start_STR  db   '        ',0ah,0dh
-    DB   '                ====================================================',0ah,0dh
-    DB   '               ||                                                  ||',0ah,0dh                                        
-    DB   '               ||            *    MP Processor Game   *            ||',0ah,0dh
-    DB   '               ||                                                  ||',0ah,0dh
-    DB   '               ||--------------------------------------------------||',0ah,0dh 
-    DB   '               ||  Enter your First Player:                        ||',0ah,0dh
-    DB   '               ||                                                  ||',0ah,0dh
-    DB   '               ||                                                  ||',0ah,0dh      
-    DB   '               ||  Intial Points for First Player:                 ||',0ah,0dh
+GAME_Start2_STR  db   '        ',0ah,0dh 
+    DB   '                ====================================================',0ah,0dh 
+    DB   '               ||                                                  ||',0ah,0dh                                         
+    DB   '               ||            *    MP Processor Game   *            ||',0ah,0dh 
+    DB   '               ||                                                  ||',0ah,0dh 
+    DB   '               ||--------------------------------------------------||',0ah,0dh  
+    DB   '               ||                                                  ||',0ah,0dh    
+    DB   '               ||                                                  ||',0ah,0dh 
+    DB   '               ||  Enter your Second Player:                       ||',0ah,0dh 
+    DB   '               ||                                                  ||',0ah,0dh    
+    DB   '               ||                                                  ||',0ah,0dh    
+    DB   '               ||  Intial Points for Second Player:                ||',0ah,0dh 
+    DB   '               ||                                                  ||',0ah,0dh    
     DB   '               ||                                                  ||',0ah,0dh   
-    DB   '               ||                                                  ||',0ah,0dh
-    DB   '               ||  Enter your Second Player:                       ||',0ah,0dh
+    DB   '               ||               Press Enter key to continue        ||',0ah,0dh  
+    DB   '               ||                   * MAX point 200 *              ||',0ah,0dh 
+    DB   '               ||               * MAX Name 15 characters *         ||',0ah,0dh    
+    DB   '                ====================================================',0ah,0dh   
+    db   '                                                                    ',0ah,0dh      
+    db   '                                                                    ',0ah,0dh 
+    DB   '$',0ah,0dh  
+    
+    
+   GAME_Start_STR  db   '        ',0ah,0dh 
+    DB   '                ====================================================',0ah,0dh 
+    DB   '               ||                                                  ||',0ah,0dh                                         
+    DB   '               ||            *    MP Processor Game   *            ||',0ah,0dh 
+    DB   '               ||                                                  ||',0ah,0dh 
+    DB   '               ||--------------------------------------------------||',0ah,0dh  
+    DB   '               ||                                                  ||',0ah,0dh 
     DB   '               ||                                                  ||',0ah,0dh   
+    DB   '               ||  Enter your First Player:                        ||',0ah,0dh 
+    DB   '               ||                                                  ||',0ah,0dh 
+    DB   '               ||                                                  ||',0ah,0dh       
+    DB   '               ||  Intial Points for First Player:                 ||',0ah,0dh 
+    DB   '               ||                                                  ||',0ah,0dh    
+    DB   '               ||                                                  ||',0ah,0dh 
+    DB   '               ||                                                  ||',0ah,0dh    
     DB   '               ||                                                  ||',0ah,0dh   
-    DB   '               ||  Intial Points for Second Player:                ||',0ah,0dh
-    DB   '               ||                                                  ||',0ah,0dh   
-    DB   '               ||                                                  ||',0ah,0dh  
-    DB   '               ||               Press Enter key to continue        ||',0ah,0dh
-    DB   '               ||               * MAX Name 15 characters *         ||',0ah,0dh   
-    DB   '                ====================================================',0ah,0dh  
-    db   '                                                                    ',0ah,0dh     
-    db   '                                                                    ',0ah,0dh
-    DB   '$',0ah,0dh 
+    DB   '               ||               Press Enter key to continue        ||',0ah,0dh  
+    DB   '               ||                   * MAX point 200 *              ||',0ah,0dh        
+    DB   '               ||               * MAX Name 15 characters *         ||',0ah,0dh    
+    DB   '                ====================================================',0ah,0dh   
+    db   '                                                                    ',0ah,0dh      
+    db   '                                                                    ',0ah,0dh 
+    DB   '$',0ah,0dh
       
 msg_name db 9,9,9,"Enter your name:" ,10,13," $"
 msg_point db 9,9,9,"intial points:",10,13," $"
@@ -251,7 +325,90 @@ get2_STR  DB 'Sent a game invitation tO you ','$'
 
 
 begin_nof db 0      
-notication db 80 DUP('$'),'$'          
+notication db 80 DUP('$'),'$'   
+;;------------------- gun ----------------------- 
+	WINDOW_HEIGHT_TOP DW 64h                ;the height of the window (200 pixels)  
+    WINDOW_HEIGHT_BOTTOM DW 96h 
+    PADDLE_VELOCITY_Y DW 3h
+     
+    WINDOW_WIDTH DW 7Dh                 ;the width of the window (320 pixels)
+	WINDOW_HEIGHT DW 0a0h                ;the height of the window (200 pixels)
+	
+	
+   
+   TIME_AUX DB 0                        ;variable used when checking if the time has changed
+	                     
+    BALL_X DW 28h                       ;current X position (column) of the ball
+	BALL_Y DW 96h                        ;current Y position (line) of the ball
+	BALL_SIZE DW 06h                     ;size of the ball (how many pixels does the ball have in width and height)
+BALL_VELOCITY_Y DW 14h   
+	
+	
+	PADDLE_LEFT_X DW 1Eh                 ;current X position of the left paddle
+	PADDLE_LEFT_Y DW 96h                 ;current Y position of the left paddle
+	;PLAYER_ONE_POINTS DB 0              ;current points of the left player (player one)
+	
+	PADDLE_RIGHT_X DW 0BAh               ;current X position of the right paddle
+	PADDLE_RIGHT_Y DW 96h                ;current Y position of the right paddle
+	;PLAYER_TWO_POINTS DB 0             ;current points of the right player (player two)
+	
+	PADDLE_WIDTH DW 06h                  ;default paddle width
+	PADDLE_HEIGHT DW 25h                 ;default paddle height
+	PADDLE_VELOCITY DW 0Fh               ;default paddle velocity   
+	
+	GUN DB 1h
+	level_color db 0h
+	
+	green_color db 0h
+	light_blue_color db 0h
+	yellow_color db 0h
+	red_color db 0h
+	blue_color db 0h  
+	 
+	 
+	Target_x dw 10h 
+	Target_y dw 10h
+	Target_Velocity dw 4h 
+	Target_SIZE DW 10h 
+	
+	;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;mahmoud
+	
+	level2_color db 0h
+	
+	Target2_x dw 0A5h  
+	Target2_y dw 10h
+	Target2_Velocity dw 1h 
+	Target2_SIZE DW 10h 
+	
+	BALL2_X DW 0C4h                       ;current X position (column) of the ball
+	BALL2_Y DW 96h                        ;current Y position (line) of the ball
+	BALL2_SIZE DW 06h                     ;size of the ball (how many pixels does the ball have in width and height)
+	BALL2_VELOCITY_X DW 05h               ;X (horizontal) velocity of the ball
+	BALL2_VELOCITY_Y DW 14h   
+	
+	
+	WINDOW_WIDTH2 DW 122h ;270             
+	WINDOW_HEIGHT2 DW 0C8h               
+	
+	
+	
+	LEFT_PADDEL_LIMIT_FROM_LEFT  DW 5h
+	RIGHT_PADDEL_LIMIT_FROM_LEFT  DW 0AAh
+    Target1_start_x	DW 0h 
+    Target2_start_x	DW 0A5h
+               
+               
+     level_color2 db 0h
+	
+	green_color2 db 0h
+	light_blue_color2 db 0h
+	yellow_color2 db 0h
+	red_color2 db 0h
+	blue_color2 db 0h     
+     turn db 0                  
+	 bullet db 0
+	 bullet2 db 0 
+       
 ;-------------------POWER UPS--------------------
 pow1 db "P1$" 
 pow2 db "P2$"
@@ -261,6 +418,7 @@ pow5 db "P5$"
 
 OFFSET_P4 dw ?      
 IS_P4 db 1
+REGSCLEARED DB 0
 ;------------------------------------------------
 Target1_VAL_STR db  10,?,10 duP('$') 
 Target2_VAL_STR db  10,?,10 duP('$') 
@@ -339,6 +497,21 @@ endm detectPoints
         ;;;;;;;;;;;;;;;;;;;;;;;;;;; second screen (Main Screen) 
         clear     
         main_screen
+        
+        MOV AL,level
+        SUB AL,30h
+        CMP AL,1
+        JMP FIXX1
+        IP1: 
+        DrawInitialP1
+        DrawInitialP2
+        ; TARGET 1
+        ; TARGET 2
+        JMP CONT1
+        FIXX1:
+        JE CONT1
+        JMP IP1
+        CONT1:
         GO
         ;Draw_BK
         mov cl,1
@@ -348,14 +521,15 @@ endm detectPoints
         checkEQUALITY pow1,instruction+2
         jmp Checkp2Jump 
         OkP1:
-        detectPoints 5  
+        detectPoints 5
+        decPoints 5   
         INPUTFIELD 444ch
         resetins instruction+2
         readmsg instruction 
         xor player,1
         CALL executeInstruction 
         xor player,1
-        decPoints 5 
+        
         jmp ENDCHECKS      
         
         Checkp2Jump:
@@ -367,7 +541,8 @@ endm detectPoints
         checkEQUALITY pow2,instruction+2
         jmp Checkp3Jump
         OkP2:
-        detectPoints 3  
+        detectPoints 3
+        decPoints 3  
         INPUTFIELD 444ch
         resetins instruction+2
         readmsg instruction 
@@ -375,7 +550,7 @@ endm detectPoints
         xor player,1  
         CALL executeInstruction
         xor player,1
-        decPoints 3
+        
         jmp ENDCHECKS
         
         Checkp3Jump:
@@ -386,7 +561,8 @@ endm detectPoints
         checkEQUALITY pow3,instruction+2
         jmp CheckForP4
         YesPower3:
-        detectPoints 8 
+        detectPoints 8
+        decPoints 8 
         MOV CL,player
         CMP CL,0
         jmp TestFlTest
@@ -395,7 +571,7 @@ endm detectPoints
         MOV FL_changed2,CL
         FL_screen2
         GO
-        decPoints 8
+        
         jmp ENDCHECKS 
         TestFlTest:
         je ch0
@@ -405,7 +581,7 @@ endm detectPoints
         MOV FL_changed1,CL
         FL_screen
         GO 
-        decPoints 8         
+                 
         jmp ENDCHECKS
         
         CheckForP4:
@@ -459,14 +635,136 @@ endm detectPoints
         
         ENDCHECKS:
         resetins instruction+2 
-        xor player,1  
+        xor player,1
+             ;---------------------------------------
+             MOV AH, 00h  ; interrupts to get system time        
+   INT 1AH      ; CX:DX now hold number of clock ticks since midnight      
+                ; lets just take the lower bits of DL for a start..
+   MOV BH, 57   ; set limit to 57 (ASCII for 9) 
+   MOV AH, DL  
+   CMP AH, BH   ; compare with value in  DL,      
+   JA RANDOM ; if more, regenerate. if not, continue... 
+
+   MOV BH, 0  ; set limit to 48 (ASCII FOR 0)
+   MOV AH, DL   
+   CMP AH, BH   ; compare with value in DL
+   JB RANDOM ; if less, regenerate.   
+        
+         JMP  CHECK_TIME
+        RANDOM:
+         JMP enterins
+     ;-------------------------------------------------------------
+          CHECK_TIME: 
+                 
+        MOV AH,2Ch
+       INT 21h
+        
+        CMP DL,TIME_AUX  
+        JE  CHECK_TIME
+        
+        MOV TIME_AUX,DL     ;UPDATE TIME
+        
+        
+            ; CLEAR_SCREEN
+             
+             ;;;;;;;;;;;;;;;;;;
+                 
+             mov ah,2
+mov dx,0000h
+int 10h
+                                               
+                MOV AH, 06h   
+                XOR AL, AL    
+                XOR CX, CX     
+                MOV DX, 184FH  
+                MOV BH, 0h    
+                INT 10H
+                             
+                             
+           DRAW_LINE                  
+             cmp turn,5
+             jl first 
+                jmp check
+               first:
+               
+                           
+          Move_Target  Target_x, Target_y,WINDOW_WIDTH,Target1_start_x  
+           Draw_Target  Target_x, Target_y   
+            
+          
+             
+            MOVE_PADDLES PADDLE_LEFT_X,PADDLE_LEFT_Y, BALL_X,BALL_Y,WINDOW_WIDTH ,LEFT_PADDEL_LIMIT_FROM_LEFT,bullet          ;move the two paddles 
+                Draw_paddles
+         
+                
+            
+            
+			  CMP GUN,0            ;; if fire or not
+		    JE fire_f
+		  
+		   jmp not_fire_loop_f 
+		       
+           fire_f:
+           
+           
+         MOVE_BALL BALL_X,BALL_Y, Target_x , Target_y,PADDLE_LEFT_X,PADDLE_LEFT_Y,Target1_start_x,green_color,light_blue_color,yellow_color,red_color,blue_color,point     
+         Draw_Ball  BALL_X,BALL_Y
+      
+          not_fire_loop_f:
+            JMP  CHECK_TIME    
+               
+            
+             check:
+                cmp turn,10
+             jl second 
+                jmp exit
+              
+                 
+            second:   
+               Move_Target  Target2_x , Target2_y,WINDOW_WIDTH2,Target2_start_x
+		     Draw_Target  Target2_x , Target2_y 
+		        
+		        
+		       MOVE_PADDLES PADDLE_RIGHT_X,PADDLE_RIGHT_Y, BALL2_X,BALL2_Y,WINDOW_WIDTH2 ,RIGHT_PADDEL_LIMIT_FROM_LEFT,bullet2          ;move the two paddles
+                Draw_paddles
+         
+                 
+            
+            
+			CMP GUN,0            ;; if fire or not
+		    JE fire_s
+		  
+		   jmp not_fire_loop_s 
+		       
+           fire_s:
+           
+           
+         MOVE_BALL BALL2_X,BALL2_Y, Target2_x , Target2_y,PADDLE_RIGHT_X,PADDLE_RIGHT_Y,Target2_start_x,green_color2,light_blue_color2,yellow_color2,red_color2,blue_color2,point2     
+         Draw_Ball  BALL2_X,BALL2_Y
+      
+          not_fire_loop_s:
+               
+        JMP  CHECK_TIME
+         exit:
+     
+                MOV TURN,0
+   
+                MOV bullet,0  
+                MOV bullet2,0
+                  
+                CLEAR_SCREEN
+     ;--------------------------------------   
+        
+        
+       
         jmp enterins    
 HLT         
 main endp
 ;----------------EXECUTE INSTRUCTION---------------- 
 
 executeInstruction PROC near 
-    push_all       
+    push_all
+    INPUTFIELD 494ch       
     cmp player,0
     jz playerOne
     mov al,FL2
@@ -475,6 +773,7 @@ executeInstruction PROC near
     mov al,FL1
     HAMDYEDIT:
     mov cl,instruction+1
+    ADD CL,1
     mov ch,0 
     mov di,2
     add di,offset instruction 
@@ -623,16 +922,16 @@ executeInstruction PROC near
     decPoints 1
     jmp leaveexecute
     TestForbidden:
-    PUSHF
+    ;PUSHF
     ;mov_cursor 404ch
-    ;printhexa cx 
-    POPF
+     
+    ;POPF
     jnz Forbidden
     jmp YallaNafez
     Forbidden:
     mov_cursor 494ch
     printmsg forbidden_Letter
-    decPoints 1
+    ;decPoints 1
     xor player,1
     leaveexecute: 
     MOV checkDesSize, 100
