@@ -480,7 +480,8 @@ detectPoints macro num
     cmp al,num
     jae Hayenfa3pow
     jmp ENDCHECKS
-    Hayenfa3pow:
+    Hayenfa3pow: 
+    decPoints num
 endm detectPoints
 
 
@@ -505,8 +506,8 @@ endm detectPoints
         IP1: 
         DrawInitialP1
         DrawInitialP2
-        ; TARGET 1
-        ; TARGET 2
+         ;TARGET 1
+         ;TARGET 2
         JMP CONT1
         FIXX1:
         JE CONT1
@@ -522,7 +523,6 @@ endm detectPoints
         jmp Checkp2Jump 
         OkP1:
         detectPoints 5
-        decPoints 5   
         INPUTFIELD 444ch
         resetins instruction+2
         readmsg instruction 
@@ -541,8 +541,7 @@ endm detectPoints
         checkEQUALITY pow2,instruction+2
         jmp Checkp3Jump
         OkP2:
-        detectPoints 3
-        decPoints 3  
+        detectPoints 3  
         INPUTFIELD 444ch
         resetins instruction+2
         readmsg instruction 
@@ -562,7 +561,6 @@ endm detectPoints
         jmp CheckForP4
         YesPower3:
         detectPoints 8
-        decPoints 8 
         MOV CL,player
         CMP CL,0
         jmp TestFlTest
@@ -595,7 +593,6 @@ endm detectPoints
         ya3amP4:
         detectPoints 2 
         mov IS_P4,0
-        decPoints 2
         INPUTFIELD 494ch
         jmp ENDCHECKS
          
@@ -611,8 +608,7 @@ endm detectPoints
         mov al,0
         mov cx,28
         MOV DI,offset ALREG
-        REP STOSB
-        decPoints 30 
+        REP STOSB 
         INPUTFIELD 494ch
         jmp ENDCHECKS
         lawnormal:

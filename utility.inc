@@ -391,11 +391,11 @@ DRAWREG_PLAYERS MACRO
     draw  3A39h,bp
     add bp,2
     drawbyte 0018h,bp
-    mov_cursor 5000h
+    mov_cursor 4a3bh
     mov DH,Point
     MOV DL,0
     printhexa05 DX
-    mov_cursor 5039h
+    mov_cursor 4a1bh
     mov DH,Point2
     MOV DL,0
     printhexa05 DX
