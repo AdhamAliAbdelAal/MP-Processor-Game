@@ -431,10 +431,10 @@ TARGET1_STR  db   '        ',0ah,0dh
     DB   '               ||            *    MP Processor Game   *            ||',0ah,0dh 
     DB   '               ||                                                  ||',0ah,0dh 
     DB   '               ||--------------------------------------------------||',0ah,0dh  
-    DB   '               ||                                                  ||',0ah,0dh 
+    DB   '               ||                     (Player 1)                   ||',0ah,0dh 
     DB   '               ||                                                  ||',0ah,0dh 
     DB   '               ||                                                  ||',0ah,0dh       
-    DB   '               ||  Target of First Player:                         ||',0ah,0dh 
+    DB   '               ||  Choose Target for the second player:            ||',0ah,0dh 
     DB   '               ||                                                  ||',0ah,0dh 
     DB   '               ||                                                  ||',0ah,0dh 
     DB   '               ||                                                  ||',0ah,0dh   
@@ -449,10 +449,10 @@ TARGET1_STR  db   '        ',0ah,0dh
     DB   '               ||            *    MP Processor Game   *            ||',0ah,0dh 
     DB   '               ||                                                  ||',0ah,0dh 
     DB   '               ||--------------------------------------------------||',0ah,0dh  
-    DB   '               ||                                                  ||',0ah,0dh 
+    DB   '               ||                     (Player 2)                   ||',0ah,0dh 
     DB   '               ||                                                  ||',0ah,0dh 
     DB   '               ||                                                  ||',0ah,0dh       
-    DB   '               ||  Target of second Player:                        ||',0ah,0dh 
+    DB   '               ||  Choose Target for the first player:             ||',0ah,0dh 
     DB   '               ||                                                  ||',0ah,0dh 
     DB   '               ||                                                  ||',0ah,0dh 
     DB   '               ||                                                  ||',0ah,0dh   
@@ -517,6 +517,7 @@ endm detectPoints
         mov DS,AX
         mov ES,AX
         PUSHF
+        
         ;;;;;;;;;;;;;;;;;;;;;;;;;;; first screen (Defining Usernames) 
         clear      
         start_screen   
@@ -551,7 +552,7 @@ endm detectPoints
         RAND_END:
         JMP ENDGAME
         CONTINUE_GAME:
-        DRAWREG_PLAYERS 
+        DRAWREG_PLAYERS
         readmsg instruction 
         checkEQUALITY pow1,instruction+2
         jmp Checkp2Jump 

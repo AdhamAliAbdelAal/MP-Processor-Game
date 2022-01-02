@@ -107,7 +107,17 @@ start_screen macro                     ;; Start Screen
     mov_cursor 0b33h 
     readmsg  STR_Point2 
     read_number STR_Point2+2,POINT2   
-    wait_enter     
+    wait_enter
+    
+    MOV AH,POINT
+    MOV AL,POINT2
+    CMP AH,AL
+    JNC POINT_AKBAR
+    MOV POINT2,AH
+    JMP EX_CHOOSE
+    POINT_AKBAR:
+    MOV POINT,AL
+    EX_CHOOSE:     
  pop_all 
 endm start_screen
 ;;**************************** 
