@@ -422,8 +422,8 @@ REGSCLEARED DB 0
 ;------------------------------------------------
 Target1_VAL_STR db  10,?,10 duP('$') 
 Target2_VAL_STR db  10,?,10 duP('$') 
-TARGET1 DW ? 
-TARGET2 DW ?
+TARGET1 DW 105Eh 
+TARGET2 DW 105Eh
 ;------------Targets screen----------
 TARGET1_STR  db   '        ',0ah,0dh 
     DB   '                ====================================================',0ah,0dh 
@@ -460,6 +460,32 @@ TARGET1_STR  db   '        ',0ah,0dh
     db   '                                                                    ',0ah,0dh      
     db   '                                                                    ',0ah,0dh 
     DB   '$',0ah,0dh
+    
+number db ?
+WINNER DB 'CONGRATULATIONS PLAYER',' $'
+WON DB ' HAS WON$'
+
+  
+  
+cong_screen    db   '        ',0ah,0dh
+    DB   '                ====================================================',0ah,0dh
+    DB   '               ||                                                  ||',0ah,0dh                                        
+    DB   '               ||            *    MP Processor Game   *            ||',0ah,0dh
+    DB   '               ||                                                  ||',0ah,0dh
+    DB   '               ||--------------------------------------------------||',0ah,0dh 
+    DB   '               ||                                                  ||',0ah,0dh
+    DB   '               ||                                                  ||',0ah,0dh      
+    DB   '               ||                                                  ||',0ah,0dh
+    DB   '               ||                                                  ||',0ah,0dh   
+    DB   '               ||                                                  ||',0ah,0dh
+    DB   '               ||                                                  ||',0ah,0dh
+    DB   '               ||GAME HAS ENDED                                    ||',0ah,0dh   
+    DB   '               ||                                                  ||',0ah,0dh         
+    DB   '                ====================================================',0ah,0dh  
+    db   '                                                                    ',0ah,0dh     
+    db   '                                                                    ',0ah,0dh
+    DB   '$',0ah,0dh   
+      
 ;-------------------------------- 
 ;------Initial Points---------
 POINT DB ?
@@ -506,8 +532,8 @@ endm detectPoints
         IP1: 
         DrawInitialP1
         DrawInitialP2
-         ;TARGET 1
-         ;TARGET 2
+        TAGET_1
+        TAGET_2
         JMP CONT1
         FIXX1:
         JE CONT1
@@ -517,6 +543,7 @@ endm detectPoints
         ;Draw_BK
         mov cl,1
         enterins:
+        CheckWinner1
         DRAWREG_PLAYERS 
         readmsg instruction 
         checkEQUALITY pow1,instruction+2

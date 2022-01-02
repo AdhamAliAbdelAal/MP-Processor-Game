@@ -391,11 +391,11 @@ DRAWREG_PLAYERS MACRO
     draw  3A39h,bp
     add bp,2
     drawbyte 0018h,bp
-    mov_cursor 4a3bh
+     mov_cursor 4a1bh
     mov DH,Point
     MOV DL,0
     printhexa05 DX
-    mov_cursor 4a1bh
+    mov_cursor 4a3bh
     mov DH,Point2
     MOV DL,0
     printhexa05 DX
@@ -404,9 +404,10 @@ ENDM DRAWREG_PLAYERS
 ;;****************************  
 ;;--------------- cahnge target first player---------------- 
 taget_1 macro 
- push_all    
- printmsg  TARGET1_STR 
-   mov_cursor 0000h  
+ push_all
+ clear
+ mov_cursor 0000h    
+ printmsg  TARGET1_STR   
     mov_cursor 092ch 
     readmsg  Target1_VAL_STR  
     CheckSourceVal  Target1_VAL_STR+2 
@@ -417,7 +418,8 @@ endm taget_1
 ;;*******************************    
 ;;--------------- cahnge target second player---------------- 
 taget_2 macro 
- push_all              
+ push_all
+ clear              
  mov_cursor 0000h 
  printmsg  TARGET2_STR  
      mov_cursor 092ch 
@@ -436,3 +438,53 @@ mov al,3
 int 10h 
 pop_all   
 endm Text_Mode
+
+;-----------------------------------------
+
+CONG macro NUM,MSG1,MSG2,msg3 
+                       ;; Clear string 
+     
+    clear   
+    
+    mov_cursor 0000h  
+    
+    
+      
+    printmsg MSG3  
+     
+    mov_cursor 081AH
+    printmsg MSG1
+           
+    mov ah,2
+    mov dl,number
+    add dl,30h
+    int 21h 
+           
+    printmsg MSG2     
+    
+ENDM cong
+
+;-----------------------------------------
+
+CheckWinner1 MACRO ; Check regs l tany 3la Target1
+    local Player1_WON
+    local ex_p11
+    push_all
+    MOV AX,TARGET2
+    MOV DI, offset AXREG2
+    MOV CX,7
+    REPNE SCASW
+    cmp cx,0
+    JNE Player1_WON
+    jmp ex_p11
+    Player1_WON:
+    cong 1,WINNER,WON,cong_screen
+    ex_p11:
+    pop_all     
+ENDM CheckWinner1
+
+;-----------------------------------------
+
+CheckWinner2 MACRO
+     
+ENDM CheckWinner2

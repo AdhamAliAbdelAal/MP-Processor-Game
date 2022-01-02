@@ -96,7 +96,7 @@ start_screen macro                     ;; Start Screen
     readmsg  player_name 
     mov_cursor 0b33h 
     readmsg  STR_Point 
-    read_number STR_Point+2,POINT2 
+    read_number STR_Point+2,POINT 
      
     wait_enter 
      clear     
@@ -106,7 +106,7 @@ start_screen macro                     ;; Start Screen
     readmsg  player_name2 
     mov_cursor 0b33h 
     readmsg  STR_Point2 
-    read_number STR_Point2+2,POINT   
+    read_number STR_Point2+2,POINT2   
     wait_enter     
  pop_all 
 endm start_screen
