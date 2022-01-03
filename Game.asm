@@ -1839,22 +1839,22 @@ endm Is_limitedP5
         resetins instruction+2 
         xor player,1
         ;---------------------------------------
-             MOV AH, 00h  ; interrupts to get system time        
-   INT 1AH      ; CX:DX now hold number of clock ticks since midnight      
-                ; lets just take the lower bits of DL for a start..
-   MOV BH, 57   ; set limit to 57 (ASCII for 9) 
-   MOV AH, DL  
-   CMP AH, BH   ; compare with value in  DL,      
-   JA RANDOM ; if more, regenerate. if not, continue... 
+        MOV AH, 00h        
+        INT 1AH          
+                
+        MOV BH, 57   ; 57 --> ASCII for (9) 
+        MOV AH, DL  
+        CMP AH, BH      
+        JA RANDOM  
 
-   MOV BH, 48  ; set limit to 48 (ASCII FOR 0)
-   MOV AH, DL   
-   CMP AH, BH   ; compare with value in DL
-   JB RANDOM ; if less, regenerate.   
+        MOV BH, 48   ; 48 --> ASCII for (0)
+        MOV AH, DL   
+        CMP AH, BH
+        JB RANDOM 
         
-         JMP  CHECK_TIME
+        JMP  CHECK_TIME
         RANDOM:
-         JMP enterins
+        JMP enterins
      ;-------------------------------------------------------------
      PUSH_ALL
           CLEAR_SCREEN
