@@ -203,7 +203,7 @@ endm   Draw_paddles
                        local MOVE_P_R_L_N
                        local MOVE_P_R_U_N
                        local MOVE_P_R_D_N
-                       
+                       local end_near
                        
                        push_all
            ;       Left paddle movement
@@ -287,6 +287,11 @@ endm   Draw_paddles
 		 CMP AL,51H  
 		 
 		  JE lol2
+		  
+		  cmp AH,3Eh
+		  jne end_near 
+		  jmp toScoreScreen
+		  end_near:
 		    ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;; 
 		  momo:  
 		 jmp EXIT_PADDLE_MOVEMENT   
