@@ -1730,6 +1730,16 @@ endm Is_limitedP5
         MOV FL_changed2,CL
         FL_screen2
         GO
+        draw_bk 153,117,0,0,img1
+	  
+	               
+	    DRAW_BK 56,176,0,117,IMG2
+	     
+	     
+	    DRAW_bk 320,113,173,0,IMG3 
+	    
+	    
+	    DRAW_BK 320,176,262,114,IMG4
         
         jmp ENDCHECKS 
         TestFlTest:
@@ -1739,7 +1749,17 @@ endm Is_limitedP5
         MOV CL,1
         MOV FL_changed1,CL
         FL_screen
-        GO 
+        GO
+        draw_bk 153,117,0,0,img1
+	  
+	               
+	    DRAW_BK 56,176,0,117,IMG2
+	     
+	     
+	    DRAW_bk 320,113,173,0,IMG3 
+	    
+	    
+	    DRAW_BK 320,176,262,114,IMG4 
                  
         jmp ENDCHECKS
         
@@ -1827,7 +1847,7 @@ endm Is_limitedP5
    CMP AH, BH   ; compare with value in  DL,      
    JA RANDOM ; if more, regenerate. if not, continue... 
 
-   MOV BH, 0  ; set limit to 48 (ASCII FOR 0)
+   MOV BH, 48  ; set limit to 48 (ASCII FOR 0)
    MOV AH, DL   
    CMP AH, BH   ; compare with value in DL
    JB RANDOM ; if less, regenerate.   
@@ -2131,17 +2151,31 @@ executeInstruction PROC near
     checkInsruction05  instruction+2
     jmp leaveexecute
     invalidop:     
-    mov_cursor 4a4ch
     MOV AL,LEVEL
     SUB AL,30H
     CMP AL,1
     je ccc
-    printmsg invalid
+    cmp player,1
+    je inv_p1
+    mov al,processor1
+    sub al,30h
+    cmp al,2
+    je ccc
+    jmp cont_inv
+    inv_p1:
+    mov al,processor2
+    sub al,30h
+    cmp al,1
+    je ccc
+    cont_inv:
     xor player,1
     decPoints 1
     xor player,1
+    mov_cursor 4a4ch
+    printmsg invalid
     JMP leaveexecute
     ccc:
+    mov_cursor 4a4ch
     printmsg invalid
     decPoints 1
     jmp leaveexecute
