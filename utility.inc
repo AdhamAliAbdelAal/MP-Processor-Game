@@ -13,6 +13,9 @@ endm printmsg
 readmsg macro ins2
     local st
     local ex
+    local IsToScore
+    local KammelHena 
+    LOCAL OUTOFREAD 
 PUSH_ALL
 mov cl,0
 mov BX,offset ins2
@@ -22,6 +25,9 @@ mov ah,0
 int 16h
 cmp aL,0Dh
 je ex
+cmp ah,3eh
+jmp IsToScore
+KammelHena:
 inc cl
 
 mov [BX],al
@@ -34,7 +40,12 @@ jmp st
 ex:
 MOV [BX],AL
 mov BX,offset ins2
-mov [BX+1],cl 
+mov [BX+1],cl
+JMP OUTOFREAD
+IsToScore:
+jne KammelHena
+jmp toScoreScreen 
+OUTOFREAD:
 POP_ALL    
 endm readmsg
 

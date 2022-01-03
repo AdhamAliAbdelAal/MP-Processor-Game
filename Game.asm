@@ -1942,11 +1942,12 @@ endm Is_limitedP5
                 INT 10H   
         jmp enterins
         mov cx,546
-
+        toScoreScreen:
         DrawPointsScreen
         loop_5_s:
         dec cx
-        jnz st
+        jnz loop_5_s
+        ;HAMDY jmp to main screen
         ENDGAME:    
 HLT         
 main endp
