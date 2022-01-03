@@ -10,12 +10,32 @@ endm printmsg
 
 ;--------------READ MESSAGE---------------------
 
-readmsg macro msg   
-    push_all    
-    mov ah,0ah
-    mov dx,offset msg
-    int 21h         
-    pop_all
+readmsg macro ins2
+    local st
+    local ex
+PUSH_ALL
+mov cl,0
+mov BX,offset ins2
+ADD BX,2
+st:
+mov ah,0
+int 16h
+cmp aL,0Dh
+je ex
+inc cl
+
+mov [BX],al
+inc BX
+mov ah,2
+mov dl,al
+int 21h
+jmp st
+
+ex:
+MOV [BX],AL
+mov BX,offset ins2
+mov [BX+1],cl 
+POP_ALL    
 endm readmsg
 
 ;--------------READ CHAR------------------------
@@ -781,3 +801,16 @@ DrawTargetPoints2 MACRO
         mov_cursor 731ch
         print_dec2 red_color2 
 ENDM DrawTargetPoints2
+
+DrawPointsScreen MACRO
+    push_all
+    clear 
+    mov_cursor 0400h 
+    printmsg Points_Screen 
+    mov_cursor 0c1Fh
+    print_dec point 
+    mov_cursor 0c3Eh
+    print_dec point2 
+    wait_enter    
+ pop_all        
+ENDM DrawPointsScreen

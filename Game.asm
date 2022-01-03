@@ -131,6 +131,22 @@ InitialP2  db   '                                                             ',
     db   '                                                                    ',0ah,0dh     
     db   '                                                                    ',0ah,0dh
     DB   '$',0ah,0dh
+    
+Points_Screen  db   '                                                            ',0ah,0dh
+    DB   '        ===============================================================',0ah,0dh
+    DB   '        ||                                                           ||',0ah,0dh                                        
+    DB   '        ||              *    MP Processor Game   *                   ||',0ah,0dh
+    DB   '        ||                                                           ||',0ah,0dh
+    DB   '        ||-----------------------------------------------------------||',0ah,0dh 
+    DB   '        ||                            |                              ||',0ah,0dh   
+    DB   '        ||                            |                              ||',0ah,0dh
+    DB   '        ||   Player 1 (Points):       |     Player 2 (Points):       ||',0ah,0dh
+    DB   '        ||                            |                              ||',0ah,0dh   
+    DB   '        ||                            |                              ||',0ah,0dh         
+    DB   '        ===============================================================',0ah,0dh  
+    db   '                                                                    ',0ah,0dh     
+    db   '                                                                    ',0ah,0dh
+    DB   '$',0ah,0dh
   
 regval db 10,?, 10 dup('$')               
 ;---------------------REGISTERS---------------------  
@@ -1629,6 +1645,7 @@ endm Is_limitedP5
         DrawInitialP2
         TAGET_1
         TAGET_2
+        DrawPointsScreen
         JMP CONT1
         FIXX1:
         JE CONT1
@@ -1787,7 +1804,7 @@ endm Is_limitedP5
    CMP AH, BH   ; compare with value in  DL,      
    JA RANDOM ; if more, regenerate. if not, continue... 
 
-   MOV BH, 30  ; set limit to 48 (ASCII FOR 0)
+   MOV BH, 0  ; set limit to 48 (ASCII FOR 0)
    MOV AH, DL   
    CMP AH, BH   ; compare with value in DL
    JB RANDOM ; if less, regenerate.   
@@ -1924,6 +1941,12 @@ endm Is_limitedP5
                 MOV BH, 0h    
                 INT 10H   
         jmp enterins
+        mov cx,546
+
+        DrawPointsScreen
+        loop_5_s:
+        dec cx
+        jnz st
         ENDGAME:    
 HLT         
 main endp
