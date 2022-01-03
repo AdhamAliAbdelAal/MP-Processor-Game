@@ -454,7 +454,7 @@ endm wait_enter
 ;;**************************** 
 DRAWREG_PLAYERS MACRO
     LOCAL printFL
-    LOCAL ex_f1
+    LOCAL ex_fl
     INPUTFIELD 444ch
     ;player one drawings
     mov bp,0
@@ -508,10 +508,7 @@ taget_1 macro
     mov_cursor 0937h 
     readmsg  Target1_VAL_STR  
     CheckSourceVal  Target1_VAL_STR+2 
-    mov target1,dx
-    mov_cursor 0C32h
-    readchar Processor1
-    printchar Processor1  
+    mov target1,dx 
     wait_enter  
  pop_all 
 endm taget_1 
@@ -526,10 +523,7 @@ taget_2 macro
     readmsg  Target2_VAL_STR  
     
      CheckSourceVal  Target2_VAL_STR+2 
-    mov target2,dx
-    mov_cursor 0C32h
-    readchar Processor2
-    printchar Processor2   
+    mov target2,dx  
     wait_enter  
  pop_all 
 endm taget_2
@@ -586,6 +580,8 @@ CheckWinner1 MACRO ; Check regs l tany 3la Target1
     chfix:
     jmp cont_check
     testfathi:
+    MOV CL,1
+    MOV FE_PLAYER_KESEB,CL
     cong 2,WINNER,WON,cong_screen
     jmp ex_p11
     cont_check:
@@ -619,6 +615,8 @@ CheckWinner2 MACRO
     chfix2:
     jmp cont_check2
     testfathi2:
+    MOV CL,1
+    MOV FE_PLAYER_KESEB,CL
     cong 1,WINNER,WON,cong_screen
     jmp ex_p12
     cont_check2:
@@ -693,20 +691,25 @@ SelectProcessor MACRO
     CMP AL,1
     
     JE EX_PROC
+    cmp Processor_Select,0
+    JE EX_PROC
     CMP player,0
     JE P0PROC
+    readchar Processor2
+    printchar Processor2
     MOV AH,Processor2
     SUB AH,30h
-    CMP AH,2
-    JNE EX_PROC
+    CMP AH,1
+    JE EX_PROC
     xor player,1
     JMP EX_PROC
     
     P0PROC:
+    readchar Processor1
+    printchar Processor1
     MOV Al,Processor1
     SUB Al,30h
     CMP Al,2
-    
     JE EX_PROC
     xor player,1
     EX_PROC:
@@ -797,31 +800,99 @@ DrawTargetPoints MACRO
 ENDM DrawTargetPoints
 
 DrawTargetPoints2 MACRO
-        mov_cursor 6f18h
+        mov_cursor 6f1Eh
         print_dec2 green_color2   
         
-        mov_cursor 6f1ch
+        mov_cursor 6f22h
         print_dec2 light_blue_color2   
         
-        mov_cursor 6f20h
+        mov_cursor 6f26h
         print_dec2 blue_color2  
         
-        mov_cursor 7318h
+        mov_cursor 7322h
         print_dec2 yellow_color2  
         
-        mov_cursor 731ch
-        print_dec2 red_color2 
+        mov_cursor 7326h
+        print_dec2 red_color2  
 ENDM DrawTargetPoints2
 
 DrawPointsScreen MACRO
+    LOCAL SEC5_LOOP
     push_all
-    clear 
+    clear
+    Text_Mode 
     mov_cursor 0400h 
     printmsg Points_Screen 
     mov_cursor 0c1Fh
     print_dec point 
     mov_cursor 0c3Eh
-    print_dec point2 
-    wait_enter    
+    print_dec point2
+    MOV BX,5
+    SEC5_LOOP:
+    MOV CX,0FH
+    MOV DX,4240H
+    MOV AH,86H
+    INT 15H
+    DEC BX
+    JNZ SEC5_LOOP 
  pop_all        
-ENDM DrawPointsScreen
+ENDM DrawPointsScreen 
+
+;mov ah,0
+ ;   int 16h
+  ;  mov ah,02ch        ; Get current second         
+   ;     int 021h
+    ;    mov bh,dh
+     ;   loop_5s:
+      ;  mov ah,02ch
+       ; int 021h
+       ; sub dh,05h        
+       ; cmp bh,dh                    
+       ; je loop_5s
+       
+blacked macro  n1,n2,n3,n4
+    LOCAL DRAWIT
+    LOCAL START
+    LOCAL ENDING
+           
+           
+           PuSH_ALL
+            
+        
+            
+          	;MOV AH,0Bh       
+	          	;set the configuration
+	       MOV CX, n1 	;set the width (X) up to image width (based on image resolution)
+	       MOV DX, n2 	;set the hieght (Y) up to image height (based on image resolution)
+	                  ; to iterate over the pixels
+	       jmp Start    	;Avoid drawing before the calculations
+	Drawit:
+	       MOV AH,0Ch   	;set the configuration to writing a pixel
+           mov al, 0H    ; color of the current coordinates
+	       MOV BH,00h   	;set the page number
+	       INT 10h      	;execute the configuration
+	Start: 
+	       dec cx       	;  loop iteration in x direction
+	       cmp cx,n3
+	       jne Drawit      	;  check if we can draw c urrent x and y and excape the y iteration
+	       mov Cx,n1  	;  if loop iteration in y direction, then x should start over so that we sweep the grid
+	       DEC DX
+	       cmp dx,n4
+	            	;  loop iteration in y direction
+	       Je  ENDING   	;  both x and y reached 00 so end program
+		   Jmp Drawit    
+		   POP_ALL  
+		   
+		  
+	ENDING:   
+    
+endm balacked
+
+PlayerTurn macro
+    mov_cursor 1701h
+    printmsg Player_Turn
+    mov_cursor 1708h
+    MOV AL,player
+    ADD AL,31h
+    printchar AL
+endm PlayerTurn
