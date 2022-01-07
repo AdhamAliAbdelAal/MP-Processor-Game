@@ -10,19 +10,33 @@ endm printmsg
 
 ;--------------READ MESSAGE---------------------
 
+;--------------READ MESSAGE---------------------
+
 readmsg macro ins2
     local st
     local ex
     local IsToScore
     local KammelHena 
     LOCAL OUTOFREAD 
+    LOCAL ana_Dah
+    LOCAL PressEnter
 PUSH_ALL
 mov cl,0
 mov BX,offset ins2
 ADD BX,2
 st:
+mov al,mainPlayer
+cmp player,al
+jz ana_Dah
+CALL receive
+mov al,VALUE
+jmp PressEnter
+ana_Dah:
 mov ah,0
 int 16h
+mov VALUE,al
+CALL send
+PressEnter:
 cmp aL,0Dh
 je ex
 cmp ah,3eh
