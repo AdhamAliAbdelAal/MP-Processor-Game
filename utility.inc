@@ -10,7 +10,6 @@ endm printmsg
 
 ;--------------READ MESSAGE---------------------
 
-;--------------READ MESSAGE---------------------
 
 readmsg macro ins2
     local st
