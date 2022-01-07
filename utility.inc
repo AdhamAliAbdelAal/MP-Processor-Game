@@ -455,11 +455,23 @@ clear macro                     ;; Clear string
 endm clear  
 ;;****************************   
 wait_enter macro
-    LOCAL Enter                     ;; Wait enter  
+    LOCAL Enter
+    LOCAL Enter5las            ;; Wait enter
+    LOCAL ana_hamdy  
     push_all
   Enter:
+    mov al,mainPlayer
+    cmp player,al
+    jz ana_hamdy
+    CALL receive
+    mov ah,VALUE
+    jmp Enter5las
+    ana_hamdy:
     mov ah,0
-    int 16h
+    int 16h 
+    mov VALUE,ah
+    CALL send
+    Enter5las: 
     cmp ah,1ch
   jnz Enter  
 pop_all                       
