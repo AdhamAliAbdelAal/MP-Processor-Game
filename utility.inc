@@ -539,7 +539,7 @@ DRAWREG_PLAYERS MACRO
 ENDM DRAWREG_PLAYERS
 ;;****************************  
 ;;--------------- cahnge target first player---------------- 
-taget_1 macro 
+taget_1 macro
  push_all
  clear
  mov_cursor 0000h    
@@ -553,7 +553,8 @@ taget_1 macro
 endm taget_1 
 ;;*******************************    
 ;;--------------- cahnge target second player---------------- 
-taget_2 macro 
+taget_2 macro
+     xor player,1 
  push_all
  clear              
  mov_cursor 0000h 
@@ -564,7 +565,8 @@ taget_2 macro
      CheckSourceVal  Target2_VAL_STR+2 
     mov target2,dx  
     wait_enter  
- pop_all 
+ pop_all    
+  xor player,1
 endm taget_2
 ;-----------------------------------------
 Text_Mode macro  
@@ -730,6 +732,8 @@ SelectProcessor MACRO
     LOCAL SP22
     LOCAL SP3
     LOCAL SP33
+    LOCAL SP4
+    LOCAL SP44
     push_all
     MOV AL,level
     SUB AL,30h
@@ -760,6 +764,7 @@ SelectProcessor MACRO
     CMP Al,2
     JE EX_PROC
     xor player,1
+    JMP EX_PROC
     SP1:
     JE EX_PROC
     JMP SP11
@@ -767,7 +772,7 @@ SelectProcessor MACRO
     JE EX_PROC
     JMP SP22
     SP3:
-    JE EX_PROC
+    JE P0PROC
     JMP SP33
     sp4:
     JE EX_PROC

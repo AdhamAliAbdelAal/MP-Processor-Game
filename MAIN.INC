@@ -272,6 +272,7 @@ DrawInitialP1 MACRO
 ENDM DrawInitialP1
 
 DrawInitialP2 MACRO
+    xor player,1
     push_all
     clear 
     mov_cursor 0400h 
@@ -299,5 +300,6 @@ DrawInitialP2 MACRO
     LEAVEHAMDY2:
     mov_cursor SI
     wait_enter    
- pop_all    
+ pop_all  
+ xor player,1  
 ENDM DrawInitialP2
