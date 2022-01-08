@@ -474,17 +474,15 @@ wait_enter macro
     LOCAL A5er_Check  
     push_all
     mov dx,0
-    mov bp,1c1ch
-    mov cl,1ch
     mov VALUE,0
   Enter:
-  cmp dl,cl
+  cmp dl,1ch
   jz Check4Send
   CALL receive_optional
   mov dl,VALUE
-  ;printmsg fortest
+  mov VALUE,0
   Check4Send:
-  cmp dh,cl
+  cmp dh,1ch
   jz A5er_Check
   mov ah,1
   int 16h
@@ -494,9 +492,9 @@ wait_enter macro
   mov VALUE,ah
   mov dh,VALUE
   CALL send_optional
+  mov VALUE,0
   A5er_Check:
-  printhexa dx
-  cmp dx,bp
+  cmp dx,1c1ch
   jnz Enter  
 pop_all                       
 endm wait_enter  
