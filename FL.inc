@@ -4,7 +4,7 @@ FL_screen macro ;; Start Screen
     Text_Mode
     mov_cursor 0400h 
     printmsg  FL_str1 
-    mov_cursor 0c37h
+    mov_cursor 0c32h
     readchar FL2
     printchar FL2 
     wait_enter    
@@ -16,8 +16,8 @@ FL_screen2 macro ;; Start Screen
     clear 
     Text_Mode
     mov_cursor 0400h 
-    printmsg  FL_str2
-    mov_cursor 0C37h
+    printmsg  FL_str1
+    mov_cursor 0C32h
     readchar FL1
     printchar FL1 
     wait_enter    

@@ -475,16 +475,15 @@ wait_enter macro
     push_all
     mov dx,0
     mov bp,1c1ch
-    mov cl,1ch
     mov VALUE,0
   Enter:
-  cmp dl,cl
+  cmp dl,1ch
   jz Check4Send
   CALL receive_optional
   mov dl,VALUE
-  ;printmsg fortest
+  mov VALUE,0
   Check4Send:
-  cmp dh,cl
+  cmp dh,1ch
   jz A5er_Check
   mov ah,1
   int 16h
@@ -494,8 +493,8 @@ wait_enter macro
   mov VALUE,ah
   mov dh,VALUE
   CALL send_optional
+  mov VALUE,0
   A5er_Check:
-  printhexa dx
   cmp dx,bp
   jnz Enter  
 pop_all                       
@@ -554,7 +553,7 @@ taget_1 macro
  clear
  mov_cursor 0000h    
  printmsg  TARGET1_STR   
-    mov_cursor 0937h 
+    mov_cursor 0936h 
     readmsg  Target1_VAL_STR  
     CheckSourceVal  Target1_VAL_STR+2 
     mov target1,dx 
@@ -568,7 +567,7 @@ taget_2 macro
  push_all
  clear              
  mov_cursor 0000h 
- printmsg  TARGET2_STR  
+ printmsg  TARGET1_STR  
      mov_cursor 0936h 
     readmsg  Target2_VAL_STR  
     

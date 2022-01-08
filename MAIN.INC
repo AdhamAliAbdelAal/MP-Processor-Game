@@ -245,7 +245,7 @@ DrawInitialP1 MACRO
     clear 
     mov_cursor 0400h 
     printmsg  InitialP1
-    MOV SI, 0827h
+    MOV SI, 0727h
     MOV BX, offset ALREG
     MOV CX,7
     JMP ReadIP1     
@@ -276,8 +276,8 @@ DrawInitialP2 MACRO
     push_all
     clear 
     mov_cursor 0400h 
-    printmsg  InitialP2
-    MOV SI, 0827h
+    printmsg  InitialP1
+    MOV SI, 0727h
     MOV BX, offset ALREG2
     MOV CX,7
     JMP ReadIP2     
