@@ -590,8 +590,8 @@ taget_1 macro
     inc ch
     mov VALUE,al
     mov dh,VALUE
-    mov VALUE,-1
     CALL send_optional
+    mov VALUE,-1
 
     shoofHakamel:
     cmp dx,0d0dh
@@ -629,8 +629,6 @@ taget_1 macro
     CheckSourceVal  Target2_VAL_STR+2 
     mov target2,dx
     yallaBara:
-    printhexa target1
-    printhexa target2
     ;wait_enter  
  pop_all 
 endm taget_1 

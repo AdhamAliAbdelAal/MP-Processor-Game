@@ -160,11 +160,7 @@ clear
     mov si,offset Target2_VAL_STR
     add si,1
     mov [si],ch
-    mov_cursor 1040H
-    ;printmsg Target1_VAL_STR+2 
-    mov_cursor 1240H
-    ;printmsg Target2_VAL_STR+2 
-    
+
     ;Checks 
     CheckSourceVal  Target1_VAL_STR+2 
     cmp mainPlayer,0
@@ -185,10 +181,6 @@ clear
     CheckSourceVal  Target2_VAL_STR+2 
     mov target2,dx
     yallaBara:
-    mov_cursor 1040H
-    printhexa target1
-    mov_cursor 1240H
-    printhexa target2
 hlt
 main endp
 ;---------------optional receive------------------------
