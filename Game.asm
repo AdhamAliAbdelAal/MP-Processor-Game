@@ -214,7 +214,7 @@ checkDesSize db 100
 checkSrcSize db 50
                
 ;---------------------------------------------------- 
-mainPlayer db 1
+mainPlayer db 0
 player db 0
 level db '1'
 value db ?

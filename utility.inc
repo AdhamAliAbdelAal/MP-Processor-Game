@@ -474,7 +474,6 @@ wait_enter macro
     LOCAL A5er_Check  
     push_all
     mov dx,0
-    mov bp,1c1ch
     mov VALUE,0
   Enter:
   cmp dl,1ch
@@ -495,7 +494,7 @@ wait_enter macro
   CALL send_optional
   mov VALUE,0
   A5er_Check:
-  cmp dx,bp
+  cmp dx,1c1ch
   jnz Enter  
 pop_all                       
 endm wait_enter  
@@ -553,7 +552,7 @@ taget_1 macro
  clear
  mov_cursor 0000h    
  printmsg  TARGET1_STR   
-    mov_cursor 0936h 
+    mov_cursor 0937h 
     readmsg  Target1_VAL_STR  
     CheckSourceVal  Target1_VAL_STR+2 
     mov target1,dx 
@@ -567,7 +566,7 @@ taget_2 macro
  push_all
  clear              
  mov_cursor 0000h 
- printmsg  TARGET1_STR  
+ printmsg  TARGET2_STR  
      mov_cursor 0936h 
     readmsg  Target2_VAL_STR  
     
