@@ -19,6 +19,7 @@ readmsg macro ins2
     LOCAL OUTOFREAD 
     LOCAL ana_Dah
     LOCAL PressEnter
+    clear_buffer
 PUSH_ALL
 mov cl,0
 mov BX,offset ins2
@@ -59,7 +60,6 @@ IsToScore:
 jne KammelHena
 jmp toScoreScreen 
 OUTOFREAD: 
-clear_buffer
 POP_ALL    
 endm readmsg
 
@@ -68,6 +68,7 @@ endm readmsg
 readchar macro char
     LOCAL mp1
     LOCAL read_char
+    clear_buffer
     push_all
     mov al,mainPlayer
     cmp player,al
@@ -84,18 +85,17 @@ readchar macro char
     mov ah,0
     int 16h
     mov char, al
-    clear_buffer
     pop_all    
 endm readchar
 
 ;--------------DISPLAY CHAR---------------------
 
 printchar macro char
-    push dx
+    push_all
     mov ah,2
-    mov dl,char
+    mov dl,al
     int 21h
-    pop dx
+    pop_all
 endm printchar
 
 ;--------------checkEQUALITY--------------------

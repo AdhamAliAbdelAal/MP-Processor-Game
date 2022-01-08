@@ -580,17 +580,17 @@ endm Is_limitedP5
         MAINHAMDY: 
         clear     
         ;main_screen
-        SelectLevel
+        ;SelectLevel
         
         MOV AL,level
         SUB AL,30h
         CMP AL,1
         JMP FIXX1
         IP1: 
-        ;DrawInitialP1
-        ;DrawInitialP2
-        ;TAGET_1
-        ;TAGET_2
+        DrawInitialP1
+        DrawInitialP2
+        TAGET_1
+        TAGET_2
         JMP CONT1
         FIXX1:
         JE CONT1
@@ -752,7 +752,7 @@ endm Is_limitedP5
          
         NORMALEXE:
         mov_cursor 444ch
-        SelectProcessor 
+        ;SelectProcessor 
         CALL executeInstruction
         ;--check for p4
         cmp IS_P4,0
