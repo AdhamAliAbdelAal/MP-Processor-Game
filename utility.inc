@@ -582,6 +582,9 @@ taget_1 macro
     jz target_main_loop
     mov ah,0
     int 16h
+    
+    printchar al
+    
     mov [si],al
     inc si
     inc ch

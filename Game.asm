@@ -214,7 +214,7 @@ checkDesSize db 100
 checkSrcSize db 50
                
 ;---------------------------------------------------- 
-mainPlayer db 0
+mainPlayer db 1
 player db 0
 level db '1'
 value db ?
@@ -529,18 +529,9 @@ endm Is_limitedP5
         CMP AL,1
         JMP FIXX1
         IP1:
-        CMP mainPlayer,0
-        JMP dp2
-        dpfix2:
-        DrawInitialP1
+        ;DrawInitialP1
         TAGET_1
-        jmp CONT1
-        dp2:
-        jne dp1
-        jmp dpfix2
-        dp1:
-        DrawInitialP2
-        TAGET_2
+        ;DrawInitialP2
         JMP CONT1
         FIXX1:
         JE CONT1
