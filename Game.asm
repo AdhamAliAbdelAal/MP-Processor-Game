@@ -38,14 +38,29 @@ FL_str1  db   '                                                                '
     DB   '        ||-----------------------------------------------------------||',0ah,0dh 
     DB   '        ||                                                           ||',0ah,0dh
     DB   '        ||                                                           ||',0ah,0dh      
-    DB   '        ||                Enter Forbidden Letter:                    ||',0ah,0dh
+    DB   '        ||           Enter Forbidden Letter (player 1):              ||',0ah,0dh
     DB   '        ||                                                           ||',0ah,0dh      
     DB   '        ||                                                           ||',0ah,0dh         
     DB   '        ===============================================================',0ah,0dh  
     db   '                                                                    ',0ah,0dh     
     db   '                                                                    ',0ah,0dh
     DB   '$',0ah,0dh
-
+    
+FL_str2  db   '                                                               ',0ah,0dh
+    DB   '        ===============================================================',0ah,0dh
+    DB   '        ||                                                           ||',0ah,0dh                                        
+    DB   '        ||              *    MP Processor Game   *                   ||',0ah,0dh
+    DB   '        ||                                                           ||',0ah,0dh
+    DB   '        ||-----------------------------------------------------------||',0ah,0dh 
+    DB   '        ||                                                           ||',0ah,0dh   
+    DB   '        ||                                                           ||',0ah,0dh
+    DB   '        ||           Enter Forbidden Letter (player 2):              ||',0ah,0dh
+    DB   '        ||                                                           ||',0ah,0dh   
+    DB   '        ||                                                           ||',0ah,0dh         
+    DB   '        ===============================================================',0ah,0dh  
+    db   '                                                                    ',0ah,0dh     
+    db   '                                                                    ',0ah,0dh
+    DB   '$',0ah,0dh
 FL_changed1 db 0
 FL_changed2 db 0
 
@@ -71,7 +86,7 @@ InitialP1  db   '                                                             ',
     DB   '               ||            *    MP Processor Game   *            ||',0ah,0dh
     DB   '               ||                                                  ||',0ah,0dh
     DB   '               ||--------------------------------------------------||',0ah,0dh
-    DB   '               ||                                                  ||',0ah,0dh
+    DB   '               ||                    (PLAYER 1)                    ||',0ah,0dh
     DB   '               ||                                                  ||',0ah,0dh 
     DB   '               ||                   AX:                            ||',0ah,0dh   
     DB   '               ||                                                  ||',0ah,0dh
@@ -85,13 +100,37 @@ InitialP1  db   '                                                             ',
     DB   '               ||                                                  ||',0ah,0dh
     DB   '               ||                   DI:                            ||',0ah,0dh
     DB   '               ||                                                  ||',0ah,0dh
-    DB   '               ||                   BP:                            ||',0ah,0dh
-    DB   '               ||                                                  ||',0ah,0dh         
+    DB   '               ||                   BP:                            ||',0ah,0dh         
     DB   '                ====================================================',0ah,0dh  
     db   '                                                                    ',0ah,0dh     
     db   '                                                                    ',0ah,0dh
     DB   '$',0ah,0dh
-
+    
+InitialP2  db   '                                                             ',0ah,0dh
+    DB   '               =====================================================',0ah,0dh
+    DB   '               ||                                                  ||',0ah,0dh                                        
+    DB   '               ||            *    MP Processor Game   *            ||',0ah,0dh
+    DB   '               ||                                                  ||',0ah,0dh
+    DB   '               ||--------------------------------------------------||',0ah,0dh
+    DB   '               ||                    (PLAYER 2)                    ||',0ah,0dh
+    DB   '               ||                                                  ||',0ah,0dh 
+    DB   '               ||                   AX:                            ||',0ah,0dh   
+    DB   '               ||                                                  ||',0ah,0dh
+    DB   '               ||                   BX:                            ||',0ah,0dh
+    DB   '               ||                                                  ||',0ah,0dh   
+    DB   '               ||                   CX:                            ||',0ah,0dh
+    DB   '               ||                                                  ||',0ah,0dh
+    DB   '               ||                   DX:                            ||',0ah,0dh
+    DB   '               ||                                                  ||',0ah,0dh
+    DB   '               ||                   SI:                            ||',0ah,0dh
+    DB   '               ||                                                  ||',0ah,0dh
+    DB   '               ||                   DI:                            ||',0ah,0dh
+    DB   '               ||                                                  ||',0ah,0dh
+    DB   '               ||                   BP:                            ||',0ah,0dh         
+    DB   '                ====================================================',0ah,0dh  
+    db   '                                                                    ',0ah,0dh     
+    db   '                                                                    ',0ah,0dh
+    DB   '$',0ah,0dh
     
 Points_Screen  db   '                                                            ',0ah,0dh
     DB   '        ===============================================================',0ah,0dh
@@ -218,7 +257,19 @@ mainPlayer db 1
 player db 0
 level db '1'
 value db ?
-
+;;------------- temp no wait----------
+ pointer_no_1 dw 2
+ pointer_no_2 dw 2
+ pointer_no_1_of dw ?
+ pointer_no_2_of dw ? 
+ NO_ENTER_1 DB 0
+ NO_ENTER_2 DB 0 
+ NO_MOUSE DW 0
+ if_f2_1 db 0
+ if_f2_2 db 0
+ if_f1_1 db 0
+ if_f1_2 db 0
+;;---------------
 pointer dw ?   
 GAME_Main_STR  db   '        ',0ah,0dh
     DB   '                ====================================================',0ah,0dh
@@ -295,20 +346,22 @@ msg_point db 9,9,9,"intial points:",10,13," $"
 msg_keyEnter db 9,9,9,"Press enter key to continue $"
 
 
-STR_Point db  10,?,10 duP('$')
-STR_Point2 db  10,?,10 duP('$')  
+STR_Point db  7,?,7 duP('$')
+STR_Point2 db  7,?,7 duP('$')  
 player_name db 15,?,15 dup('$') 
-player_name2 db 15,?,15 dup('$') 
+player_name2 db 15,?,15 dup('$')
+player_name_TEMP DB  15,?,15 dup('$')
+player_name2_TEMP DB 15,?,15 dup('$')
 tab db 9,9,9,'$'      
     
 
 emptysttr db "$"        
 ClEAR_LINE    DB 80 DUP(' '),'$'
-F1_STR  DB '-You send a chat invitation to ','$'
-F2_STR  DB '-You send a game invitation to ','$'
+F1_STR  DB '-You send a chat invitation  ','$'
+F2_STR  DB '-You send a game invitation  ','$'
 
-get1_STR  DB 'Sent a chat invitation tO you ','$'
-get2_STR  DB 'Sent a game invitation tO you ','$'
+get1_STR  DB '-You Have a chat invitation  ','$'
+get2_STR  DB '-You Have a game invitation  ','$'
 
 
 begin_nof db 0      
@@ -426,10 +479,10 @@ TARGET1_STR  db   '        ',0ah,0dh
     DB   '               ||            *    MP Processor Game   *            ||',0ah,0dh 
     DB   '               ||                                                  ||',0ah,0dh 
     DB   '               ||--------------------------------------------------||',0ah,0dh  
-    DB   '               ||                                                  ||',0ah,0dh 
+    DB   '               ||                     (Player 1)                   ||',0ah,0dh 
     DB   '               ||                                                  ||',0ah,0dh 
     DB   '               ||                                                  ||',0ah,0dh       
-    DB   "               ||      Choose your Opponent's target:              ||",0ah,0dh
+    DB   '               ||  Choose Target for the second player:            ||',0ah,0dh
     DB   '               ||                                                  ||',0ah,0dh
     DB   '               ||                                                  ||',0ah,0dh  
     DB   '               ||                                                  ||',0ah,0dh   
@@ -437,6 +490,24 @@ TARGET1_STR  db   '        ',0ah,0dh
     db   '                                                                    ',0ah,0dh      
     db   '                                                                    ',0ah,0dh 
     DB   '$',0ah,0dh  
+  
+  TARGET2_STR  db   '        ',0ah,0dh 
+    DB   '                ====================================================',0ah,0dh 
+    DB   '               ||                                                  ||',0ah,0dh                                         
+    DB   '               ||            *    MP Processor Game   *            ||',0ah,0dh 
+    DB   '               ||                                                  ||',0ah,0dh 
+    DB   '               ||--------------------------------------------------||',0ah,0dh  
+    DB   '               ||                     (Player 2)                   ||',0ah,0dh 
+    DB   '               ||                                                  ||',0ah,0dh 
+    DB   '               ||                                                  ||',0ah,0dh       
+    DB   '               ||  Choose Target for the first player:             ||',0ah,0dh 
+    DB   '               ||                                                  ||',0ah,0dh
+    DB   '               ||                                                  ||',0ah,0dh     
+    DB   '               ||                                                  ||',0ah,0dh   
+    DB   '                ====================================================',0ah,0dh   
+    db   '                                                                    ',0ah,0dh      
+    db   '                                                                    ',0ah,0dh 
+    DB   '$',0ah,0dh
 
 Processor1 db 2
 Processor2 db 1    
@@ -517,21 +588,23 @@ endm Is_limitedP5
         
         ;;;;;;;;;;;;;;;;;;;;;;;;;;; first screen (Defining Usernames) 
         clear      
-        ;start_screen   
-                             
+        start_screen   
+                          
         ;;;;;;;;;;;;;;;;;;;;;;;;;;; second screen (Main Screen)
         MAINHAMDY: 
         clear     
-        ;main_screen
+        main_screen
         SelectLevel
+        
         MOV AL,level
         SUB AL,30h
         CMP AL,1
         JMP FIXX1
-        IP1:
-        ;DrawInitialP1
+        IP1: 
+        DrawInitialP1
+        DrawInitialP2
         TAGET_1
-        ;DrawInitialP2
+        TAGET_2
         JMP CONT1
         FIXX1:
         JE CONT1
@@ -731,25 +804,155 @@ endm Is_limitedP5
         resetins instruction+2 
         xor player,1
         ;---------------------------------------
-        ;MOV AH, 00h        
-        ;INT 1AH          
+        MOV AH, 00h        
+        INT 1AH          
                 
-        ;MOV BH, 57   ; 57 --> ASCII for (9) 
-        ;MOV AH, DL  
-        ;CMP AH, BH      
-        ;JA RANDOM  
+        MOV BH, 57   ; 57 --> ASCII for (9) 
+        MOV AH, DL  
+        CMP AH, BH      
+        JA RANDOM  
 
-        ;MOV BH, 48   ; 48 --> ASCII for (0)
-        ;MOV AH, DL   
-        ;CMP AH, BH
-        ;JB RANDOM 
+        MOV BH, 48   ; 48 --> ASCII for (0)
+        MOV AH, DL   
+        CMP AH, BH
+        JB RANDOM 
         
-        ;JMP  CHECK_TIME
-        ;RANDOM:
+        JMP  CHECK_TIME
+        RANDOM:
         JMP enterins
      ;-------------------------------------------------------------
-     ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;GUN;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-     ;-------------------------------------------------------------
+     PUSH_ALL
+          CLEAR_SCREEN
+        ; get the system time 
+       CHECK_TIME: 
+       
+       
+                 
+        MOV AH,2Ch
+       INT 21h
+        
+        CMP DL,TIME_AUX  
+        JE  CHECK_TIME
+        
+        MOV TIME_AUX,DL     ;UPDATE TIME
+        
+        
+            ; CLEAR_SCREEN
+             
+             ;;;;;;;;;;;;;;;;;;
+            ; MOV AH, 06h   
+             ;   XOR AL, AL    
+             ;   XOR CX, CX     
+             ;   MOV DX, 184FH  
+            ;   MOV BH, 0h    
+            ;    INT 10H
+         ;          MOV AH,00h
+        ;MOV AL,02
+        ;INT 10h      
+       ; ccealr
+       blacked 192,48,128,0
+	      
+	 blacked 173,200,145,48
+	 
+	 blacked 262,200,56,113
+	 
+	 blacked 320,200,0,176
+	    
+      ; DrawTargetPoints
+      ; DrawTargetPoints2 
+      ; DRAWREG_PLAYERS
+         ;draw_bk 153,117,0,0,img1
+	  
+	               
+	    ;DRAW_BK 56,176,0,117,IMG2
+	     
+	     
+	    ;DRAW_bk 320,113,173,0,IMG3 
+	    
+	    
+	    ;DRAW_BK 320,176,262,114,IMG4
+                             
+                                           
+             cmp turn,5
+             jl first 
+                jmp exitGUN
+               first:
+               
+                           
+          Move_Target  Target_x, Target_y,WINDOW_WIDTH2,Target1_start_x  
+           Draw_Target  Target_x, Target_y   
+            
+          
+             
+            MOVE_PADDLES           ;move the two paddles 
+                Draw_paddles
+         
+                
+            
+            
+			  CMP GUN,0            ;; if fire or not
+		    JE fire_f
+		  
+		   jmp not_fire_loop_f 
+		   
+		   
+		   
+		       
+           fire_f:
+           
+           
+         MOVE_BALL BALL_X,BALL_Y, Target_x , Target_y,PADDLE_LEFT_X,PADDLE_LEFT_Y,Target1_start_x,green_color,light_blue_color,yellow_color,red_color,blue_color,POINT,GUN     
+         Draw_Ball  BALL_X,BALL_Y,color_ball
+      
+          not_fire_loop_f:     
+          
+           
+			CMP GUN2,0            ;; if fire or not
+		    JE fire_s
+		  
+		   jmp not_fire_loop_s 
+		       
+           fire_s:
+           
+           
+         MOVE_BALL BALL2_X,BALL2_Y, Target_x , Target_y,PADDLE_RIGHT_X,PADDLE_RIGHT_Y,Target1_start_x,green_color2,light_blue_color2,yellow_color2,red_color2,blue_color2,POINT2,GUN2     
+         Draw_Ball  BALL2_X,BALL2_Y,color_ball2
+      
+          not_fire_loop_s:
+          
+          
+            JMP  CHECK_TIME    
+               
+
+         exitGUN:
+         MOV TURN,0
+               MOV level_color,0
+                MOV bullet,0  
+                MOV bullet2,0
+          mov gun,1
+          mov gun2,1   
+        blacked 192,48,128,0
+	      
+	 blacked 173,200,145,48
+	 
+	 blacked 262,200,56,113
+	 
+	 blacked 320,200,0,176
+           DrawTargetPoints
+       DrawTargetPoints2 
+       DRAWREG_PLAYERS
+          ;draw_bk 153,117,0,0,img1
+	  
+	               
+	    ;DRAW_BK 56,176,0,117,IMG2
+	     
+	     
+	    ;DRAW_bk 320,113,173,0,IMG3 
+	    
+	    
+	    ;DRAW_BK 320,176,262,114,IMG4
+	    POP_ALL  
+        jmp enterins
         toScoreScreen:
         DrawPointsScreen         
         JMP MAINHAMDY
@@ -979,7 +1182,6 @@ init endp
 ;--------------------------------------------
 ;-------------Receive------------------------
 receive proc near 
-push_all
 mov dx , 3FDH ; Line Status Register  
 
 CHK:
@@ -990,14 +1192,13 @@ jz CHK
 mov dx , 03F8H
 in al , dx
 mov VALUE , al
-pop_all
+
 ret
 receive endp
 ;--------------------------------------------------
 
 ;---------------------Send------------------------
 send proc near
-push_all
 mov dx , 3FDH ; Line Status Register   
 
 CheckSend:
@@ -1010,12 +1211,11 @@ mov al,VALUE
 out dx , al
 
 
-pop_all
+
 ret
 send endp
 ;------------------------------------------------------
-
-;---------------optional receive------------------------
+ ;---------------optional receive------------------------
 receive_optional proc near 
 push_all
 mov dx , 3FDH ; Line Status Register

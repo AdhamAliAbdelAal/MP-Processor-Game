@@ -13,7 +13,108 @@ read_num macro mydata  ;;Read num
     add cl,al
     mov mydata,cl 
      pop_all
-endm read_num 
+endm read_num  
+ ;;************************************************************
+ 
+;---------------------init no Wait------------------------                  
+init_no macro 
+    mov dx,3fbh ; Line Control Register
+    mov al,10000000b ;Set Divisor Latch Access Bit
+    out dx,al ;Out it            
+    mov dx,3f8h
+    mov al,0ch 
+    out dx,al
+    mov dx,3f9h
+    mov al,00h
+    out dx,al
+    mov dx,3fbh
+    mov al,00011011b
+    out dx,al
+    
+endm init_no  
+;------------------------------------------------------  
+
+;-------------Receive no wait------------------------
+receive_no macro       
+    local enter_es
+    local CHK_no_eee 
+mov dx , 3FDH ; Line Status Register
+in al , dx
+AND al,1
+jz CHK_no_eee
+
+mov dx , 03F8H
+in al , dx
+cmp aL,0Dh 
+jz enter_es
+mov VALUE , al
+mov bx, pointer_no_2_of
+add bx,  pointer_no_2
+mov ah,0DH
+mov al,VALUE
+mov [bx],ax 
+inc pointer_no_2
+jmp CHK_no_eee
+enter_es:  
+inc NO_ENTER_2        
+mov cx,pointer_no_2
+sub cx,2
+mov al,15
+mov ah,cl
+mov bx, pointer_no_2_of  
+mov [bx], ax
+mov bx,offset STR_Point2
+mov pointer_no_2_of,bx
+mov pointer_no_2,2
+;inc di
+CHK_no_eee:
+
+endm receive_no 
+;-------------------------------------------------- 
+      ;;BYTE PTR
+;---------------------Send no wait------------------------
+send_no macro 
+    local CheckSend_no_e
+    local enter_es2 
+    local ll
+mov dx , 3FDH ; Line Status Register
+In al , dx ;Read Line Status
+AND al , 00100000b
+JnZ ll
+jmp CheckSend_no_e
+ll:
+mov dx , 3F8H ; Transmit data register
+mov al,VALUE
+out dx , al
+ 
+ cmp al,0Dh 
+jz enter_es2 
+mov bx, pointer_no_1_of
+add bx,  pointer_no_1
+mov ah,0DH
+mov al,VALUE
+mov [bx],ax
+inc pointer_no_1
+jmp CheckSend_no_e
+enter_es2: 
+mov NO_MOUSE , 0b33h 
+mov_cursor NO_MOUSE 
+INC NO_ENTER_1
+mov cx,pointer_no_1
+sub cx,2
+mov al,15
+mov ah,cl
+mov bx, pointer_no_1_of  
+mov [bx], ax
+mov bx,offset STR_Point
+mov pointer_no_1_of,bx
+mov pointer_no_1,2
+;inc si
+
+CheckSend_no_e:
+;ret
+ endm send_no
+;------------------------------------------------------
 ;;*****************************       ;; read_number
 read_number macro ins,TEMP  
     LOCAL MainLoop 
@@ -86,28 +187,116 @@ read_number macro ins,TEMP
         MOV TEMP,CH   
     EXIT: 
         pop_all 
- endm  read_number
-;;**************************** 
-start_screen macro                     ;; Start Screen 
- push_all  
+endm  read_number  
+;;*************************
+readmacr macro  
+    local exit  
+     push_all
+mov ah,1
+int 16h
+jz exit
+mov ah,0
+int 16h
+
+mov VALUE ,al
+pop_all
+exit:
+endm readmacr 
+;;-------------------------------------
+wait_enter_eslam macro
+    LOCAL Enter                     ;; Wait enter  
+    push_all
+  Enter:
+    mov ah,0
+    int 16h
+    cmp ah,1ch
+  jnz Enter  
+pop_all                       
+endm wait_enter  
+;;****************************    
+wait_enter macro
+    LOCAL Enter
+    LOCAL Check4Send            ;; Wait enter
+    LOCAL A5er_Check  
+    push_all
+    mov dx,0
+    mov VALUE,0
+  Enter:
+  cmp dl,1ch
+  jz Check4Send
+  CALL receive_optional
+  mov dl,VALUE
+  mov VALUE,0
+  Check4Send:
+  cmp dh,1ch
+  jz A5er_Check
+  mov ah,1
+  int 16h
+  jz A5er_Check
+  mov ah,0
+  int 16h
+  mov VALUE,ah
+  mov dh,VALUE
+  CALL send_optional
+  mov VALUE,0
+  A5er_Check:
+  cmp dx,1c1ch
+  jnz Enter  
+pop_all                       
+endm wait_enter
+;;********************************
+start_screen macro                     ;; Start Screen
+    local L_eslam
+    local exit
+    local exit_e
+    local d
+    local kk
+    local jj  
+ push_all 
+ mov bx , offset player_name
+ mov pointer_no_1_of,bx
+ mov bx , offset player_name2
+ mov pointer_no_2_of,bx             
+    call init
     mov_cursor 0000h  
     printmsg  GAME_Start_STR  
-    mov_cursor 082ch 
-    readmsg  player_name 
-    mov_cursor 0b33h 
-    readmsg  STR_Point 
-    read_number STR_Point+2,POINT 
-     
-    wait_enter 
-     clear     
-    mov_cursor 0000h  
-    printmsg GAME_Start2_STR 
-    mov_cursor 082ch 
-    readmsg  player_name2 
-    mov_cursor 0b33h 
-    readmsg  STR_Point2 
-    read_number STR_Point2+2,POINT2   
-    wait_enter
+    mov_cursor 082ch  
+   mov NO_MOUSE ,082ch 
+       L_eslam:
+             ;call receive_no_e
+             receive_no
+                
+                mov ah,1
+                int 16h
+                jnz kk
+                jmp exit
+                kk:
+                
+                mov ah,0
+                int 16h
+                 cmp NO_ENTER_1,2
+                 jl jj
+                  jmp exit
+                  jj: 
+                mov VALUE ,al 
+                inc NO_MOUSE
+                 mov_cursor NO_MOUSE
+                mov ah,2
+                mov dl,VALUE
+                int 21h
+            ;call send_no_e
+             send_no 
+        exit:
+        mov cl,0
+        add cl,NO_ENTER_2
+        add  cl,NO_ENTER_1
+        cmp cl,4
+        jl d
+        jmp exit_e
+        d:
+        jmp L_eslam 
+        
+    exit_e:  
     
     MOV AH,POINT
     MOV AL,POINT2
@@ -119,53 +308,73 @@ start_screen macro                     ;; Start Screen
     MOV POINT,AL
     EX_CHOOSE:     
  pop_all 
-endm start_screen
-;;**************************** 
-main_screen macro                     ;; Main Screen 
-     push_all          
-     mov_cursor 0000h 
-    printmsg  GAME_Main_STR
-    
-    loop_mian:
-       
-    mov ah,0
-    int 16h
-    cmp ah,3bh
-    jz f1
-    cmp ah,3ch
+endm start_screen  
+;;------------------------------------------
+;-------------Receive main------------------------
+receive_main macro       
+    local ll_es
+    local CHK_no_eee
+    local ex
+    local f2_near
+    local f1
+    local f1_second_line
+    local  f1_more_lines
+    local f2
+    local f2_second_line
+    local f2_more_lines 
+    local con  
+    local con2 
+mov dx , 3FDH ; Line Status Register
+in al , dx
+AND al,1
+jnz ll_es
+ jmp CHK_no_eee
+ll_es:
+mov dx , 03F8H
+in al , dx
+mov VALUE , al
+  
+   cmp VALUE,3bh
+  jz f1
+    cmp VALUE,3ch
     jz  f2_near
-    cmp ah,01h 
+    cmp VALUE,01h 
     jz ex 
   
- jmp  loop_mian  
+ jmp  CHK_no_eee  
     ex:
         hlt 
     f2_near:
     jmp  f2
-    f1:  
-   
+    f1: 
+    cmp if_f1_1,1
+    jne con
+    jmp chat_fathi
+    con: 
+    mov if_f1_2,1
+    mov if_f1_1,0
+    mov if_f2_2,0
+    mov if_f2_1,0
        CMP begin_nof,0
        jnz f1_second_line
        mov_cursor 1600H
-       printmsg F1_str 
-       printmsg player_name2+2 
-       lea di, F1_STR 
+       printmsg get1_STR  
+       lea di, get1_STR 
        mov pointer,di
        inc begin_nof
-       jmp loop_mian  
+       jmp CHK_no_eee  
        
     f1_second_line:  
     
         CMP begin_nof,1
        jnz f1_more_lines
        mov_cursor 1700H
-       printmsg F1_str
-       printmsg player_name2+2 
-       lea di, F1_STR 
+       printmsg get1_STR
+       lea di, get1_STR 
        mov pointer,di
        inc begin_nof  
        
-       jmp loop_mian
+       jmp CHK_no_eee
       
     f1_more_lines:
          
@@ -173,61 +382,251 @@ main_screen macro                     ;; Main Screen
         printmsg   CLEAR_LINE
         mov_cursor 1600H 
         display_string_off pointer
-        printmsg player_name2+2
         mov_cursor 1700H 
         printmsg   CLEAR_LINE
         mov_cursor 1700H
-        printmsg F1_str
-        printmsg player_name2+2  
-        lea di, F1_STR 
+        printmsg get1_STR
+        lea di, get1_STR 
         mov pointer,di
-        jmp loop_mian
+        jmp CHK_no_eee
      
     f2:
-       SelectLevel
-       FL_screen
-       FL_screen2
-       jmp ex_eslam
-       ;CMP begin_nof,0
-       ;jnz f2_second_line
-       ;mov_cursor 1600H
-       ;printmsg F2_STR 
-       ;printmsg player_name2+2 
-       ;lea di, F2_STR 
-       ;mov pointer,di
-       ;inc begin_nof
-       ;jmp loop_mian  
+    cmp if_f2_1,1
+    jne con2
+    jmp game_eslam 
+    con2: 
+    mov if_f1_2,0
+    mov if_f1_1,0
+    mov if_f2_2,1
+    mov if_f2_1,0
+       CMP begin_nof,0
+       jnz f2_second_line
+       mov_cursor 1600H
+       printmsg get2_STR  
+       lea di, get2_STR 
+       mov pointer,di
+       inc begin_nof
+       jmp CHK_no_eee  
        
     f2_second_line:
         CMP begin_nof,1
        jnz f2_more_lines
        mov_cursor 1700H
-       printmsg F2_STR 
-       printmsg player_name2+2 
-       lea di, F2_STR 
+       printmsg get2_STR 
+       lea di, get2_STR 
        mov pointer,di
        inc begin_nof
-       jmp loop_mian
+       jmp CHK_no_eee
       
     f2_more_lines: 
         mov_cursor 1600H 
         printmsg   CLEAR_LINE 
         mov_cursor 1600H 
         display_string_off pointer 
-        printmsg player_name2+2 
+        mov_cursor 1700H 
+        printmsg   CLEAR_LINE
+        mov_cursor 1700H
+        printmsg get2_STR   
+        lea di, get2_STR 
+        mov pointer,di
+    
+
+
+CHK_no_eee:
+
+endm receive_main 
+;-------------------------------------------------- 
+      ;;BYTE PTR
+;---------------------Send main------------------------
+send_main macro 
+    local CheckSend_no_e 
+    local ll_es
+    local ex_es
+    local f2_near
+    local f1
+    local f1_second_line
+    local  f1_more_lines
+    local f2
+    local f2_second_line
+    local f2_more_lines 
+    local con  
+    local con2
+mov dx , 3FDH ; Line Status Register
+In al , dx ;Read Line Status
+AND al , 00100000b
+JnZ ll_es
+jmp CheckSend_no_e
+ll_es:
+mov dx , 3F8H ; Transmit data register
+mov al,VALUE
+out dx , al
+ 
+ cmp ah,3bh
+    jz f1
+    cmp VALUE,3ch
+    jz  f2_near
+    cmp VALUE,01h 
+    jz ex_es 
+  
+ jmp  CheckSend_no_e  
+    ex_es:
+        hlt 
+    f2_near:
+    jmp  f2
+    f1: 
+    cmp if_f1_2,1
+    jne con
+   jmp chat_fathi
+    con: 
+    mov if_f1_2,0
+    mov if_f1_1,1
+    mov if_f2_2,0
+    mov if_f2_1,0
+       CMP begin_nof,0
+       jnz f1_second_line
+       mov_cursor 1600H
+       printmsg F1_str  
+       lea di, F1_STR 
+       mov pointer,di
+       inc begin_nof
+       jmp CheckSend_no_e  
+       
+    f1_second_line:  
+    
+        CMP begin_nof,1
+       jnz f1_more_lines
+       mov_cursor 1700H
+       printmsg F1_str
+       lea di, F1_STR 
+       mov pointer,di
+       inc begin_nof  
+       
+       jmp CheckSend_no_e
+      
+    f1_more_lines:
+         
+        mov_cursor 1600H 
+        printmsg   CLEAR_LINE
+        mov_cursor 1600H 
+        display_string_off pointer
+        mov_cursor 1700H 
+        printmsg   CLEAR_LINE
+        mov_cursor 1700H
+        printmsg F1_str 
+        lea di, F1_STR 
+        mov pointer,di
+        jmp CheckSend_no_e
+     
+    f2:
+    cmp if_f2_2,1
+    jne con2
+    jmp notfirst 
+    con2: 
+    mov if_f1_2,0
+    mov if_f1_1,0
+    mov if_f2_2,0
+    mov if_f2_1,1
+       CMP begin_nof,0
+       jnz f2_second_line
+       mov_cursor 1600H
+       printmsg F2_STR  
+       lea di, F2_STR 
+       mov pointer,di
+       inc begin_nof
+       jmp CheckSend_no_e  
+       
+    f2_second_line:
+        CMP begin_nof,1
+       jnz f2_more_lines
+       mov_cursor 1700H
+       printmsg F2_STR 
+       lea di, F2_STR 
+       mov pointer,di
+       inc begin_nof
+       jmp CheckSend_no_e
+      
+    f2_more_lines: 
+        mov_cursor 1600H 
+        printmsg   CLEAR_LINE 
+        mov_cursor 1600H 
+        display_string_off pointer 
         mov_cursor 1700H 
         printmsg   CLEAR_LINE
         mov_cursor 1700H
         printmsg F2_STR   
-        printmsg player_name2+2
         lea di, F2_STR 
         mov pointer,di
     
-   jmp loop_mian
-   ex_eslam:  
+CheckSend_no_e:
+;ret
+ endm send_main
+;;**************************** 
+main_screen macro                     ;; Main Screen 
+     local L_eslam  
+     local exit
+     local kk 
+     local end_eslam
+     push_all          
+     mov_cursor 0000h 
+    printmsg  GAME_Main_STR    
+    
+    
+    
+      L_eslam:
+             receive_main
+                
+                mov ah,1
+                int 16h
+                jnz kk
+                jmp exit
+                kk:  
+                mov ah,0
+                int 16h
+                mov VALUE ,ah 
+       
+             send_main 
+        exit:
+        
+        jmp L_eslam  
+    notfirst:       
+    MOV SI,OFFSET  player_name
+    MOV DI,OFFSET   player_name_TEMP
+    MOV CX,13
+    REP MOVSB 
+    MOV SI,OFFSET  player_name2
+    MOV DI,OFFSET   player_name2_TEMP
+    MOV CX,13
+    REP MOVSB 
+    MOV SI,OFFSET  player_name_TEMP
+    MOV DI,OFFSET   player_name2
+    MOV CX,13
+    REP MOVSB 
+      MOV SI,OFFSET  player_name2_TEMP
+    MOV DI,OFFSET   player_name
+    MOV CX,13
+    REP MOVSB
+    
+    MOV CL ,POINT
+    MOV CH, POINT2
+    MOV POINT,CH
+    MOV POINT2,CL
+         
+    game_eslam:  
+      
+      
+      end_eslam:
+          
+     
+     chat_fathi:
+    wait_enter_eslam 
+     
+;****************************************
+;;------------------------------------
+    
  pop_all            
 endm main_screen
-
+;****************************************
+;;------------------------------------
 SelectLevel MACRO
     push_all
     clear 
@@ -245,7 +644,7 @@ DrawInitialP1 MACRO
     clear 
     mov_cursor 0400h 
     printmsg  InitialP1
-    MOV SI, 0727h
+    MOV SI, 0827h
     MOV BX, offset ALREG
     MOV CX,7
     JMP ReadIP1     
@@ -276,8 +675,8 @@ DrawInitialP2 MACRO
     push_all
     clear 
     mov_cursor 0400h 
-    printmsg  InitialP1
-    MOV SI, 0727h
+    printmsg  InitialP2
+    MOV SI, 0827h
     MOV BX, offset ALREG2
     MOV CX,7
     JMP ReadIP2     

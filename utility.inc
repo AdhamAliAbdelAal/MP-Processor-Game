@@ -470,31 +470,23 @@ endm clear
 ;;****************************   
 wait_enter macro
     LOCAL Enter
-    LOCAL Check4Send            ;; Wait enter
-    LOCAL A5er_Check  
+    LOCAL Enter5las            ;; Wait enter
+    LOCAL ana_hamdy  
     push_all
-    mov dx,0
-    mov VALUE,0
   Enter:
-  cmp dl,1ch
-  jz Check4Send
-  CALL receive_optional
-  mov dl,VALUE
-  mov VALUE,0
-  Check4Send:
-  cmp dh,1ch
-  jz A5er_Check
-  mov ah,1
-  int 16h
-  jz A5er_Check
-  mov ah,0
-  int 16h
-  mov VALUE,ah
-  mov dh,VALUE
-  CALL send_optional
-  mov VALUE,0
-  A5er_Check:
-  cmp dx,1c1ch
+    mov al,mainPlayer
+    cmp player,al
+    jz ana_hamdy
+    CALL receive
+    mov ah,VALUE
+    jmp Enter5las
+    ana_hamdy:
+    mov ah,0
+    int 16h 
+    mov VALUE,ah
+    CALL send
+    Enter5las: 
+    cmp ah,1ch
   jnz Enter  
 pop_all                       
 endm wait_enter  
@@ -552,84 +544,11 @@ taget_1 macro
  clear
  mov_cursor 0000h    
  printmsg  TARGET1_STR   
-    mov_cursor 0936h 
-    mov bx,offset Target1_VAL_STR
-    mov si,offset Target2_VAL_STR
-    add si,2
-    add bx,2
-    mov cx,0
-    mov dx,0
-    mov VALUE,-1
-    ;take strings
-    target_main_loop:
-    cmp dl,0Dh
-    jz shoofElsend
-    CALL receive_optional
-    cmp VALUE,-1
-    jz shoofElsend
-    mov al,VALUE
-    mov [bx],al
-    inc bx
-    inc cl
-    mov dl,VALUE
-    mov VALUE,-1
-
-    shoofElsend:
-    cmp dh,0Dh
-    jz shoofHakamel
-    mov ah,1
-    int 16h
-    jz target_main_loop
-    mov ah,0
-    int 16h
-    
-    printchar al
-    
-    mov [si],al
-    inc si
-    inc ch
-    mov VALUE,al
-    mov dh,VALUE
-    CALL send_optional
-    mov VALUE,-1
-
-    shoofHakamel:
-    cmp dx,0d0dh
-    jmp hagakeda
-    hagakeda:
-    jz hagabarra
-    jmp target_main_loop
-    hagabarra:
-
-    mov [bx],dl
-    mov bx,offset Target1_VAL_STR
-    mov [bx+1],cl
-    mov [si],dh
-    mov si,offset Target2_VAL_STR
-    add si,1
-    mov [si],ch
-
-    ;Checks 
+    mov_cursor 0937h 
+    readmsg  Target1_VAL_STR  
     CheckSourceVal  Target1_VAL_STR+2 
-    cmp mainPlayer,0
-    jmp TestHenaTany
-
-    t2Fe3lan:
-    mov target2,dx 
-    CheckSourceVal  Target2_VAL_STR+2 
-    mov target1,dx
-    jmp yallaBara
-
-    TestHenaTany:
-    jz t1Fe3lan
-    jmp t2Fe3lan
-
-    t1Fe3lan:
     mov target1,dx 
-    CheckSourceVal  Target2_VAL_STR+2 
-    mov target2,dx
-    yallaBara:
-    ;wait_enter  
+    wait_enter  
  pop_all 
 endm taget_1 
 ;;*******************************    
@@ -639,7 +558,7 @@ taget_2 macro
  push_all
  clear              
  mov_cursor 0000h 
- printmsg  TARGET1_STR  
+ printmsg  TARGET2_STR  
      mov_cursor 0936h 
     readmsg  Target2_VAL_STR  
     
