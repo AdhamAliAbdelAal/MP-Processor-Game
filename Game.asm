@@ -255,7 +255,7 @@ checkSrcSize db 50
 ;---------------------------------------------------- 
 mainPlayer db 1
 player db 0
-level db 0
+level db '1'
 value db ?
 
 pointer dw ?   
@@ -524,8 +524,8 @@ cong_screen    db   '        ',0ah,0dh
       
 ;-------------------------------- 
 ;------Initial Points---------
-POINT DB ?
-POINT2 DB ?
+POINT DB 50
+POINT2 DB 40
 ;-------------------------------------   
 ;--------Power Ups Limits--------
 LimitP31 db 0
@@ -574,22 +574,23 @@ endm Is_limitedP5
         
         ;;;;;;;;;;;;;;;;;;;;;;;;;;; first screen (Defining Usernames) 
         clear      
-        start_screen   
+        ;start_screen   
                              
         ;;;;;;;;;;;;;;;;;;;;;;;;;;; second screen (Main Screen)
         MAINHAMDY: 
         clear     
-        main_screen
+        ;main_screen
+        SelectLevel
         
         MOV AL,level
         SUB AL,30h
         CMP AL,1
         JMP FIXX1
         IP1: 
-        DrawInitialP1
-        DrawInitialP2
-        TAGET_1
-        TAGET_2
+        ;DrawInitialP1
+        ;DrawInitialP2
+        ;TAGET_1
+        ;TAGET_2
         JMP CONT1
         FIXX1:
         JE CONT1

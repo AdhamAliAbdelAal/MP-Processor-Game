@@ -58,17 +58,33 @@ JMP OUTOFREAD
 IsToScore:
 jne KammelHena
 jmp toScoreScreen 
-OUTOFREAD:
+OUTOFREAD: 
+clear_buffer
 POP_ALL    
 endm readmsg
 
 ;--------------READ CHAR------------------------
 
 readchar macro char
+    LOCAL mp1
+    LOCAL read_char
     push_all
+    mov al,mainPlayer
+    cmp player,al
+    jz mp1
+    CALL receive
+    mov al,VALUE
+    jmp read_char
+    mp1:
+    mov ah,0
+    int 16h
+    mov VALUE,al
+    CALL send
+    read_char:
     mov ah,0
     int 16h
     mov char, al
+    clear_buffer
     pop_all    
 endm readchar
 
@@ -710,16 +726,24 @@ endm detectPoints
 SelectProcessor MACRO
     LOCAL EX_PROC
     LOCAL P0PROC
+    LOCAL SP1
+    LOCAL SP11
+    LOCAL SP2
+    LOCAL SP22
+    LOCAL SP3
+    LOCAL SP33
     push_all
     MOV AL,level
     SUB AL,30h
     CMP AL,1
-    
-    JE EX_PROC
+    JMP SP1
+    SP11:
     cmp Processor_Select,0
-    JE EX_PROC
+    JMP SP2
+    SP22:
     CMP player,0
-    JE P0PROC
+    JMP SP3
+    SP33:
     readchar Processor2
     printchar Processor2
     MOV AH,Processor2
@@ -737,6 +761,15 @@ SelectProcessor MACRO
     CMP Al,2
     JE EX_PROC
     xor player,1
+    SP1:
+    JE EX_PROC
+    JMP SP11
+    SP2:
+    JE EX_PROC
+    JMP SP22
+    SP3:
+    JE EX_PROC
+    JMP SP33
     EX_PROC:
     pop_all
 ENDM SelectProcessor
@@ -921,3 +954,18 @@ PlayerTurn macro
     ADD AL,31h
     printchar AL
 endm PlayerTurn
+
+clear_buffer macro
+local Kammel_Deletion
+local testClear
+push_all
+jmp testClear
+Kammel_Deletion:
+mov ah,0
+int 16h
+testClear:
+mov ah,1
+int 16h
+jnz Kammel_Deletion
+pop_all
+endm clear_buffer
