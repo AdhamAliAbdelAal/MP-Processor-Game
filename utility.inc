@@ -629,7 +629,8 @@ taget_1 macro
     CheckSourceVal  Target2_VAL_STR+2 
     mov target2,dx
     yallaBara:
-
+    printhexa target1
+    printhexa target2
     ;wait_enter  
  pop_all 
 endm taget_1 

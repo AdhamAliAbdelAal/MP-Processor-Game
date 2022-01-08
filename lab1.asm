@@ -1,4 +1,5 @@
 include utility.inc
+include srcval.inc
 .model small
 .stack 64  
 .data
@@ -7,6 +8,31 @@ player db 0
 mainPlayer db 1
 fortest db "testing$"
 ggg db "finish$"
+;------------------------------------------------
+Target1_VAL_STR db  10,?,10 duP('$') 
+Target2_VAL_STR db  10,?,10 duP('$') 
+TARGET1 DW 105Eh 
+TARGET2 DW 105Eh
+;------------Targets screen----------
+TARGET1_STR  db   '        ',0ah,0dh 
+    DB   '                ====================================================',0ah,0dh 
+    DB   '               ||                                                  ||',0ah,0dh                                         
+    DB   '               ||            *    MP Processor Game   *            ||',0ah,0dh 
+    DB   '               ||                                                  ||',0ah,0dh 
+    DB   '               ||--------------------------------------------------||',0ah,0dh  
+    DB   '               ||                                                  ||',0ah,0dh 
+    DB   '               ||                                                  ||',0ah,0dh 
+    DB   '               ||                                                  ||',0ah,0dh       
+    DB   "               ||      Choose your Opponent's target:              ||",0ah,0dh
+    DB   '               ||                                                  ||',0ah,0dh
+    DB   '               ||                                                  ||',0ah,0dh  
+    DB   '               ||                                                  ||',0ah,0dh   
+    DB   '                ====================================================',0ah,0dh   
+    db   '                                                                    ',0ah,0dh      
+    db   '                                                                    ',0ah,0dh 
+    DB   '$',0ah,0dh  
+
+
 .code
 ;-----------------Initialization-----------------------
 init proc far
@@ -76,8 +102,93 @@ mov ax,@data
 mov ds,ax
 call init
 clear
-wait_enter
-printmsg ggg
+ mov_cursor 0000h    
+ printmsg  TARGET1_STR   
+    mov_cursor 0936h 
+    mov bx,offset Target1_VAL_STR
+    mov si,offset Target2_VAL_STR
+    add si,2
+    add bx,2
+    mov cx,0
+    mov dx,0
+    mov VALUE,-1
+    ;take strings
+    target_main_loop:
+    cmp dl,0Dh
+    jz shoofElsend
+    CALL receive_optional
+    cmp VALUE,-1
+    jz shoofElsend
+    mov al,VALUE
+    mov [bx],al
+    inc bx
+    inc cl
+    mov dl,VALUE
+    mov VALUE,-1
+
+    shoofElsend:
+    cmp dh,0Dh
+    jz shoofHakamel
+    mov ah,1
+    int 16h
+    jz target_main_loop
+    mov ah,0
+    int 16h
+    
+    printchar al
+    
+    mov [si],al
+    inc si
+    inc ch
+    mov VALUE,al
+    mov dh,VALUE
+    CALL send_optional
+    mov VALUE,-1
+
+    shoofHakamel:
+    cmp dx,0d0dh
+    jmp hagakeda
+    hagakeda:
+    jz hagabarra
+    jmp target_main_loop
+    hagabarra:
+
+    mov [bx],dl
+    mov bx,offset Target1_VAL_STR
+    mov [bx+1],cl
+    mov [si],dh
+    mov si,offset Target2_VAL_STR
+    add si,1
+    mov [si],ch
+    mov_cursor 1040H
+    ;printmsg Target1_VAL_STR+2 
+    mov_cursor 1240H
+    ;printmsg Target2_VAL_STR+2 
+    
+    ;Checks 
+    CheckSourceVal  Target1_VAL_STR+2 
+    cmp mainPlayer,0
+    jmp TestHenaTany
+
+    t2Fe3lan:
+    mov target2,dx 
+    CheckSourceVal  Target2_VAL_STR+2 
+    mov target1,dx
+    jmp yallaBara
+
+    TestHenaTany:
+    jz t1Fe3lan
+    jmp t2Fe3lan
+
+    t1Fe3lan:
+    mov target1,dx 
+    CheckSourceVal  Target2_VAL_STR+2 
+    mov target2,dx
+    yallaBara:
+    mov_cursor 1040H
+    printhexa target1
+    mov_cursor 1240H
+    printhexa target2
 hlt
 main endp
 ;---------------optional receive------------------------
