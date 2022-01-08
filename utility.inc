@@ -82,8 +82,6 @@ readchar macro char
     mov VALUE,al
     CALL send
     read_char:
-    mov ah,0
-    int 16h
     mov char, al
     pop_all    
 endm readchar
@@ -93,7 +91,7 @@ endm readchar
 printchar macro char
     push_all
     mov ah,2
-    mov dl,al
+    mov dl,char
     int 21h
     pop_all
 endm printchar
@@ -749,7 +747,8 @@ SelectProcessor MACRO
     MOV AH,Processor2
     SUB AH,30h
     CMP AH,1
-    JE EX_PROC
+    jmp sp4
+    SP44:
     xor player,1
     JMP EX_PROC
     
@@ -770,6 +769,9 @@ SelectProcessor MACRO
     SP3:
     JE EX_PROC
     JMP SP33
+    sp4:
+    JE EX_PROC
+    JMP SP44
     EX_PROC:
     pop_all
 ENDM SelectProcessor

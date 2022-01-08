@@ -72,7 +72,7 @@ Level_selection  db   '                                                       ',
     DB   '               ||--------------------------------------------------||',0ah,0dh 
     DB   '               ||                                                  ||',0ah,0dh   
     DB   '               ||                                                  ||',0ah,0dh
-    DB   '               ||            Choose Level (player 1):              ||',0ah,0dh
+    DB   '               ||                    Choose Level:                 ||',0ah,0dh
     DB   '               ||                                                  ||',0ah,0dh   
     DB   '               ||                                                  ||',0ah,0dh         
     DB   '                ====================================================',0ah,0dh  
@@ -253,7 +253,7 @@ checkDesSize db 100
 checkSrcSize db 50
                
 ;---------------------------------------------------- 
-mainPlayer db 1
+mainPlayer db 0
 player db 0
 level db '1'
 value db ?
@@ -580,7 +580,7 @@ endm Is_limitedP5
         MAINHAMDY: 
         clear     
         ;main_screen
-        ;SelectLevel
+        SelectLevel
         
         MOV AL,level
         SUB AL,30h
@@ -752,7 +752,7 @@ endm Is_limitedP5
          
         NORMALEXE:
         mov_cursor 444ch
-        ;SelectProcessor 
+        SelectProcessor 
         CALL executeInstruction
         ;--check for p4
         cmp IS_P4,0

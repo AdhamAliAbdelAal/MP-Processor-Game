@@ -233,7 +233,7 @@ SelectLevel MACRO
     clear 
     mov_cursor 0400h 
     printmsg  level_selection 
-    mov_cursor 0c35h
+    mov_cursor 0c32h
     readchar level
     printchar level 
     wait_enter    
