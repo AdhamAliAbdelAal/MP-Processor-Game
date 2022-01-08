@@ -470,23 +470,33 @@ endm clear
 ;;****************************   
 wait_enter macro
     LOCAL Enter
-    LOCAL Enter5las            ;; Wait enter
-    LOCAL ana_hamdy  
+    LOCAL Check4Send            ;; Wait enter
+    LOCAL A5er_Check  
     push_all
+    mov dx,0
+    mov bp,1c1ch
+    mov cl,1ch
+    mov VALUE,0
   Enter:
-    mov al,mainPlayer
-    cmp player,al
-    jz ana_hamdy
-    CALL receive
-    mov ah,VALUE
-    jmp Enter5las
-    ana_hamdy:
-    mov ah,0
-    int 16h 
-    mov VALUE,ah
-    CALL send
-    Enter5las: 
-    cmp ah,1ch
+  cmp dl,cl
+  jz Check4Send
+  CALL receive_optional
+  mov dl,VALUE
+  ;printmsg fortest
+  Check4Send:
+  cmp dh,cl
+  jz A5er_Check
+  mov ah,1
+  int 16h
+  jz A5er_Check
+  mov ah,0
+  int 16h
+  mov VALUE,ah
+  mov dh,VALUE
+  CALL send_optional
+  A5er_Check:
+  printhexa dx
+  cmp dx,bp
   jnz Enter  
 pop_all                       
 endm wait_enter  

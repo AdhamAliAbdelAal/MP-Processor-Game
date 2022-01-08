@@ -1168,6 +1168,7 @@ init endp
 ;--------------------------------------------
 ;-------------Receive------------------------
 receive proc near 
+push_all
 mov dx , 3FDH ; Line Status Register  
 
 CHK:
@@ -1178,13 +1179,14 @@ jz CHK
 mov dx , 03F8H
 in al , dx
 mov VALUE , al
-
+pop_all
 ret
 receive endp
 ;--------------------------------------------------
 
 ;---------------------Send------------------------
 send proc near
+push_all
 mov dx , 3FDH ; Line Status Register   
 
 CheckSend:
@@ -1197,8 +1199,44 @@ mov al,VALUE
 out dx , al
 
 
-
+pop_all
 ret
 send endp
 ;------------------------------------------------------
+
+;---------------optional receive------------------------
+receive_optional proc near 
+push_all
+mov dx , 3FDH ; Line Status Register
+in al , dx
+AND al,1
+jz CHKop
+
+mov dx , 03F8H
+in al , dx
+mov VALUE , al
+
+CHKop:
+pop_all
+ret
+receive_optional endp
+;-------------------------------------------------------
+
+;---------------optional send----------------------------
+send_optional proc near
+push_all
+mov dx , 3FDH ; Line Status Register
+In al , dx ;Read Line Status
+AND al , 00100000b
+JZ CheckSendop
+
+mov dx , 3F8H ; Transmit data register
+mov al,VALUE
+out dx , al
+
+CheckSendop:
+pop_all
+ret
+send_optional endp
+;--------------------------------------------------------
 end main  

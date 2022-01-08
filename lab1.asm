@@ -5,6 +5,8 @@ include utility.inc
 VALUE db ?
 player db 0
 mainPlayer db 1
+fortest db "testing$"
+ggg db "finish$"
 .code
 ;-----------------Initialization-----------------------
 init proc far
@@ -34,10 +36,6 @@ mov dx , 03F8H
 in al , dx
 mov VALUE , al
 
-mov ah,2
-mov dl,VALUE
-int 21h
-inc di
 CHK:
 ret
 receive endp
@@ -78,18 +76,43 @@ mov ax,@data
 mov ds,ax
 call init
 clear
-mov si,0
-mov di,1500h
-L:
-mov_cursor di
-call receive
-;send
-mov_cursor si
-readmacr
-call send
-exit:
-jmp L
+wait_enter
+printmsg ggg
 hlt
 main endp
+;---------------optional receive------------------------
+receive_optional proc near 
+push_all
+mov dx , 3FDH ; Line Status Register
+in al , dx
+AND al,1
+jz CHKop
+
+mov dx , 03F8H
+in al , dx
+mov VALUE , al
+
+CHKop:
+pop_all
+ret
+receive_optional endp
+;-------------------------------------------------------
+
+;---------------optional send----------------------------
+send_optional proc near
+push_all
+mov dx , 3FDH ; Line Status Register
+In al , dx ;Read Line Status
+AND al , 00100000b
+JZ CheckSendop
+
+mov dx , 3F8H ; Transmit data register
+mov al,VALUE
+out dx , al
+
+CheckSendop:
+pop_all
+ret
+send_optional endp
+;--------------------------------------------------------
 end main
-    
