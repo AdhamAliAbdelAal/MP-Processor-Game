@@ -621,6 +621,15 @@ main_screen macro                     ;; Main Screen
          jmp main_cont 
      
      chat_fathi:
+        
+        CALL init
+        chatt
+        clear
+        mov if_f1_2,0
+        mov if_f1_1,0
+        mov if_f2_2,0
+        mov if_f2_1,0
+        jmp MAINHAMDY
     wait_enter_eslam 
      
 ;****************************************
