@@ -292,7 +292,7 @@ get2_STR  DB '-You have a game invitation  ','$'
 
 begin_nof db 0      
 notication db 80 DUP('$'),'$'   
-;;------------------- gun ----------------------- 
+;;------------------- gun -----------------------   
 	WINDOW_HEIGHT_TOP DW 64h                ;the height of the window (200 pixels)  
     WINDOW_HEIGHT_BOTTOM DW 96h 
     PADDLE_VELOCITY_Y DW 3h
@@ -304,12 +304,11 @@ notication db 80 DUP('$'),'$'
    
    TIME_AUX DB 0                        ;variable used when checking if the time has changed
 	                     
-    ;BALL_ORIGINAL_X DW 19h              ;X position of the ball on the beginning of a game
-	;BALL_ORIGINAL_Y DW 96h               ;Y position of the ball on the beginning of a game
+    
 	BALL_X DW 28h                       ;current X position (column) of the ball
 	BALL_Y DW 96h                        ;current Y position (line) of the ball
 	BALL_SIZE DW 06h                     ;size of the ball (how many pixels does the ball have in width and height)
-;	BALL_VELOCITY_X DW 05h               ;X (horizontal) velocity of the ball
+
 	BALL_VELOCITY_Y DW 14h   
 	
 	
@@ -328,29 +327,21 @@ notication db 80 DUP('$'),'$'
 	GUN DB 1h 
 	GUN2 DB 1h
 	
-	level_color db 0
+	level_color db 0h
 	
-	green_color db 0
-	light_blue_color db 0
-	yellow_color db 0
-	red_color db 0
-	blue_color db 0  
-	 
-	 
+	green_color db 0h
+	light_blue_color db 0h
+	yellow_color db 0h
+	red_color db 0h
+	blue_color db 0h  
+	 	 
 	Target_x dw 10h 
 	Target_y dw 10h
-	Target_Velocity dw 8h 
+	Target_Velocity dw 1h 
 	Target_SIZE DW 10h 
 	
 	;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;mahmoud
-	
-	;level2_color db 0h
-	
-	;Target2_x dw 0A5h  
-	;Target2_y dw 10h
-	;Target2_Velocity dw 1h 
-	;Target2_SIZE DW 10h 
-	
+		
 	BALL2_X DW 0C4h                       ;current X position (column) of the ball
 	BALL2_Y DW 96h                        ;current Y position (line) of the ball
 	BALL2_SIZE DW 06h                     ;size of the ball (how many pixels does the ball have in width and height)
@@ -369,20 +360,37 @@ notication db 80 DUP('$'),'$'
     Target2_start_x	DW 0A5h
                
                
-     level_color2 db 0h
-	
-	green_color2 db 0
-	light_blue_color2 db 0
-	yellow_color2 db 0
-	red_color2 db 0
-	blue_color2 db 0     
+    level_color2 db 0h
+	green_color2 db 0h
+	light_blue_color2 db 0h
+	yellow_color2 db 0h
+	red_color2 db 0h
+	blue_color2 db 0h     
      turn db 0                  
 	 bullet db 0
 	 bullet2 db 0 
        ;;;;;;;;
        color_ball db 3h
-       color_ball2  db 0ch 
+       color_ball2  db 0ch  
+       FRISTPLAYER DB 0   
        
+       
+       GS_str1  db   '                                                                ',0ah,0dh
+    DB   '        ===============================================================',0ah,0dh
+    DB   '        ||                                                           ||',0ah,0dh                                        
+    DB   '        ||              *    MP Processor Game   *                   ||',0ah,0dh
+    DB   '        ||                                                           ||',0ah,0dh
+    DB   '        ||-----------------------------------------------------------||',0ah,0dh 
+    DB   '        ||                                                           ||',0ah,0dh
+    DB   '        ||                                                           ||',0ah,0dh      
+    DB   '        ||           PRESS ENTER TO START GAME :                     ||',0ah,0dh
+    DB   '        ||                                                           ||',0ah,0dh      
+    DB   '        ||                                                           ||',0ah,0dh         
+    DB   '        ===============================================================',0ah,0dh  
+    db   '                                                                    ',0ah,0dh     
+    db   '                                                                    ',0ah,0dh
+    DB   '$',0ah,0dh
+             
 ;-------------------POWER UPS--------------------
 pow1 db "P1$" 
 pow2 db "P2$"
@@ -456,7 +464,9 @@ cong_screen    db   '        ',0ah,0dh
  if_f2_2 db 0
  if_f1_1 db 0
  if_f1_2 db 0
-      
+
+is_game dw 0
+p3_choose db 0      
 ;-------------------------------- 
 ;------Initial Points---------
 POINT DB 50
@@ -563,6 +573,7 @@ endm Is_limitedP5
         DRAWREG_PLAYERS
         DrawTargetPoints
         DrawTargetPoints2
+        INC is_game
         mov_cursor 444ch
         readmsg instruction 
         checkEQUALITY pow1,instruction+2
@@ -617,7 +628,8 @@ endm Is_limitedP5
         Yesp1:
         MOV CL,1
         MOV FL_changed2,CL
-        FL_screen
+        mov p3_choose,1
+        FL_P3
         GO
         ;draw_bk 153,117,0,0,img1
 	  
@@ -637,7 +649,8 @@ endm Is_limitedP5
         ch0:            
         MOV CL,1
         MOV FL_changed1,CL
-        FL_screen
+        mov p3_choose,0
+        FL_P3
         GO
         ;draw_bk 153,117,0,0,img1
 	  
@@ -728,6 +741,9 @@ endm Is_limitedP5
         resetins instruction+2 
         xor player,1
         ;---------------------------------------
+        cmp is_game,6
+        jne game_hamada
+        
         ;MOV AH, 00h        
         ;INT 1AH          
                 
@@ -743,9 +759,194 @@ endm Is_limitedP5
         
         ;JMP  CHECK_TIME
         ;RANDOM:
+        jmp CHECK_TIME
+        game_hamada:
         JMP enterins
      ;-------------------------------------------------------------
-     ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;GUN;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+     ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+    initgame       
+   
+   ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+      CLEAR   
+      mov_cursor 0000h
+        printmsg GS_str1   
+        wait_enter 
+         
+        
+      CLEAR_SCREEN  
+      
+        ; get the system time 
+       CHECK_TIME: 
+               
+      
+                 
+        MOV AH,2Ch
+       INT 21h
+        
+        CMP DL,TIME_AUX  
+        JE  CHECK_TIME
+        
+        MOV TIME_AUX,DL     ;UPDATE TIME 
+        
+               ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;; 
+                  
+                
+                ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+        
+            ; CLEAR_SCREEN
+             
+             ;;;;;;;;;;;;;;;;;;
+                 
+             mov ah,2
+mov dx,0000h
+int 10h
+                                               
+                MOV AH, 06h   
+                XOR AL, AL    
+                XOR CX, CX     
+                MOV DX, 184FH  
+                MOV BH, 0h    
+                INT 10H
+                  
+                
+                         
+                      ;;;;;;;;;;;;;
+                           
+             cmp turn,5
+             
+             
+             
+             jl first 
+                jmp exit_ESMH
+               first:
+              CMP  FRISTPLAYER,1
+              JNE PRIME
+              JMP PRIME2
+              PRIME:
+            receive1
+                 mov ah,1
+                 int 16h
+                 jnz nnn
+                 jmp exit1_ESMH
+                 nnn:
+                
+                 mov ah,0
+                 int 16h
+
+               mov VALUE ,aH
+                 send1 
+                 exit1_ESMH:   
+               
+                           
+          Move_Target  Target_x, Target_y,WINDOW_WIDTH2,Target1_start_x  
+           Draw_Target  Target_x, Target_y   
+            
+                 
+             
+              
+                Draw_paddles
+                     
+            
+			  CMP GUN,0            ;; if fire or not
+		    JE fire_f
+		  
+		   jmp not_fire_loop_f 
+		   
+		   
+		   
+		       
+           fire_f:
+           
+           
+         MOVE_BALL BALL_X,BALL_Y, Target_x , Target_y,PADDLE_LEFT_X,PADDLE_LEFT_Y,Target1_start_x,green_color,light_blue_color,yellow_color,red_color,blue_color,POINT,GUN     
+         Draw_Ball  BALL_X,BALL_Y,color_ball
+      
+          not_fire_loop_f:     
+          
+           
+			CMP GUN2,0            ;; if fire or not
+		    JE fire_s
+		  
+		   jmp not_fire_loop_s 
+		       
+           fire_s:
+           
+           
+         MOVE_BALL BALL2_X,BALL2_Y, Target_x , Target_y,PADDLE_RIGHT_X,PADDLE_RIGHT_Y,Target1_start_x,green_color2,light_blue_color2,yellow_color2,red_color2,blue_color2,POINT2,GUN2     
+         Draw_Ball  BALL2_X,BALL2_Y,color_ball2
+      
+          not_fire_loop_s:
+            JMP  CHECK_TIME 
+            ;;;;--------------------------------------------------
+            PRIME2:
+            receive2
+                 mov ah,1
+                 int 16h
+                 jnz nnn2
+                 jmp exit2_ESMH
+                 nnn2:
+                 
+                 mov ah,0
+                 int 16h
+
+               mov VALUE ,aH
+                 send2 
+                 exit2_ESMH: 
+             
+             
+               
+                           
+          Move_Target  Target_x, Target_y,WINDOW_WIDTH2,Target1_start_x  
+           Draw_Target  Target_x, Target_y   
+            
+     
+                Draw_paddles
+         
+                
+            
+            
+			  CMP GUN,0            ;; if fire or not
+		    JE fire_f1
+		  
+		   jmp not_fire_loop_f1 
+		   		   
+		       
+           fire_f1:
+           
+           
+         MOVE_BALL BALL_X,BALL_Y, Target_x , Target_y,PADDLE_LEFT_X,PADDLE_LEFT_Y,Target1_start_x,green_color,light_blue_color,yellow_color,red_color,blue_color,POINT,GUN     
+         Draw_Ball  BALL_X,BALL_Y,color_ball
+      
+          not_fire_loop_f1:     
+          
+           
+			CMP GUN2,0            ;; if fire or not
+		    JE fire_s1
+		  
+		   jmp not_fire_loop_s1 
+		       
+           fire_s1:
+           
+           
+         MOVE_BALL BALL2_X,BALL2_Y, Target_x , Target_y,PADDLE_RIGHT_X,PADDLE_RIGHT_Y,Target1_start_x,green_color2,light_blue_color2,yellow_color2,red_color2,blue_color2,POINT2,GUN2     
+         Draw_Ball  BALL2_X,BALL2_Y,color_ball2
+      
+          not_fire_loop_s1:
+            
+                        
+            JMP  CHECK_TIME    
+                               
+         exit_ESMH:
+         MOV TURN,0
+                MOV level_color,0
+                MOV bullet,0  
+                MOV bullet2,0
+          mov gun,1
+          mov gun2,1   
+          mov is_game,0      
+         jmp enterins
+         
+         
      ;-------------------------------------------------------------
         toScoreScreen:
         DrawPointsScreen         

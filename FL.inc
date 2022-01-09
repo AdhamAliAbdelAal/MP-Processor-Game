@@ -88,3 +88,42 @@ FL_screen2 macro ;; Start Screen
     wait_enter    
  pop_all
 endm FL_screen2
+
+FL_P3 macro
+LOCAL mp22
+LOCAL read_char22
+local y7otfelawal
+local y5lasshukrn 
+push_all
+    Text_Mode
+    clear
+    clear_buffer
+ mov_cursor 0000h    
+ printmsg  FL_str1   
+    mov_cursor 0832h
+    mov al,mainPlayer
+    cmp al,p3_choose
+    je mp22
+    CALL receive
+    mov al,VALUE
+    mov bl,al
+    jmp read_char22
+    mp22:
+    mov ah,0
+    int 16h
+    mov VALUE,al
+    mov cl,al
+    CALL send
+    read_char22:
+    cmp mainPlayer,0
+    je y7otfelawal 
+    mov FL2,al
+    printchar FL2
+    jmp y5lasshukrn
+    y7otfelawal:
+    mov FL2,al
+    printchar FL2
+    y5lasshukrn:
+    wait_enter 
+pop_all
+endm FL_P3

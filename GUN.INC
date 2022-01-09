@@ -1,3 +1,4 @@
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;    
 ;;---------------- Draw Target -------------------------------
 Draw_Target macro TEMP_X , TEMP_Y
           local   DRAW_BALL_HORIZONTAL
@@ -169,406 +170,7 @@ Draw_paddles   macro
 endm   Draw_paddles
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;  
 
-;;----------------  Move paddles    -------------------------------
- MOVE_PADDLES macro 
-                       local EXIT_PADDLE_MOVEMENT
-                       local EXIT_PADDLE_MOVEMENT2  
-                       local MOVE_PADDLE_LEFT  
-                       local FIX_PADDLE_LEFT_TOP_POSITION    
-                       local FIX_PADDLE_LEFT_BOTTOM_POSITION
-                       local MOVE_PADDLE_RIGHT 
-                       local Ball   
-                       local exit_p  
-                       local MOVE_PADDLE_UP
-                       local MOVE_PADDLE_DOWN
-                       local momo 
-                       local lol                      
-                       local FIX_PADDLE_LEFT_TOP_POSITION0
-                       local FIX_PADDLE_LEFT_TOP_POSITION1
-                       local FIX_PADDLE_LEFT_TOP_POSITION2  
-                       local MOVE_PADDLE_RIGHT_UP  
-                       local MOVE_PADDLE_RIGHT_DOWN
-                       local MOVE_PADDLE_RIGHT_RIGHT
-                       local MOVE_PADDLE_RIGHT_LEFT 
-                       local FIX_PADDLE_RIGHT_POSITION   
-                       local FIX_PADDLE_RIGHT_POSITION1
-                       local FIX_PADDLE_RIGHT_POSITION2
-                       local FIX_PADDLE_RIGHT_POSITION3
-                       local FIX_PADDLE_RIGHT_POSITION4
-                       local lol2
-                       local Ball2
-                       local exit_c
-                       local MOVE_P_D_N
-                       local MOVE_P_R_R_N
-                       local MOVE_P_R_L_N
-                       local MOVE_P_R_U_N
-                       local MOVE_P_R_D_N
-                       local end_near
-                       
-                       push_all
-           ;       Left paddle movement
-		
-		;check if any key is being pressed (if not check the other paddle)
-		MOV AH,01h
-		INT 16h
-		JZ momo ;ZF = 1, JZ -> Jump If Zero
-		 
-		 
-		 
-		;check which key is being pressed (AL = ASCII character)
-		MOV AH,00h
-		INT 16h
-		
-		;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;move left paddle
-		
-		;if it is '' or 'W' move up
-		CMP AH,4Dh ;'w'
-		JE MOVE_PADDLE_RIGHT
-		
-		
-		
-		CMP AH,4Bh ;'s'
-		JE MOVE_PADDLE_LEFT
-	
-		
-		CMP AH,48h 
-		JE MOVE_PADDLE_UP 
-		
-		
-		CMP AH,50h 
-		JNE MOVE_P_D_N  
-		
-		
-		   JMP MOVE_PADDLE_DOWN
-		MOVE_P_D_N:   
-		
-		CMP AL,20H  
-		 
-		  JE lol 
-		  
-		
-		  
-		;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;move right paddle;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-		 
-		;if it is 'u' move right 
-		CMP AL,55h 
-		JNE MOVE_P_R_R_N   
-		
-		  JMP MOVE_PADDLE_RIGHT_RIGHT
-		 MOVE_P_R_R_N:
-		
-		 ;if it is 't' move left
-		
-		CMP AL,54h 
-		JNE MOVE_P_R_L_N 
-		
-		  JMP MOVE_PADDLE_RIGHT_LEFT
-		
-		 MOVE_P_R_L_N:
-	
-		 ;if it is 'y' move up
-		CMP AL,59h 
-		JNE MOVE_P_R_U_N 
-		 
-		JMP MOVE_PADDLE_RIGHT_UP
-		MOVE_P_R_U_N:
-		
-		
-		 ;if it is 'v' move down
-		CMP AL,56h 
-		JNE MOVE_P_R_D_N  
-		 
-		 JMP MOVE_PADDLE_RIGHT_DOWN
-		
-		MOVE_P_R_D_N:
-		 
-		 ;shotting with q
-		
-		 CMP AL,51H  
-		 
-		  JE lol2
-		  
-		  cmp AH,3Eh
-		  jne end_near 
-		  jmp toScoreScreen
-		  end_near:
-		    ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;; 
-		  momo:  
-		 jmp EXIT_PADDLE_MOVEMENT   
-		  lol2:
-		  jmp BALL2  
-		                
-		  lol:
-		  jmp BALL             		                
-		                
-		                
-		MOVE_PADDLE_RIGHT:
-			MOV AX,PADDLE_VELOCITY
-			ADD PADDLE_LEFT_X,AX
-			
-			MOV AX,WINDOW_WIDTH2
-			CMP PADDLE_LEFT_X,AX
-			JL FIX_PADDLE_LEFT_TOP_POSITION
-			
-			MOV AX,PADDLE_VELOCITY
-			SUB PADDLE_LEFT_X,AX
-			
-			 
-			
-			FIX_PADDLE_LEFT_TOP_POSITION:
-				
-                      cmp gun,1
-                   
-                    je  FIX_PADDLE_LEFT_BOTTOM_POSITION     
-                    
-				    jmp  EXIT_PADDLE_MOVEMENT
-			
-		MOVE_PADDLE_LEFT:
-		         MOV AX,PADDLE_VELOCITY
-                 SUB PADDLE_LEFT_X,AX  
-		        
-	  
-                MOV AX,LEFT_PADDEL_LIMIT_FROM_LEFT
-                CMP PADDLE_LEFT_X,AX
-                Jg FIX_PADDLE_LEFT_BOTTOM_POSITION
-                
-                
-                MOV AX,PADDLE_VELOCITY
-                add PADDLE_LEFT_X,AX     
-                
-                FIX_PADDLE_LEFT_TOP_POSITION0:
-			     
-                  cmp gun,1
-                    
-                    je  FIX_PADDLE_LEFT_BOTTOM_POSITION     
-                    
-				    jmp  EXIT_PADDLE_MOVEMENT   
-				    
-				    
-				    
-				    
-				    ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;up and down
-         MOVE_PADDLE_UP:
-		        
-		        MOV AX,PADDLE_VELOCITY_Y
-                SUB PADDLE_LEFT_Y,AX  
-		        
-                MOV AX,WINDOW_HEIGHT_TOP
-                CMP PADDLE_LEFT_Y,AX
-                Jg FIX_PADDLE_LEFT_BOTTOM_POSITION 
-                
-                
-                
-                
-                
-                MOV AX,PADDLE_VELOCITY_Y
-                add PADDLE_LEFT_Y,AX  
-              
-              FIX_PADDLE_LEFT_TOP_POSITION1:  
-                  cmp gun,1
-                    
-                    je  FIX_PADDLE_LEFT_BOTTOM_POSITION     
-                    
-				    jmp  EXIT_PADDLE_MOVEMENT  				    
-		
-		MOVE_PADDLE_DOWN:     
-		
-		          MOV AX,PADDLE_VELOCITY_Y
-                ADD PADDLE_LEFT_Y,AX  
-		
-                MOV AX,WINDOW_HEIGHT_BOTTOM
-                CMP PADDLE_LEFT_Y,AX
-                JL FIX_PADDLE_LEFT_BOTTOM_POSITION 
-                
-                
-                
-                
-                
-                MOV AX,PADDLE_VELOCITY_Y
-                sub PADDLE_LEFT_Y,AX  
-                 FIX_PADDLE_LEFT_TOP_POSITION2: 
-                  cmp gun,1
-                    
-                    je  FIX_PADDLE_LEFT_BOTTOM_POSITION     
-                    
-				    jmp  EXIT_PADDLE_MOVEMENT  
-		
-				    
-				    ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;  
-				    
-				    
-				    
-				
-        	
-			FIX_PADDLE_LEFT_BOTTOM_POSITION:
-		
-                    
-                    MOV BX,10h
-                    ADD BX,PADDLE_LEFT_X
-                    MOV BALL_X,BX
-                   
-                    MOV BX,PADDLE_LEFT_Y
-                    MOV BALL_Y,BX   
-				JMP EXIT_PADDLE_MOVEMENT       
-				
-				
-				
-	EXIT_PADDLE_MOVEMENT:
-		            
-		            jmp exit_p
-              Ball:
-                    
-                    CMP bullet,2
-                    JE exit_c 
-                  INC bullet  
-                   MOV DH,0  
-                   MOV GUN,DH     
-                
-                
-                exit_c:
-             jmp exit_p  			
-				
-	;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;RIGHT			
-				
-	MOVE_PADDLE_RIGHT_RIGHT: 
-	
-	  	
-	MOV AX,PADDLE_VELOCITY
-			ADD PADDLE_RIGHT_X,AX
-			
-			MOV AX,WINDOW_WIDTH2
-			CMP PADDLE_RIGHT_X,AX
-			JL  FIX_PADDLE_RIGHT_POSITION1
-			
-			MOV AX,PADDLE_VELOCITY
-			SUB PADDLE_RIGHT_X,AX
-			
-			 
-			
-			 FIX_PADDLE_RIGHT_POSITION1:
-				
-                      cmp gun2,1
-                   
-                    je  FIX_PADDLE_RIGHT_POSITION     
-                    
-	
-	            JMP  EXIT_PADDLE_MOVEMENT2     
-	
-	
-	MOVE_PADDLE_RIGHT_LEFT:
-	
-		
-		
-		         MOV AX,PADDLE_VELOCITY
-                 SUB PADDLE_RIGHT_X,AX  
-		        
-	  
-                MOV AX,LEFT_PADDEL_LIMIT_FROM_LEFT
-                CMP PADDLE_RIGHT_X,AX
-                Jg FIX_PADDLE_RIGHT_POSITION
-                
-                
-                MOV AX,PADDLE_VELOCITY
-                add PADDLE_RIGHT_X,AX     
-                
-                FIX_PADDLE_RIGHT_POSITION2:
-			     
-                  cmp gun2,1
-                    
-                    je  FIX_PADDLE_RIGHT_POSITION     
-                    
-				    jmp  EXIT_PADDLE_MOVEMENT2   
-	
-	
-	MOVE_PADDLE_RIGHT_UP: 
-	
-	 MOV AX,PADDLE_VELOCITY_Y
-                SUB PADDLE_RIGHT_Y,AX  
-		        
-                MOV AX,WINDOW_HEIGHT_TOP
-                CMP PADDLE_RIGHT_Y,AX
-                Jg FIX_PADDLE_RIGHT_POSITION 
-                
-                
-                
-                
-                
-                MOV AX,PADDLE_VELOCITY_Y
-                add PADDLE_RIGHT_Y,AX  
-              
-               FIX_PADDLE_RIGHT_POSITION3:  
-                  cmp gun2,1
-                    
-                    je  FIX_PADDLE_RIGHT_POSITION     
-                    
-				    jmp  EXIT_PADDLE_MOVEMENT2  
-	
-	MOVE_PADDLE_RIGHT_DOWN:
-	   
-	     MOV AX,PADDLE_VELOCITY_Y
-                ADD PADDLE_RIGHT_Y,AX  
-		
-                MOV AX,WINDOW_HEIGHT_BOTTOM
-                CMP PADDLE_RIGHT_Y,AX
-                JL FIX_PADDLE_RIGHT_POSITION 
-                
-                
-                
-                
-                
-                MOV AX,PADDLE_VELOCITY_Y
-                sub PADDLE_RIGHT_Y,AX  
-                  FIX_PADDLE_RIGHT_POSITION4: 
-                  cmp gun2,1
-                    
-                    je  FIX_PADDLE_RIGHT_POSITION     
-                    
-				    jmp  EXIT_PADDLE_MOVEMENT2  
-		
-	 
-	 FIX_PADDLE_RIGHT_POSITION:
-		
-                    
-                    MOV BX,10h
-                    ADD BX,PADDLE_RIGHT_X
-                    MOV BALL2_X,BX
-                   
-                    MOV BX,PADDLE_RIGHT_Y
-                    MOV BALL2_Y,BX   
-				JMP EXIT_PADDLE_MOVEMENT2   
-	
-				
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;				
-				
-		
-		
-             
-             
-             EXIT_PADDLE_MOVEMENT2:
-             
-             
-                    jmp exit_p
-              Ball2:
-                    
-                    CMP bullet2,2
-                    JE exit_p 
-                  INC bullet2  
-                   MOV DH,0  
-                   MOV GUN2,DH     
-      
-             
-                
-                exit_p: 
-                
-                
-       
-                
-          
-               pop_all
- endm MOVE_PADDLES
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;; 
- 
-    
+
  ;;----------------  clac_point    -------------------------------
 clac_point macro tg,tbl,ty,tr,tb,tp  
    local  less
@@ -805,3 +407,883 @@ printnum2 macro num
 endm printnum2        
 
 ;;;;;;;;;;;;;;;;;;;
+
+ ;-----------------------------------------------------MOVE CURSOR----------------------------
+ mov_cursor macro num       ;; Move Cursor       
+      push_all
+     mov ah,2 
+mov bx,0
+mov dx,num
+int 10h    
+pop_all
+endm mov_cursor    
+ 
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;-----------------Initialization-----------------------
+initgame macro 
+    
+    push_all
+    mov dx,3fbh ; Line Control Register
+    mov al,10000000b ;Set Divisor Latch Access Bit
+    out dx,al ;Out it            
+    mov dx,3f8h
+    mov al,0ch 
+    out dx,al
+    mov dx,3f9h
+    mov al,00h
+    out dx,al
+    mov dx,3fbh
+    mov al,00011011b
+    out dx,al  
+    
+    pop_all
+    
+endm initgame     
+;--------------------------------------------
+;-------------Receive------------------------
+receive1 macro    
+    local Ball2
+    local exit_p
+    local MOVE_PADDLE1
+    local MOVE_PADDLE2
+    local MOVE_PADDLE3
+    local MOVE_PADDLE4 
+    local MOVE_PADDLE_RIGHT_DOWN 
+    local MOVE_PADDLE_RIGHT_UP
+    local MOVE_PADDLE_RIGHT_RIGHT
+    local MOVE_PADDLE_RIGHT_LEFT
+    local FIX_PADDLE_RIGHT_POSITION  
+    local FIX_PADDLE_RIGHT_POSITION1
+    local FIX_PADDLE_RIGHT_POSITION2
+    local FIX_PADDLE_RIGHT_POSITION3
+    local FIX_PADDLE_RIGHT_POSITION4
+    local lol2
+    local EXIT_PADDLE_MOVEMENT2
+    local mmm
+    ;local CHK
+     push_all 
+mov dx , 3FDh ; Line Status Register
+In al , dx ;Read Line Status
+;AND al , 00100000b
+AND AL,1
+;JZ CheckSend
+jnz mmm
+jmp exit_p
+mmm:
+
+mov dx , 3F8h ; Transmit data register
+IN al,DX
+MOV VALUE , al 
+inc Di 
+
+cmp VALUE,4Dh
+JNE MOVE_PADDLE1 
+    jmp MOVE_PADDLE_RIGHT_RIGHT 
+       ;jmp exit_p
+     MOVE_PADDLE1:
+      
+     
+CMP VALUE,4Bh ;'s'
+		JNE MOVE_PADDLE2
+	    jmp MOVE_PADDLE_RIGHT_LEFT
+		;jmp exit_p
+		 
+		MOVE_PADDLE2: 
+		 
+		CMP VALUE,48h 
+		JNE MOVE_PADDLE3 
+		jmp MOVE_PADDLE_RIGHT_UP
+		;jmp exit_p
+		MOVE_PADDLE3:
+		CMP VALUE,50h 
+		  		
+	  JNE MOVE_PADDLE4
+		jmp MOVE_PADDLE_RIGHT_DOWN  
+		;jmp exit_p 
+		 MOVE_PADDLE4:
+		CMP VALUE,39H  
+        ;JNE BALL2
+         jne lol2
+         jmp ball2
+         lol2:
+          		 
+		  jmp EXIT_PADDLE_MOVEMENT2 
+                   
+;exit_p:  
+ 
+;;;;;;;;;;;;;--------------------------------------------------
+
+MOVE_PADDLE_RIGHT_RIGHT: 
+	
+	  	
+	MOV AX,PADDLE_VELOCITY
+			ADD PADDLE_RIGHT_X,AX
+			
+			MOV AX,WINDOW_WIDTH2
+			CMP PADDLE_RIGHT_X,AX
+			JL  FIX_PADDLE_RIGHT_POSITION1
+			
+			MOV AX,PADDLE_VELOCITY
+			SUB PADDLE_RIGHT_X,AX
+			
+			 
+			
+			 FIX_PADDLE_RIGHT_POSITION1:
+				
+                      cmp gun2,1
+                   
+                    je  FIX_PADDLE_RIGHT_POSITION     
+                    
+	
+	            JMP  EXIT_PADDLE_MOVEMENT2     
+	
+	
+	MOVE_PADDLE_RIGHT_LEFT:
+	
+		
+		
+		         MOV AX,PADDLE_VELOCITY
+                 SUB PADDLE_RIGHT_X,AX  
+		        
+	  
+                MOV AX,LEFT_PADDEL_LIMIT_FROM_LEFT
+                CMP PADDLE_RIGHT_X,AX
+                Jg FIX_PADDLE_RIGHT_POSITION
+                
+                
+                MOV AX,PADDLE_VELOCITY
+                add PADDLE_RIGHT_X,AX     
+                
+                FIX_PADDLE_RIGHT_POSITION2:
+			     
+                  cmp gun2,1
+                    
+                    je  FIX_PADDLE_RIGHT_POSITION     
+                    
+				    jmp  EXIT_PADDLE_MOVEMENT2   
+	
+	
+	MOVE_PADDLE_RIGHT_UP: 
+	
+	 MOV AX,PADDLE_VELOCITY_Y
+                SUB PADDLE_RIGHT_Y,AX  
+		        
+                MOV AX,WINDOW_HEIGHT_TOP
+                CMP PADDLE_RIGHT_Y,AX
+                Jg FIX_PADDLE_RIGHT_POSITION 
+                
+                
+                
+                
+                
+                MOV AX,PADDLE_VELOCITY_Y
+                add PADDLE_RIGHT_Y,AX  
+              
+               FIX_PADDLE_RIGHT_POSITION3:  
+                  cmp gun2,1
+                    
+                    je  FIX_PADDLE_RIGHT_POSITION     
+                    
+				    jmp  EXIT_PADDLE_MOVEMENT2  
+	
+	MOVE_PADDLE_RIGHT_DOWN:
+	   
+	     MOV AX,PADDLE_VELOCITY_Y
+                ADD PADDLE_RIGHT_Y,AX  
+		
+                MOV AX,WINDOW_HEIGHT_BOTTOM
+                CMP PADDLE_RIGHT_Y,AX
+                JL FIX_PADDLE_RIGHT_POSITION 
+                
+                
+                
+                
+                
+                MOV AX,PADDLE_VELOCITY_Y
+                sub PADDLE_RIGHT_Y,AX  
+                  FIX_PADDLE_RIGHT_POSITION4: 
+                  cmp gun2,1
+                    
+                    je  FIX_PADDLE_RIGHT_POSITION     
+                    
+				    jmp  EXIT_PADDLE_MOVEMENT2  
+		
+	 
+	 FIX_PADDLE_RIGHT_POSITION:
+		
+                    
+                    MOV BX,10h
+                    ADD BX,PADDLE_RIGHT_X
+                    MOV BALL2_X,BX
+                   
+                    MOV BX,PADDLE_RIGHT_Y
+                    MOV BALL2_Y,BX   
+				JMP EXIT_PADDLE_MOVEMENT2   
+	
+				
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;				
+				
+		
+		
+             
+             
+             EXIT_PADDLE_MOVEMENT2:
+             
+             
+                    jmp exit_p
+              Ball2:
+                    
+                   CMP bullet2,2
+                   JE exit_p 
+                   INC bullet2  
+                   MOV DH,0  
+                   MOV GUN2,DH     
+      
+             
+                
+                exit_p: 
+                
+
+pop_all
+
+endm receive1
+
+
+
+;--------------------------------------------------
+;---------------------Send------------------------
+ send1 macro       
+   local BALL
+   local exit_p
+   local MOVE_PADDLE1
+   local MOVE_PADDLE2
+   local MOVE_PADDLE3
+   local MOVE_PADDLE4  
+   local MOVE_PADDLE_RIGHT
+   local MOVE_PADDLE_LEFT
+   local MOVE_PADDLE_DOWN
+   local MOVE_PADDLE_UP
+   local FIX_PADDLE_LEFT_BOTTOM_POSITION
+   local FIX_PADDLE_LEFT_TOP_POSITION 
+   local FIX_PADDLE_LEFT_TOP_POSITION0
+   local FIX_PADDLE_LEFT_TOP_POSITION1
+   local FIX_PADDLE_LEFT_TOP_POSITION2
+   local mmm 
+   local lol
+   local EXIT_PADDLE_MOVEMENT
+   ;local CheckSend
+   
+   push_all
+mov dx , 3FDh ; Line Status Register
+In al , dx ;Read Line Status
+AND al , 00100000b
+;AND AL,1
+;JZ CheckSend
+jnz mmm
+jmp exit_p
+mmm:
+
+mov dx , 3F8h ; Transmit data register
+MOV AL,VALUE 
+OUT DX , AL 
+;mov VALUE,AL
+inc si 
+
+
+cmp VALUE,4Dh
+JNE MOVE_PADDLE1 
+    jmp MOVE_PADDLE_RIGHT 
+     ;jmp exit_p
+     MOVE_PADDLE1:
+      
+     
+        CMP VALUE,4Bh ;'s'
+		JNE MOVE_PADDLE2
+	    jmp MOVE_PADDLE_LEFT
+		;jmp exit_p		 
+		MOVE_PADDLE2: 
+		 
+		CMP VALUE,48h 
+		JNE MOVE_PADDLE3 
+		jmp MOVE_PADDLE_UP
+		;jmp exit_p
+		MOVE_PADDLE3:
+	
+		CMP VALUE,50h 		  		
+	  JNE MOVE_PADDLE4
+		jmp MOVE_PADDLE_DOWN  
+		;jmp exit_p 
+		 MOVE_PADDLE4:
+		 
+ CMP VALUE,39H  
+        ;JNE BALL
+        jne lol
+        jmp BALL
+        lol:  
+        jmp EXIT_PADDLE_MOVEMENT
+;;;----------------------------------------------------
+
+ MOVE_PADDLE_RIGHT:
+			MOV AX,PADDLE_VELOCITY
+			ADD PADDLE_LEFT_X,AX
+			
+			MOV AX,WINDOW_WIDTH2
+			CMP PADDLE_LEFT_X,AX
+			JL FIX_PADDLE_LEFT_TOP_POSITION
+			
+			MOV AX,PADDLE_VELOCITY
+			SUB PADDLE_LEFT_X,AX
+			
+			 
+			
+			FIX_PADDLE_LEFT_TOP_POSITION:
+				
+                      cmp gun,1
+                   
+                    je  FIX_PADDLE_LEFT_BOTTOM_POSITION     
+                    
+				    jmp  EXIT_PADDLE_MOVEMENT
+			
+		MOVE_PADDLE_LEFT:
+		         MOV AX,PADDLE_VELOCITY
+                 SUB PADDLE_LEFT_X,AX  
+		        
+	  
+                MOV AX,LEFT_PADDEL_LIMIT_FROM_LEFT
+                CMP PADDLE_LEFT_X,AX
+                Jg FIX_PADDLE_LEFT_BOTTOM_POSITION
+                
+                
+                MOV AX,PADDLE_VELOCITY
+                add PADDLE_LEFT_X,AX     
+                
+                FIX_PADDLE_LEFT_TOP_POSITION0:
+			     
+                  cmp gun,1
+                    
+                    je  FIX_PADDLE_LEFT_BOTTOM_POSITION     
+                    
+				    jmp  EXIT_PADDLE_MOVEMENT   
+				    
+				    
+				    
+				    
+				    ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;up and down
+         MOVE_PADDLE_UP:
+		        
+		        MOV AX,PADDLE_VELOCITY_Y
+                SUB PADDLE_LEFT_Y,AX  
+		        
+                MOV AX,WINDOW_HEIGHT_TOP
+                CMP PADDLE_LEFT_Y,AX
+                Jg FIX_PADDLE_LEFT_BOTTOM_POSITION 
+                
+                
+                
+                
+                
+                MOV AX,PADDLE_VELOCITY_Y
+                add PADDLE_LEFT_Y,AX  
+              
+              FIX_PADDLE_LEFT_TOP_POSITION1:  
+                  cmp gun,1
+                    
+                    je  FIX_PADDLE_LEFT_BOTTOM_POSITION     
+                    
+				    jmp  EXIT_PADDLE_MOVEMENT  				    
+		
+		MOVE_PADDLE_DOWN:     
+		
+		          MOV AX,PADDLE_VELOCITY_Y
+                ADD PADDLE_LEFT_Y,AX  
+		
+                MOV AX,WINDOW_HEIGHT_BOTTOM
+                CMP PADDLE_LEFT_Y,AX
+                JL FIX_PADDLE_LEFT_BOTTOM_POSITION 
+                
+                
+                
+                
+                
+                MOV AX,PADDLE_VELOCITY_Y
+                sub PADDLE_LEFT_Y,AX  
+                 FIX_PADDLE_LEFT_TOP_POSITION2: 
+                  cmp gun,1
+                    
+                    je  FIX_PADDLE_LEFT_BOTTOM_POSITION     
+                    
+				    jmp  EXIT_PADDLE_MOVEMENT  
+		
+				    
+				    ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;  
+				    
+				    
+				    
+				
+        	
+			FIX_PADDLE_LEFT_BOTTOM_POSITION:
+		
+                    
+                    MOV BX,10h
+                    ADD BX,PADDLE_LEFT_X
+                    MOV BALL_X,BX
+                   
+                    MOV BX,PADDLE_LEFT_Y
+                    MOV BALL_Y,BX   
+				JMP EXIT_PADDLE_MOVEMENT       
+				
+				
+				
+	EXIT_PADDLE_MOVEMENT:
+		       jmp exit_p     
+		            
+              Ball:
+                    
+                    CMP bullet,2
+                    JE exit_p 
+                  INC bullet  
+                   MOV DH,0  
+                   MOV GUN,DH     
+                
+                
+               
+           exit_p:  			
+
+pop_all
+
+endm send1 
+;;;;--------------------------------------------------------
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;								
+;--------------------------------------------------
+;---------------------SendOFRIGHTPLAYER------------------------
+ send2 macro       
+    local Ball2
+    local exit_p
+    local MOVE_PADDLE1
+    local MOVE_PADDLE2
+    local MOVE_PADDLE3
+    local MOVE_PADDLE4 
+    local MOVE_PADDLE_RIGHT_DOWN 
+    local MOVE_PADDLE_RIGHT_UP
+    local MOVE_PADDLE_RIGHT_RIGHT
+    local MOVE_PADDLE_RIGHT_LEFT
+    local FIX_PADDLE_RIGHT_POSITION  
+    local FIX_PADDLE_RIGHT_POSITION1
+    local FIX_PADDLE_RIGHT_POSITION2
+    local FIX_PADDLE_RIGHT_POSITION3
+    local FIX_PADDLE_RIGHT_POSITION4
+    local lol2
+    local EXIT_PADDLE_MOVEMENT2
+    local mmm
+    ;local CHK
+     push_all 
+mov dx , 3FDh ; Line Status Register
+In al , dx ;Read Line Status
+AND al , 00100000b
+;AND AL,1
+;JZ CheckSend
+jnz mmm
+jmp exit_p
+mmm:
+
+mov dx , 3F8h ; Transmit data register
+MOV AL,VALUE 
+OUT DX , AL 
+;mov VALUE,AL
+inc si 
+
+
+cmp VALUE,4Dh
+JNE MOVE_PADDLE1 
+    jmp MOVE_PADDLE_RIGHT_RIGHT 
+       ;jmp exit_p
+     MOVE_PADDLE1:
+      
+     
+CMP VALUE,4Bh ;'s'
+		JNE MOVE_PADDLE2
+	    jmp MOVE_PADDLE_RIGHT_LEFT
+		;jmp exit_p
+		 
+		MOVE_PADDLE2: 
+		 
+		CMP VALUE,48h 
+		JNE MOVE_PADDLE3 
+		jmp MOVE_PADDLE_RIGHT_UP
+		;jmp exit_p
+		MOVE_PADDLE3:
+		CMP VALUE,50h 
+		  		
+	  JNE MOVE_PADDLE4
+		jmp MOVE_PADDLE_RIGHT_DOWN  
+		;jmp exit_p 
+		 MOVE_PADDLE4:
+		CMP VALUE,39H  
+        ;JNE BALL2
+         jne lol2
+         jmp ball2
+         lol2:
+          		 
+		  jmp EXIT_PADDLE_MOVEMENT2 
+                   
+;exit_p:  
+ 
+;;;;;;;;;;;;;--------------------------------------------------
+
+MOVE_PADDLE_RIGHT_RIGHT: 
+	
+	  	
+	MOV AX,PADDLE_VELOCITY
+			ADD PADDLE_RIGHT_X,AX
+			
+			MOV AX,WINDOW_WIDTH2
+			CMP PADDLE_RIGHT_X,AX
+			JL  FIX_PADDLE_RIGHT_POSITION1
+			
+			MOV AX,PADDLE_VELOCITY
+			SUB PADDLE_RIGHT_X,AX
+			
+			 
+			
+			 FIX_PADDLE_RIGHT_POSITION1:
+				
+                      cmp gun2,1
+                   
+                    je  FIX_PADDLE_RIGHT_POSITION     
+                    
+	
+	            JMP  EXIT_PADDLE_MOVEMENT2     
+	
+	
+	MOVE_PADDLE_RIGHT_LEFT:
+	
+		
+		
+		         MOV AX,PADDLE_VELOCITY
+                 SUB PADDLE_RIGHT_X,AX  
+		        
+	  
+                MOV AX,LEFT_PADDEL_LIMIT_FROM_LEFT
+                CMP PADDLE_RIGHT_X,AX
+                Jg FIX_PADDLE_RIGHT_POSITION
+                
+                
+                MOV AX,PADDLE_VELOCITY
+                add PADDLE_RIGHT_X,AX     
+                
+                FIX_PADDLE_RIGHT_POSITION2:
+			     
+                  cmp gun2,1
+                    
+                    je  FIX_PADDLE_RIGHT_POSITION     
+                    
+				    jmp  EXIT_PADDLE_MOVEMENT2   
+	
+	
+	MOVE_PADDLE_RIGHT_UP: 
+	
+	 MOV AX,PADDLE_VELOCITY_Y
+                SUB PADDLE_RIGHT_Y,AX  
+		        
+                MOV AX,WINDOW_HEIGHT_TOP
+                CMP PADDLE_RIGHT_Y,AX
+                Jg FIX_PADDLE_RIGHT_POSITION 
+                
+                
+                
+                
+                
+                MOV AX,PADDLE_VELOCITY_Y
+                add PADDLE_RIGHT_Y,AX  
+              
+               FIX_PADDLE_RIGHT_POSITION3:  
+                  cmp gun2,1
+                    
+                    je  FIX_PADDLE_RIGHT_POSITION     
+                    
+				    jmp  EXIT_PADDLE_MOVEMENT2  
+	
+	MOVE_PADDLE_RIGHT_DOWN:
+	   
+	     MOV AX,PADDLE_VELOCITY_Y
+                ADD PADDLE_RIGHT_Y,AX  
+		
+                MOV AX,WINDOW_HEIGHT_BOTTOM
+                CMP PADDLE_RIGHT_Y,AX
+                JL FIX_PADDLE_RIGHT_POSITION 
+                
+                
+                
+                
+                
+                MOV AX,PADDLE_VELOCITY_Y
+                sub PADDLE_RIGHT_Y,AX  
+                  FIX_PADDLE_RIGHT_POSITION4: 
+                  cmp gun2,1
+                    
+                    je  FIX_PADDLE_RIGHT_POSITION     
+                    
+				    jmp  EXIT_PADDLE_MOVEMENT2  
+		
+	 
+	 FIX_PADDLE_RIGHT_POSITION:
+		
+                    
+                    MOV BX,10h
+                    ADD BX,PADDLE_RIGHT_X
+                    MOV BALL2_X,BX
+                   
+                    MOV BX,PADDLE_RIGHT_Y
+                    MOV BALL2_Y,BX   
+				JMP EXIT_PADDLE_MOVEMENT2   
+	
+				
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;				
+				             
+             
+             EXIT_PADDLE_MOVEMENT2:
+             
+             
+                    jmp exit_p
+              Ball2:
+                    
+                   CMP bullet2,2
+                   JE exit_p 
+                   INC bullet2  
+                   MOV DH,0  
+                   MOV GUN2,DH     
+      
+             
+                
+                exit_p: 
+                
+;;;;;;;;;;;;;--------------------------------------------------
+
+pop_all
+
+endm send2 		
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+;-------------ReceiveOF RIGHT PLAYER------------------------
+receive2 macro    
+   local BALL
+   local exit_p
+   local MOVE_PADDLE1
+   local MOVE_PADDLE2
+   local MOVE_PADDLE3
+   local MOVE_PADDLE4  
+   local MOVE_PADDLE_RIGHT
+   local MOVE_PADDLE_LEFT
+   local MOVE_PADDLE_DOWN
+   local MOVE_PADDLE_UP
+   local FIX_PADDLE_LEFT_BOTTOM_POSITION
+   local FIX_PADDLE_LEFT_TOP_POSITION 
+   local FIX_PADDLE_LEFT_TOP_POSITION0
+   local FIX_PADDLE_LEFT_TOP_POSITION1
+   local FIX_PADDLE_LEFT_TOP_POSITION2
+   local mmm 
+   local lol
+   local EXIT_PADDLE_MOVEMENT
+     
+   push_all
+mov dx , 3FDh ; Line Status Register
+In al , dx ;Read Line Status
+;AND al , 00100000b
+AND AL,1
+;JZ CheckSend
+jnz mmm
+jmp exit_p
+mmm:
+
+mov dx , 3F8h ; Transmit data register
+IN al,DX
+MOV VALUE , al 
+inc Di 
+
+
+cmp VALUE,4Dh
+JNE MOVE_PADDLE1 
+    jmp MOVE_PADDLE_RIGHT 
+     ;jmp exit_p
+     MOVE_PADDLE1:
+      
+     
+        CMP VALUE,4Bh ;'s'
+		JNE MOVE_PADDLE2
+	    jmp MOVE_PADDLE_LEFT
+		;jmp exit_p		 
+		MOVE_PADDLE2: 
+		 
+		CMP VALUE,48h 
+		JNE MOVE_PADDLE3 
+		jmp MOVE_PADDLE_UP
+		;jmp exit_p
+		MOVE_PADDLE3:
+	
+		CMP VALUE,50h 		  		
+	  JNE MOVE_PADDLE4
+		jmp MOVE_PADDLE_DOWN  
+		;jmp exit_p 
+		 MOVE_PADDLE4:
+		 
+ CMP VALUE,39H  
+        ;JNE BALL
+        jne lol
+        jmp BALL
+        lol:  
+        jmp EXIT_PADDLE_MOVEMENT
+;;;----------------------------------------------------
+
+ MOVE_PADDLE_RIGHT:
+			MOV AX,PADDLE_VELOCITY
+			ADD PADDLE_LEFT_X,AX
+			
+			MOV AX,WINDOW_WIDTH2
+			CMP PADDLE_LEFT_X,AX
+			JL FIX_PADDLE_LEFT_TOP_POSITION
+			
+			MOV AX,PADDLE_VELOCITY
+			SUB PADDLE_LEFT_X,AX
+			
+			 
+			
+			FIX_PADDLE_LEFT_TOP_POSITION:
+				
+                      cmp gun,1
+                   
+                    je  FIX_PADDLE_LEFT_BOTTOM_POSITION     
+                    
+				    jmp  EXIT_PADDLE_MOVEMENT
+			
+		MOVE_PADDLE_LEFT:
+		         MOV AX,PADDLE_VELOCITY
+                 SUB PADDLE_LEFT_X,AX  
+		        
+	  
+                MOV AX,LEFT_PADDEL_LIMIT_FROM_LEFT
+                CMP PADDLE_LEFT_X,AX
+                Jg FIX_PADDLE_LEFT_BOTTOM_POSITION
+                
+                
+                MOV AX,PADDLE_VELOCITY
+                add PADDLE_LEFT_X,AX     
+                
+                FIX_PADDLE_LEFT_TOP_POSITION0:
+			     
+                  cmp gun,1
+                    
+                    je  FIX_PADDLE_LEFT_BOTTOM_POSITION     
+                    
+				    jmp  EXIT_PADDLE_MOVEMENT   
+				    
+
+				    ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;up and down
+         MOVE_PADDLE_UP:
+		        
+		        MOV AX,PADDLE_VELOCITY_Y
+                SUB PADDLE_LEFT_Y,AX  
+		        
+                MOV AX,WINDOW_HEIGHT_TOP
+                CMP PADDLE_LEFT_Y,AX
+                Jg FIX_PADDLE_LEFT_BOTTOM_POSITION 
+                
+                
+                
+                
+                
+                MOV AX,PADDLE_VELOCITY_Y
+                add PADDLE_LEFT_Y,AX  
+              
+              FIX_PADDLE_LEFT_TOP_POSITION1:  
+                  cmp gun,1
+                    
+                    je  FIX_PADDLE_LEFT_BOTTOM_POSITION     
+                    
+				    jmp  EXIT_PADDLE_MOVEMENT  				    
+		
+		MOVE_PADDLE_DOWN:     
+		
+		          MOV AX,PADDLE_VELOCITY_Y
+                ADD PADDLE_LEFT_Y,AX  
+		
+                MOV AX,WINDOW_HEIGHT_BOTTOM
+                CMP PADDLE_LEFT_Y,AX
+                JL FIX_PADDLE_LEFT_BOTTOM_POSITION 
+                
+                
+                
+                
+                
+                MOV AX,PADDLE_VELOCITY_Y
+                sub PADDLE_LEFT_Y,AX  
+                 FIX_PADDLE_LEFT_TOP_POSITION2: 
+                  cmp gun,1
+                    
+                    je  FIX_PADDLE_LEFT_BOTTOM_POSITION     
+                    
+				    jmp  EXIT_PADDLE_MOVEMENT  
+		
+				    
+				    ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;  
+
+			FIX_PADDLE_LEFT_BOTTOM_POSITION:
+		
+                    
+                    MOV BX,10h
+                    ADD BX,PADDLE_LEFT_X
+                    MOV BALL_X,BX
+                   
+                    MOV BX,PADDLE_LEFT_Y
+                    MOV BALL_Y,BX   
+				JMP EXIT_PADDLE_MOVEMENT       
+				
+				
+				
+	EXIT_PADDLE_MOVEMENT:
+		       jmp exit_p     
+		            
+              Ball:
+                    
+                    CMP bullet,2
+                    JE exit_p 
+                  INC bullet  
+                   MOV DH,0  
+                   MOV GUN,DH     
+                
+                
+               
+           exit_p:  			
+				
+pop_all
+
+endm receive2
+
+
+
+
+
+
+;-----------------------------------------------PRINT MSG
+
+;printmsg macro msg       
+ ;   push_all
+  ;  mov ah,9
+  ;  mov dx,offset msg
+   ; int 21h     
+   ; pop_all
+;endm printmsg
+
+;-----------------------------------CLEAR
+;clear macro                     ;; Clear string 
+ ;    push_all
+  ;  mov ax,0600h
+   ; mov bh,07
+   ; mov cx,0
+   ; mov dx,184FH
+   ; int 10h  
+   ; pop_all
+;endm clear
+
+;;;;;;;;;;;;;;;;;;;;;;;;;
+;;;;;;;;;;;;;;;;;;;;;;;;;

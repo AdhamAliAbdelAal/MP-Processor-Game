@@ -298,7 +298,8 @@ start_screen macro                     ;; Start Screen
         
     exit_e:  
     ;wait_enter
-    
+     read_number STR_Point+2,POINT 
+     read_number STR_Point2+2,POINT2
     MOV AH,POINT
     MOV AL,POINT2
     CMP AH,AL
@@ -591,6 +592,7 @@ main_screen macro                     ;; Main Screen
         jmp L_eslam  
     notfirst:
     mov mainPlayer,1
+    mov FRISTPLAYER, 1
     mov player_choose,0      
     MOV SI,OFFSET  player_name
     MOV DI,OFFSET  player_name_TEMP
@@ -609,10 +611,10 @@ main_screen macro                     ;; Main Screen
     MOV CX,13
     REP MOVSB
     
-    MOV CL ,POINT
-    MOV CH, POINT2
-    MOV POINT,CH
-    MOV POINT2,CL
+    ;MOV CL ,POINT
+    ;MOV CH, POINT2
+    ;MOV POINT,CH
+    ;MOV POINT2,CL
     JMP END_ESLAM     
     game_eslam:  
       end_eslam:
