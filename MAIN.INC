@@ -297,6 +297,7 @@ start_screen macro                     ;; Start Screen
         jmp L_eslam 
         
     exit_e:  
+    ;wait_enter
     
     MOV AH,POINT
     MOV AL,POINT2
@@ -588,21 +589,23 @@ main_screen macro                     ;; Main Screen
         exit:
         
         jmp L_eslam  
-    notfirst:       
+    notfirst:
+    mov mainPlayer,1
+    mov player_choose,0      
     MOV SI,OFFSET  player_name
-    MOV DI,OFFSET   player_name_TEMP
+    MOV DI,OFFSET  player_name_TEMP
     MOV CX,13
     REP MOVSB 
     MOV SI,OFFSET  player_name2
-    MOV DI,OFFSET   player_name2_TEMP
+    MOV DI,OFFSET  player_name2_TEMP
     MOV CX,13
     REP MOVSB 
     MOV SI,OFFSET  player_name_TEMP
-    MOV DI,OFFSET   player_name2
+    MOV DI,OFFSET  player_name2
     MOV CX,13
     REP MOVSB 
-      MOV SI,OFFSET  player_name2_TEMP
-    MOV DI,OFFSET   player_name
+    MOV SI,OFFSET  player_name2_TEMP
+    MOV DI,OFFSET  player_name
     MOV CX,13
     REP MOVSB
     
@@ -610,12 +613,10 @@ main_screen macro                     ;; Main Screen
     MOV CH, POINT2
     MOV POINT,CH
     MOV POINT2,CL
-         
+    JMP END_ESLAM     
     game_eslam:  
-        jmp main_cont
-      
       end_eslam:
-          
+         jmp main_cont 
      
      chat_fathi:
     wait_enter_eslam 
@@ -634,8 +635,9 @@ SelectLevel MACRO
     printmsg  level_selection 
     mov_cursor 0c32h
     readchar level
-    printchar level 
-    wait_enter    
+    ;printchar mainPlayer
+    printchar level
+    wait_enter     
  pop_all 
 ENDM SelectLevel
 
@@ -677,8 +679,7 @@ CONVERT2REGS MACRO
 
 DrawInitialP1 MACRO
 push_all
-    clear
-    clear_buffer 
+    clear 
     mov_cursor 0400h 
     printmsg  InitialP1
     MOV DI, 0727h
@@ -699,13 +700,12 @@ push_all
     mov VALUE,-1
     mov [bx],al
     mov dl,[bx]
-    ;printhexa bx
     inc bx
     cmp al,0dh
     jnz toSendPOINTS
     dec cl
 
-    ;send 
+    ;send
     toSendPOINTS:
     cmp ch,0
     jz final_test
@@ -731,29 +731,75 @@ push_all
     nelly:
     jmp T
     barabety:
-    ;mov_cursor DI
     mov di,offset temp4Regs
-    mov bx,offset regval
+    mov bx,offset regval    
     add bx,2
     cmp mainPlayer,1
-    jz msh_da
+    JZ TELE3ONE
     mov si,offset ALREG
     mov BP,offset ALREG2
-    jmp enwak
-    msh_da:
+    JMP first_loop
+    TELE3ONE:
     mov BP,offset ALREG
     mov SI,offset ALREG2
-    enwak:
+    first_loop:
+    mov al,[bx]
+    mov [di],al
+    inc bx
+    inc di
+    cmp al,'$'
+    jmp first_loop_out
+    HONA_FISRT:    
+     
+    cmp al,0dh
+    jNz first_loop
+    MOV al,'$'
+    mov [di],al
+    mov di,offset temp4Regs 
+    
+    CheckSourceVal temp4Regs
+    MOV [SI],DX  
+    ADD SI,2
 
-    CONVERT2REGS
+    jmp first_loop
+    first_loop_out:
+    jz out_eshat
+    jmp HONA_FISRT
+    out_eshat:    
+
 
     mov di,offset temp4Regs
     mov bx,offset regval2
     add bx,2
-    MOV si,bp
+    mov si,BP
+    first_loop1:
+    mov al,[bx]
+    mov [di],al
+    inc bx
+    inc di
+    cmp al,'$'
+    jmp first_loop_out1
+    HONA_FISRT1:
+    cmp al,0dh
+    jNz first_loop1
+    MOV al,'$'
+    mov [di],al
+    mov di,offset temp4Regs
+    CheckSourceVal temp4Regs
+    MOV [SI],DX  
+    ADD SI,2
+    
 
-    CONVERT2REGS
-    ;wait_enter    
+    jmp first_loop1
+    first_loop_out1:
+    jz out_eshat1
+    jmp HONA_FISRT1
+    out_eshat1:
+    CLEAR 
+    GO 
+    DRAWREG_PLAYERS
+    wait_enter
+    Text_Mode    
 pop_all     
 ENDM DrawInitialP1
 

@@ -108,8 +108,7 @@ Points_Screen  db   '                                                           
     db   '                                                                    ',0ah,0dh     
     db   '                                                                    ',0ah,0dh
     DB   '$',0ah,0dh
-  
-regval db 10,?, 10 dup('$')               
+                 
 ;---------------------REGISTERS---------------------  
 ;xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx
 
@@ -214,7 +213,7 @@ checkDesSize db 100
 checkSrcSize db 50
                
 ;---------------------------------------------------- 
-mainPlayer db 1
+mainPlayer db 0
 player db 0
 level db '1'
 value db ?
@@ -284,11 +283,11 @@ tab db 9,9,9,'$'
 
 emptysttr db "$"        
 ClEAR_LINE    DB 80 DUP(' '),'$'
-F1_STR  DB '-You send a chat invitation  ','$'
-F2_STR  DB '-You send a game invitation  ','$'
+F1_STR  DB '-You sent a chat invitation  ','$'
+F2_STR  DB '-You sent a game invitation  ','$'
 
-get1_STR  DB '-You Have a chat invitation  ','$'
-get2_STR  DB '-You Have a game invitation  ','$'
+get1_STR  DB '-You have a chat invitation  ','$'
+get2_STR  DB '-You have a game invitation  ','$'
 
 
 begin_nof db 0      
@@ -472,9 +471,11 @@ LimitP52 db 0
 ;--------------------------------
 Player_Turn db "Player:$"
 Processor_Select db 1
- 
+player_choose db 1
+
+regval db 100,?, 80 dup('$')    
 regval2 db 100,?, 80 dup('$')
-temp4Regs db 20,?,20 dup('$')
+temp4Regs db 20 dup('$')
    
 Is_limitedP3 macro 
     local nafezP3ady

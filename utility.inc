@@ -70,9 +70,9 @@ readchar macro char
     LOCAL read_char
     clear_buffer
     push_all
-    mov al,mainPlayer
-    cmp player,al
-    jz mp1
+    mov al,player
+    cmp al,mainPlayer
+    je mp1
     CALL receive
     mov al,VALUE
     jmp read_char
@@ -82,7 +82,7 @@ readchar macro char
     mov VALUE,al
     CALL send
     read_char:
-    mov char, al
+    mov char,al
     pop_all    
 endm readchar
 
