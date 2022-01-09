@@ -297,7 +297,6 @@ start_screen macro                     ;; Start Screen
         jmp L_eslam 
         
     exit_e:  
-    ;wait_enter
      read_number STR_Point+2,POINT 
      read_number STR_Point2+2,POINT2
     MOV AH,POINT

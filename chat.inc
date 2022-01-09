@@ -66,7 +66,7 @@ PRINTREC MACRO
     mov_cursor 1600h
      
     mov ah,9
-    mov dx,offset other  
+    mov dx,offset other 
     int 21h  
     
     mov ah,9
@@ -285,7 +285,7 @@ PRINTREC2 MACRO
     mov_cursor cx 
      
     mov ah,9
-    mov dx,offset other  
+    mov dx,offset other 
     int 21h  
     
     mov ah,9

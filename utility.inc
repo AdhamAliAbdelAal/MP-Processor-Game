@@ -10,7 +10,6 @@ endm printmsg
 
 ;--------------READ MESSAGE---------------------
 
-
 readmsg macro ins2
     local st
     local ex
@@ -19,6 +18,8 @@ readmsg macro ins2
     LOCAL OUTOFREAD 
     LOCAL ana_Dah
     LOCAL PressEnter
+    LOCAL kammel_hena_tany
+    LOCAL IS_TO_HAMDY_FATHI
     clear_buffer
 PUSH_ALL
 mov cl,0
@@ -39,11 +40,13 @@ CALL send
 PressEnter:
 cmp aL,0Dh
 je ex
-cmp ah,3eh
+cmp al,0
 jmp IsToScore
 KammelHena:
+CMP AL,2AH
+JMP IS_TO_HAMDY_FATHI
+kammel_hena_tany:
 inc cl
-
 mov [BX],al
 inc BX
 mov ah,2
@@ -59,6 +62,9 @@ JMP OUTOFREAD
 IsToScore:
 jne KammelHena
 jmp toScoreScreen 
+IS_TO_HAMDY_FATHI:
+jne kammel_hena_tany
+jmp sa7ar
 OUTOFREAD: 
 POP_ALL    
 endm readmsg

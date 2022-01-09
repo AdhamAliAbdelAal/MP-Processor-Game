@@ -277,6 +277,7 @@ STR_Point db  7,?,7 duP('$')
 STR_Point2 db  7,?,7 duP('$')  
 player_name db 15,?,15 dup('$') 
 player_name2 db 15,?,15 dup('$')
+;player_name2 db 15,2,"AA", 13 dup('$')
 player_name_TEMP DB  15,?,15 dup('$')
 player_name2_TEMP DB 15,?,15 dup('$')
 tab db 9,9,9,'$'      
@@ -303,6 +304,7 @@ other db "Sender : $"
 
 black db 70 dup(' '),'$' 
 
+da5al_game db "mayateen om da error$"
 
 chatroom db "Chat Room$"
 ent db "Enter$"
@@ -956,14 +958,22 @@ int 10h
                 MOV bullet2,0
           mov gun,1
           mov gun2,1   
-          mov is_game,0      
+          mov is_game,0
+          
+          Sa7ar:
+          
+                
          jmp enterins
          
          
      ;-------------------------------------------------------------
         toScoreScreen:
-        DrawPointsScreen         
+        DrawPointsScreen
+                 
         JMP MAINHAMDY
+        
+        
+        
         ENDGAME:    
 HLT         
 main endp
