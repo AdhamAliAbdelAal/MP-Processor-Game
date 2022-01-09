@@ -788,7 +788,7 @@ endm Flag_reg_check_POP
 ;--------------------
 decPoints macro num
         mov bx,offset Point
-        add bl,player
+        add bl,elly_byel3ab
         mov al,[bx]
         sub al,num
         mov [bx],al 
@@ -796,7 +796,7 @@ endm decPoints
 detectPoints macro num 
     local Hayenfa3pow
     mov bx,offset Point
-    add bl,player
+    add bl,elly_byel3ab
     mov al,[bx]
     cmp al,num
     jae Hayenfa3pow

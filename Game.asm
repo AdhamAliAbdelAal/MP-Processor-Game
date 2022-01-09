@@ -472,7 +472,8 @@ cong_screen    db   '        ',0ah,0dh
 
 is_game dw 0
 p3_choose db 0
-hidden db "HIDDEN$"      
+hidden db "HIDDEN$" 
+elly_byel3ab db ?     
 ;-------------------------------- 
 ;------Initial Points---------
 POINT DB 50
@@ -564,6 +565,8 @@ endm Is_limitedP5
         mov cl,1
         
         enterins:
+        mov al,player
+        mov elly_byel3ab,al
         MOV Processor_Select,1
         mov Processor1,2
         mov Processor2,1
@@ -969,7 +972,7 @@ main endp
 executeInstruction PROC near 
     push_all
     INPUTFIELD 494ch       
-    cmp player,0
+    cmp elly_byel3ab,0
     jz playerOne
     mov al,FL2
     JMP HAMDYEDIT
