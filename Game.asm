@@ -469,12 +469,12 @@ LimitP32 db 0
 LimitP51 db 0
 LimitP52 db 0
 
-;-------------------------------- 
-regval2 db 100,?, 80 dup('$')
-temp4Regs db 20,?,20 dup('$')
-
+;--------------------------------
 Player_Turn db "Player:$"
 Processor_Select db 1
+ 
+regval2 db 100,?, 80 dup('$')
+temp4Regs db 20,?,20 dup('$')
    
 Is_limitedP3 macro 
     local nafezP3ady
@@ -616,7 +616,7 @@ endm Is_limitedP5
         Yesp1:
         MOV CL,1
         MOV FL_changed2,CL
-        ;FL_screen
+        FL_screen
         GO
         ;draw_bk 153,117,0,0,img1
 	  
@@ -636,7 +636,7 @@ endm Is_limitedP5
         ch0:            
         MOV CL,1
         MOV FL_changed1,CL
-        ;FL_screen
+        FL_screen
         GO
         ;draw_bk 153,117,0,0,img1
 	  

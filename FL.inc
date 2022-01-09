@@ -1,5 +1,15 @@
 FL_screen macro
+    local FL_main_loop
+    local CheckkSend
+    local dont_insert
+    local Continue_FL
+    local dont_insert2
+    local Test_FL
+    local Out_FL
+    local TMAM1
+    local EXIT5LAS 
  push_all
+ Text_Mode
     clear
     clear_buffer
  mov_cursor 0000h    
