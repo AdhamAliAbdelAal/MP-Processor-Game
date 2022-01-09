@@ -744,8 +744,6 @@ push_all
     mov BP,offset ALREG
     mov SI,offset ALREG2
     enwak:
-    add si,2
-    ADD BP,2
 
     CONVERT2REGS
 
