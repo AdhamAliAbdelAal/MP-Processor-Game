@@ -15,6 +15,7 @@ include cute.inc
 include FL.inc
 include MAIN.inc     
 include GUN.INC
+include chat.inc
 .model huge
 .stack 64
 
@@ -291,7 +292,28 @@ get2_STR  DB '-You have a game invitation  ','$'
 
 
 begin_nof db 0      
-notication db 80 DUP('$'),'$'   
+notication db 80 DUP('$'),'$'
+
+;---------CHAT----------
+sendern db "You   : $"            
+val  db 72,?,70 dup('$')
+
+
+other db "Sender : $"
+
+black db 70 dup(' '),'$' 
+
+
+chatroom db "Chat Room$"
+ent db "Enter$"
+press db "press $"
+
+
+x db 0h
+y db 2h
+
+valg  db 32,?,30 dup('$')
+   
 ;;------------------- gun -----------------------   
 	WINDOW_HEIGHT_TOP DW 64h                ;the height of the window (200 pixels)  
     WINDOW_HEIGHT_BOTTOM DW 96h 
@@ -373,23 +395,6 @@ notication db 80 DUP('$'),'$'
        color_ball db 3h
        color_ball2  db 0ch  
        FRISTPLAYER DB 0   
-       
-       
-       GS_str1  db   '                                                                ',0ah,0dh
-    DB   '        ===============================================================',0ah,0dh
-    DB   '        ||                                                           ||',0ah,0dh                                        
-    DB   '        ||              *    MP Processor Game   *                   ||',0ah,0dh
-    DB   '        ||                                                           ||',0ah,0dh
-    DB   '        ||-----------------------------------------------------------||',0ah,0dh 
-    DB   '        ||                                                           ||',0ah,0dh
-    DB   '        ||                                                           ||',0ah,0dh      
-    DB   '        ||           PRESS ENTER TO START GAME :                     ||',0ah,0dh
-    DB   '        ||                                                           ||',0ah,0dh      
-    DB   '        ||                                                           ||',0ah,0dh         
-    DB   '        ===============================================================',0ah,0dh  
-    db   '                                                                    ',0ah,0dh     
-    db   '                                                                    ',0ah,0dh
-    DB   '$',0ah,0dh
              
 ;-------------------POWER UPS--------------------
 pow1 db "P1$" 
@@ -539,7 +544,7 @@ endm Is_limitedP5
         JMP FIXX1
         IP1:
         DrawInitialP1
-        TAGET_1
+        TAGET_1 
         JMP CONT1
         FIXX1:
         JE CONT1
@@ -572,6 +577,10 @@ endm Is_limitedP5
         JMP ENDGAME
         CONTINUE_GAME:
         DRAWREG_PLAYERS
+        mov_cursor 150dh 
+        printchar FL1
+        mov_cursor 151bh
+        printchar FL2
         DrawTargetPoints
         DrawTargetPoints2
         INC is_game
@@ -769,9 +778,9 @@ endm Is_limitedP5
    
    ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
       CLEAR   
-      mov_cursor 0000h
-        printmsg GS_str1   
-        wait_enter 
+      ;mov_cursor 0000h
+        ;printmsg GS_str1   
+        ;wait_enter 
          
         
       CLEAR_SCREEN  

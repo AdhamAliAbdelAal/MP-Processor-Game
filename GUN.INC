@@ -633,7 +633,7 @@ MOVE_PADDLE_RIGHT_RIGHT:
                     jmp exit_p
               Ball2:
                     
-                   CMP bullet2,2
+                   CMP bullet2,3
                    JE exit_p 
                    INC bullet2  
                    MOV DH,0  
@@ -839,7 +839,7 @@ JNE MOVE_PADDLE1
 		            
               Ball:
                     
-                    CMP bullet,2
+                    CMP bullet,3
                     JE exit_p 
                   INC bullet  
                    MOV DH,0  
@@ -1048,7 +1048,7 @@ MOVE_PADDLE_RIGHT_RIGHT:
                     jmp exit_p
               Ball2:
                     
-                   CMP bullet2,2
+                   CMP bullet2,3
                    JE exit_p 
                    INC bullet2  
                    MOV DH,0  
@@ -1245,7 +1245,7 @@ JNE MOVE_PADDLE1
 		            
               Ball:
                     
-                    CMP bullet,2
+                    CMP bullet,3
                     JE exit_p 
                   INC bullet  
                    MOV DH,0  
