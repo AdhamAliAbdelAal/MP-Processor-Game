@@ -15,6 +15,7 @@ CheckSourceVal MACRO Ins
     PUSH BX 
     MOV CL, 0 
     MOV BX, 0 
+    MOV DX, 0 
      
     ;------Determine string size-------- 
     Sizeloop: 
@@ -30,9 +31,7 @@ CheckSourceVal MACRO Ins
     JE exit_AH11
     CMP CL,4
     JG exit_AH11
-     
-    MOV DX, 0 
-    MOV BX, 0   
+    MOV BX, 0    
     MainLoop: 
         MOV CH, BYTE PTR Ins[BX] 
         MOV AH,58 

@@ -260,8 +260,8 @@ start_screen macro                     ;; Start Screen
     call init
     mov_cursor 0000h  
     printmsg  GAME_Start_STR  
-    mov_cursor 082ch  
-   mov NO_MOUSE ,082ch 
+    mov_cursor 082eh  
+   mov NO_MOUSE ,082eh 
        L_eslam:
              ;call receive_no_e
              receive_no
@@ -612,7 +612,7 @@ main_screen macro                     ;; Main Screen
     MOV POINT2,CL
          
     game_eslam:  
-      
+        jmp main_cont
       
       end_eslam:
           
@@ -639,35 +639,124 @@ SelectLevel MACRO
  pop_all 
 ENDM SelectLevel
 
+CONVERT2REGS MACRO
+    LOCAL convert2Numbers
+    LOCAL Tele3Afel
+    LOCAL tmam_gedan
+    LOCAL el7
+    local hona
+    convert2Numbers:
+    mov al,[bx]
+    mov [di],al
+    cmp al,0dh
+    jz Tele3Afel
+    cmp al,'$'
+    jmp tmam_gedan
+    hona:
+    inc bx
+    inc di
+    jmp convert2Numbers
+    Tele3Afel:
+    push bx
+    push di
+    CheckSourceVal temp4Regs
+    pop di
+    pop bx
+    mov [si],dx
+    add si,2
+    printhexa dx
+    inc bx
+    mov di,offset temp4Regs
+    jmp convert2Numbers
+
+    tmam_gedan:
+    jz el7 
+    jmp hona
+    el7:
+    ENDM CONVERT2REGS
+
 DrawInitialP1 MACRO
-     push_all
-    clear 
+push_all
+    clear
+    clear_buffer 
     mov_cursor 0400h 
     printmsg  InitialP1
-    MOV SI, 0827h
-    MOV BX, offset ALREG
-    MOV CX,7
-    JMP ReadIP1     
+    MOV DI, 0727h
+    mov_cursor DI
+    MOV CX,0707h
+    mov si,offset regval
+    mov bx,offset regval2
+    add bx,2
+    add si,2
+    MOV VALUE,-1
     T:
-    JNZ ReadIP1
-    JMP LEAVEHAMDY
-    ReadIP1:
-    PUSH AX
-    PUSH CX
-    mov_cursor SI
-    readmsg regval
-    CheckSourceVal regval+2
-    POP CX
-    POP AX
-    MOV [BX], DX
-    ADD SI,0200h
-    ADD BX,2
-    DEC CX 
-    JMP T
-    LEAVEHAMDY:
-    mov_cursor SI
-    wait_enter    
- pop_all     
+    cmp cl,0
+    jz toSendPOINTS
+    CALL receive_optional
+    cmp  VALUE,-1
+    jz toSendPOINTS 
+    mov al,VALUE
+    mov VALUE,-1
+    mov [bx],al
+    mov dl,[bx]
+    ;printhexa bx
+    inc bx
+    cmp al,0dh
+    jnz toSendPOINTS
+    dec cl
+
+    ;send 
+    toSendPOINTS:
+    cmp ch,0
+    jz final_test
+    mov ah,1
+    int 16h
+    jz T
+    mov ah,0
+    int 16h
+    printchar al
+    mov [si],al
+    inc si
+    mov VALUE,al
+    CALL send_optional
+    mov VALUE,-1
+    cmp al,0dh
+    jnz nelly
+    dec ch
+    ADD DI,0200h
+    mov_cursor DI
+    final_test:
+    cmp cx,0
+    Jz barabety
+    nelly:
+    jmp T
+    barabety:
+    ;mov_cursor DI
+    mov di,offset temp4Regs
+    mov bx,offset regval
+    add bx,2
+    cmp mainPlayer,1
+    jz msh_da
+    mov si,offset ALREG
+    mov BP,offset ALREG2
+    jmp enwak
+    msh_da:
+    mov BP,offset ALREG
+    mov SI,offset ALREG2
+    enwak:
+    add si,2
+    ADD BP,2
+
+    CONVERT2REGS
+
+    mov di,offset temp4Regs
+    mov bx,offset regval2
+    add bx,2
+    MOV si,bp
+
+    CONVERT2REGS
+    ;wait_enter    
+pop_all     
 ENDM DrawInitialP1
 
 DrawInitialP2 MACRO
