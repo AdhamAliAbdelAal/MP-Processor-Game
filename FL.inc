@@ -92,8 +92,13 @@ endm FL_screen2
 FL_P3 macro
 LOCAL mp22
 LOCAL read_char22
-local y7otfelawal
-local y5lasshukrn 
+local dalevel2
+local y3mlevel1
+local barraaa
+LOCAL E5ROOGGG 
+local etba3
+local mHmmm
+local etbdnt
 push_all
     Text_Mode
     clear
@@ -106,24 +111,51 @@ push_all
     je mp22
     CALL receive
     mov al,VALUE
-    mov bl,al
+    mov bh,level
+    sub bh,30h
+    cmp bh,2
+    je dalevel2
+    jmp y3mlevel1
+    dalevel2:
+    printmsg hidden
+    y3mlevel1:
     jmp read_char22
     mp22:
     mov ah,0
     int 16h
     mov VALUE,al
-    mov cl,al
     CALL send
     read_char22:
-    cmp mainPlayer,0
-    je y7otfelawal 
+    ;cmp mainPlayer,0
+    ;je y7otfelawal
+    cmp player,0
+    jne mHmmm 
     mov FL2,al
-    printchar FL2
-    jmp y5lasshukrn
-    y7otfelawal:
-    mov FL2,al
-    printchar FL2
-    y5lasshukrn:
+    mov bl,FL2
+    jmp etbdnt
+    mHmmm:
+    mov FL1,al
+    mov bl,FL1
+    etbdnt:
+    mov bh,level
+    sub bh,30h
+    cmp bh,2
+    je barraaa
+    printchar bl
+    JMP E5ROOGGG
+    barraaa:
+    mov al,mainPlayer
+    cmp al,p3_choose
+    je etba3
+    jmp E5ROOGGG
+    etba3:
+    printchar bl
+    ;jmp y5lasshukrn
+    ;y7otfelawal:
+    ;mov FL2,al
+    ;printchar FL2
+    ;y5lasshukrn:
+    E5ROOGGG:
     wait_enter 
 pop_all
 endm FL_P3

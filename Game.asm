@@ -337,7 +337,7 @@ notication db 80 DUP('$'),'$'
 	 	 
 	Target_x dw 10h 
 	Target_y dw 10h
-	Target_Velocity dw 1h 
+	Target_Velocity dw 4h 
 	Target_SIZE DW 10h 
 	
 	;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;mahmoud
@@ -466,7 +466,8 @@ cong_screen    db   '        ',0ah,0dh
  if_f1_2 db 0
 
 is_game dw 0
-p3_choose db 0      
+p3_choose db 0
+hidden db "HIDDEN$"      
 ;-------------------------------- 
 ;------Initial Points---------
 POINT DB 50

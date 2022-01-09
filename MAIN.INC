@@ -797,11 +797,7 @@ push_all
     jz out_eshat1
     jmp HONA_FISRT1
     out_eshat1:
-    CLEAR 
-    GO 
-    DRAWREG_PLAYERS
-    wait_enter
-    Text_Mode    
+    wait_enter 
 pop_all     
 ENDM DrawInitialP1
 
