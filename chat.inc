@@ -233,6 +233,64 @@ exiit:
 
 endm game_chat
 
+check_scr macro
+    local ll
+    local l     
+    local hob
+    local f
+    
+    Push_all
+    mov ah,3h
+    mov bh,0h
+    int 10h
+      
+    
+    cmp dh,13h
+    je hob
+    jmp f
+    hob:
+    mov cx,640h
+  
+    mov_cursor 0000h
+    
+   
+ll:
+    mov ah,02h
+    mov dl,' '
+    int 21h
+    loop ll
+    
+    
+    mov_cursor 0100h
+    mov cl,80
+   
+l:
+    mov ah,02h
+    mov dl,'_'
+    int 21h
+    loop l
+    
+    
+    mov_cursor 0022h
+        
+    mov ah, 9
+    mov dx,offset chatroom
+    int 21h
+    
+    
+    mov x,0h
+    mov y,2h
+    
+f:
+    
+
+endm check_scr    
+
+
+
+
+
+ 
 trytosend2 macro
     LOCAL CONSEND
     LOCAL KML
@@ -280,12 +338,20 @@ endm trytosend2
 PRINTREC2 MACRO
     PUSH_ALL
     
+   
+    
+    mov ch,y
+    mov cl,x
+    mov_cursor cx 
+    
+    check_scr
+    
     mov ch,y
     mov cl,x
     mov_cursor cx 
      
     mov ah,9
-    mov dx,offset other 
+    mov dx,offset other  
     int 21h  
     
     mov ah,9
@@ -293,7 +359,7 @@ PRINTREC2 MACRO
     int 21h 
     
     
-    add x,8
+    add x,10
     mov si,offset val+1
     mov cl,x
     add cl,[si]
@@ -312,9 +378,7 @@ ENDM PRINTREC2
 get_curpos macro m,n
     local aa
     local f
-    local clr
-    local ll
-    local l 
+    
     
     push_all
     
@@ -322,10 +386,7 @@ get_curpos macro m,n
     
     mov ah,3h
     mov bh,0h
-    int 10h
-    cmp dh,13h
-    je clr 
-    
+    int 10h  
     cmp dl,00h
     jne aa    
     mov m,dh
@@ -333,46 +394,7 @@ get_curpos macro m,n
 aa:
     mov n,00h
     add dh,1
-    mov m,dh 
-    jmp f   
-
-clr:
-    
-    
-    mov cx,640h
-  
-    mov_cursor 0000h
-    
-   
-ll:
-    mov ah,02h
-    mov dl,' '
-    int 21h
-    loop ll
-    
-    
-    mov_cursor 0100h
-    mov cl,80
-   
-l:
-    mov ah,02h
-    mov dl,'_'
-    int 21h
-    loop l
-    
-    
-    mov_cursor 0022h
-        
-    mov ah, 9
-    mov dx,offset chatroom
-    int 21h
-    
-    
-    
-    
-    
-    mov n,0h
-    mov m,2h
+    mov m,dh    
     
 f:    
 
@@ -420,11 +442,20 @@ enter2 macro
     mov ah,9
     mov dx,offset black  
     int 21h
-    
+      
+      
+     
    
     mov ch,y
     mov cl,x
     mov_cursor cx
+    
+    check_scr
+    
+    mov ch,y
+    mov cl,x
+    mov_cursor cx
+    
     
     mov ah,9
     mov dx,offset sendern
@@ -555,14 +586,6 @@ PUSH_ALL
    
    
     arsm  
-   
-   
-   
-  
-  
-  
-  
-  
   
    mov_cursor 3090h
    
