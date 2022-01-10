@@ -25,7 +25,7 @@ PUSH_ALL
 mov cl,0
 mov BX,offset ins2
 ADD BX,2
-st:
+st:                                       
 mov al,mainPlayer
 cmp player,al
 jz ana_Dah
@@ -43,7 +43,7 @@ je ex
 cmp al,0
 jmp IsToScore
 KammelHena:
-CMP AL,2AH
+CMP AL,27
 JMP IS_TO_HAMDY_FATHI
 kammel_hena_tany:
 inc cl
@@ -954,21 +954,19 @@ ENDM DrawTargetPoints
 
 DrawTargetPoints2 MACRO
         mov_cursor 6f1Eh
-        print_dec2   blue_color2
-           
+        print_dec2 green_color2   
         
         mov_cursor 6f22h
         print_dec2 light_blue_color2   
         
         mov_cursor 6f26h
-        print_dec2 green_color2  
+        print_dec2 blue_color2  
         
         mov_cursor 7322h
-        print_dec2 red_color2
-          
+        print_dec2 yellow_color2  
         
         mov_cursor 7326h
-        print_dec2 yellow_color2  
+        print_dec2 red_color2  
 ENDM DrawTargetPoints2
 
 DrawPointsScreen MACRO
@@ -1043,13 +1041,15 @@ blacked macro  n1,n2,n3,n4
     
 endm balacked
 
-PlayerTurn macro
+PlayerTurn macro 
+    push_all
     mov_cursor 1701h
-    printmsg Player_Turn
-    mov_cursor 1708h
+    ;printmsg Player_Turn
+    ;mov_cursor 1708h
     MOV AL,player
     ADD AL,31h
     printchar AL
+    pop_all
 endm PlayerTurn
 
 clear_buffer macro
@@ -1066,3 +1066,72 @@ int 16h
 jnz Kammel_Deletion
 pop_all
 endm clear_buffer
+
+
+
+DrawTargetPoints MACRO
+        mov_cursor 6f10h
+        print_dec2 green_color   
+        
+        mov_cursor 6f14h
+        print_dec2 light_blue_color   
+        
+        mov_cursor 6f18h
+        print_dec2 blue_color  
+        
+        mov_cursor 7310h
+        print_dec2 yellow_color  
+        
+        mov_cursor 7314h
+        print_dec2 red_color 
+ENDM DrawTargetPoints
+
+DrawTargetPoints2 MACRO
+        mov_cursor 6f1Eh
+        print_dec2   blue_color2
+           
+        
+        mov_cursor 6f22h
+        print_dec2 light_blue_color2   
+        
+        mov_cursor 6f26h
+        print_dec2 green_color2  
+        
+        mov_cursor 7322h
+        print_dec2 red_color2
+          
+        
+        mov_cursor 7326h
+        print_dec2 yellow_color2  
+ENDM DrawTargetPoints2 
+
+wait_eX macro
+    LOCAL Enter
+    LOCAL Check4Send            ;; Wait enter
+    LOCAL A5er_Check  
+    push_all
+    mov dx,0
+    mov VALUE,0
+  Enter:
+  cmp dl,27
+  jz Check4Send
+  CALL receive_optional
+  mov dl,VALUE
+  mov VALUE,0
+  Check4Send:
+  cmp DH,27
+  jz A5er_Check
+  mov ah,1
+  int 16h
+  jz A5er_Check
+  mov ah,0
+  int 16h
+  mov VALUE,aL
+  mov dh,VALUE
+  CALL send_optional
+  mov VALUE,0
+  A5er_Check:
+  cmp dx,1B1BH
+  jnz Enter  
+pop_all                       
+endm wait_EX

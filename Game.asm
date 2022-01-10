@@ -396,7 +396,7 @@ valg  db 32,?,30 dup('$')
        ;;;;;;;;
        color_ball db 3h
        color_ball2  db 0ch  
-       FRISTPLAYER DB 0   
+       FRISTPLAYER DB 0
              
 ;-------------------POWER UPS--------------------
 pow1 db "P1$" 
@@ -1634,10 +1634,7 @@ endm Is_limitedP5
         JMP ENDGAME
         CONTINUE_GAME:
         DRAWREG_PLAYERS
-        mov_cursor 150dh 
-        printchar FL1
-        mov_cursor 151bh
-        printchar FL2
+        
         DrawTargetPoints
         DrawTargetPoints2
         INC is_game
@@ -2053,7 +2050,8 @@ endm Is_limitedP5
         
         
         
-        ENDGAME:    
+        ENDGAME:
+        bomb:    
 HLT         
 main endp
 ;----------------EXECUTE INSTRUCTION---------------- 

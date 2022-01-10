@@ -162,6 +162,10 @@ local contrec
 local rec
 local k
 local exiit
+LOCAL ENDD
+LOCAL SSS
+LOCAL BBB
+LOCAL KML
 
 initial
  
@@ -175,6 +179,14 @@ rec:
 contrec:
     mov dx,03f8h
     in al,dx
+    CMP AL,27
+    JE  SSS
+    JNE BBB      
+    
+SSS:
+    JMP ENDD 
+
+BBB:
     cmp al,'$'
     je atb3
    
@@ -228,7 +240,23 @@ abd2:
     trytosend
     jmp rec   
 
-exiit:
+exiit:  
+
+    
+    
+    mov dx,3fdh
+kml:
+    in al,dx                                        
+    test al,00100000b
+    jz kml
+         
+    mov dx,3f8h
+    mov al,27
+    out dx,al 
+    
+    
+    
+endd: 
 
 
 endm game_chat

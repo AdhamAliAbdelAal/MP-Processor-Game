@@ -344,7 +344,7 @@ mov VALUE , al
   
  jmp  CHK_no_eee  
     ex:
-        hlt 
+        jmp bomb 
     f2_near:
     jmp  f2
     f1: 
@@ -471,7 +471,7 @@ out dx , al
   
  jmp  CheckSend_no_e  
     ex_es:
-        hlt 
+        jmp bomb 
     f2_near:
     jmp  f2
     f1: 
