@@ -954,19 +954,21 @@ ENDM DrawTargetPoints
 
 DrawTargetPoints2 MACRO
         mov_cursor 6f1Eh
-        print_dec2 green_color2   
+        print_dec2   blue_color2
+           
         
         mov_cursor 6f22h
         print_dec2 light_blue_color2   
         
         mov_cursor 6f26h
-        print_dec2 blue_color2  
+        print_dec2 green_color2  
         
         mov_cursor 7322h
-        print_dec2 yellow_color2  
+        print_dec2 red_color2
+          
         
         mov_cursor 7326h
-        print_dec2 red_color2  
+        print_dec2 yellow_color2  
 ENDM DrawTargetPoints2
 
 DrawPointsScreen MACRO

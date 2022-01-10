@@ -333,7 +333,7 @@ valg  db 32,?,30 dup('$')
 	BALL_Y DW 96h                        ;current Y position (line) of the ball
 	BALL_SIZE DW 06h                     ;size of the ball (how many pixels does the ball have in width and height)
 
-	BALL_VELOCITY_Y DW 6h   
+	BALL_VELOCITY_Y DW 9h   
 	
 	
 	PADDLE_LEFT_X DW 1Eh                 ;current X position of the left paddle
@@ -370,7 +370,7 @@ valg  db 32,?,30 dup('$')
 	BALL2_Y DW 96h                        ;current Y position (line) of the ball
 	BALL2_SIZE DW 06h                     ;size of the ball (how many pixels does the ball have in width and height)
 	BALL2_VELOCITY_X DW 03h               ;X (horizontal) velocity of the ball
-	BALL2_VELOCITY_Y DW 6h   
+	BALL2_VELOCITY_Y DW 9h   
 	
 	
 	WINDOW_WIDTH2 DW 104h ;260             
