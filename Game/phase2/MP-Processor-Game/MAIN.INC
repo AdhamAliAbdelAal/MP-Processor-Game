@@ -339,12 +339,15 @@ mov VALUE , al
   jz f1
     cmp VALUE,3ch
     jz  f2_near
-    cmp VALUE,01h 
+    cmp VALUE,3Dh 
     jz ex 
   
  jmp  CHK_no_eee  
-    ex:
-        jmp bomb 
+    ex:   
+    CLEAR
+    MOV AH,4CH
+    INT 21H
+       ; jmp bomb 
     f2_near:
     jmp  f2
     f1: 
@@ -466,12 +469,15 @@ out dx , al
     jz f1
     cmp VALUE,3ch
     jz  f2_near
-    cmp VALUE,01h 
+    cmp VALUE,3Dh 
     jz ex_es 
   
  jmp  CheckSend_no_e  
     ex_es:
-        jmp bomb 
+         CLEAR
+    MOV AH,4CH
+    INT 21H
+        ;jmp bomb 
     f2_near:
     jmp  f2
     f1: 
