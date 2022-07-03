@@ -17,10 +17,8 @@
 
 - <a href ="#about"> 📙 overview</a>
 - <a href ="#Started"> 💻 Get Started</a>
-- <a href ="#Built"> 🔨 Built Using</a>
 - <a href ="#Screenshots"> 📷 Demo Screenshots</a>
 - <a href ="#Video">  📽 GIF Demo</a>
-- <a href ="#Structure"> 🧱 File Structure</a>
 - <a href ="#Contributors"> ✨ Contributors</a>
 <hr style="background-color: #4b4c60"></hr>
 
@@ -34,72 +32,184 @@ This is an assembly language project.
 <li> Two functions are to be implemented: chatting, and a two players’ processor simulation game. </li>
 
 <li>
-
+<a href="https://github.com/AdhamAliAbdelAal/MP-Processor-Game/blob/master/Project_Description.pdf">Project Description</a>
 </li>
 </ul>
 <hr style="background-color: #4b4c60"></hr>
 
-## <img align= center width=70px height=70px src="https://user-images.githubusercontent.com/71986226/154076272-37f6df38-6707-4eea-a737-96de97223e9e.gif"> Get Started <a id = "Started"></a>
+## <img  align= center width=50px height=50px src="https://c.tenor.com/HgX89Yku5V4AAAAi/to-the-moon.gif"> Get Started <a id = "Started"></a>
 
 <ol>
 <li>Clone the repository
 
 ```
-git clone https://github.com/EslamAsHhraf/Train-Station
+git clone https://github.com/AdhamAliAbdelAal/MP-Processor-Game
 ```
 
 </li>
-<li> you will need to download <a href="https://docs.microsoft.com/en-us/sql/ssms/download-sql-server-management-studio-ssms?view=sql-server-2017"> SQL Server Management Studio (SSMS)</a> </li>
-<li>Excute <a href='https://github.com/EslamAsHhraf/Train-Station/blob/master/CreateDatabaseQuery.sql'> CreateDatabaseQuery </a> to create Data Base </li>
-<li> Excute <a href='https://github.com/EslamAsHhraf/Train-Station/blob/master/InsertValues.sql'>InsertValues </a> to fill Data Base</li>
-<li> Do steps<a href='https://github.com/EslamAsHhraf/Train-Station/blob/master/Accessing%20DB%20from%20C%23%20App.pdf'>Accessing DB from C# App</a> to link Data Base with application</li>
-<li> Excute all files in <a href="https://github.com/EslamAsHhraf/Train-Station/tree/master/Stored%20Procedures">Stored Procedures</a></li>
-<li> Read <a href='https://github.com/EslamAsHhraf/Train-Station/blob/master/Report%20.pdf'>Report</a>  to undertand well how to use application
+<li> you will need to download <a href="https://www.dosbox.com/">DOSBox</a> </li>
+<li> Open DOSBox </li>
+<li>To run the program
+<ol>
+<li>
+
+```
+mount c c:\"folder_name"
+```
+</li>
+<li>
+
+```
+c:
+```
+</li>
+<li>
+
+```
+masm game
+```
+</li>
+<li>
+
+```
+game
+```
+</li>
+
+</li>
+</ol>
+
 </li>
 </ol>
 <hr style="background-color: #4b4c60"></hr>
 
 
-## <img align= center width=70px height=70px src="https://user-images.githubusercontent.com/71986226/154076591-9c365459-41fe-4b2e-97d5-33042ba52053.gif"> Demo Screenshots <a id ="Screenshots"></a>
+## <img align= center width=80px height=80px src="https://media2.giphy.com/media/LRZc4dV2kf787nbOB3/giphy.gif?cid=ecf05e471nrjgt0m48cmgr8rywtlumaym2b3fsjy689mumdu&rid=giphy.gif&ct=s"> Path of the program <a id ="Path"></a>
 
-
+<table>
+  <thead >
+         <th style="text-align: center;">Player 1</th>
+         <th style="text-align: center;">Player 2</th>
+  </thead>
+  <tr>
+     <td align="center">1. First you Enter your name and points</td>
+      <td align="center">1. First you Enter your name and points</td>
+  </tr>
+  <tr>
+     <td align="center"><img src="https://user-images.githubusercontent.com/71986226/177056726-1cb85048-7a04-48d2-9b7a-3fa1b22abe46.png" width="500px;"/></td>
+     <td align="center"><img src="https://user-images.githubusercontent.com/71986226/177056732-41afb3bd-342e-48da-963e-38a9a4f02b7d.png" width="500px;"/></td>
+  </tr>
+   <tr>
+     <td align="center">2. you choose to send Request or accept if Request are sent</td>
+      <td align="center">2. you choose to send Request or accept if Request are sent</td>
+  </tr>
+  <tr>
+     <td align="center"><img src="https://user-images.githubusercontent.com/71986226/177056768-11d4285a-bf19-44c9-90c2-f80c65a26786.png" width="500px;"/></td>
+     <td align="center"><img src="https://user-images.githubusercontent.com/71986226/177056768-11d4285a-bf19-44c9-90c2-f80c65a26786.png" width="500px;"/></td>
+  </tr>
+   <tr>
+     <td align="">
+     <p>If you choose chatting
+     <a href ="#chatting"> ckick here</a>.</p>
+   <p>If you choose game
+     <a href ="#game"> ckick here</a>.</p> 
+    </td>
+  </tr>
+  </table>
+<table>
+  <a id="chatting"> </a>
+  <tr>
+     <td align="center">3. Press enter to write after writting press enter again to send</td>
+      <td align="center">3. Press enter to write after writting press enter again to send</td>
+  </tr>
+     <td align="center"><img src="https://user-images.githubusercontent.com/71986226/177057012-daa136c4-06a6-4e77-b1ea-507421f511f0.png" width="500px;"/></td>
+     <td align="center"><img src="https://user-images.githubusercontent.com/71986226/177057032-c36001f7-5589-444a-b4c9-2d4ed2288f0e.png" width="500px;"/></td>
+  </tr>
+</table>
+  <table>
+  <a id="game"> </a>
+  <tr>
+     <td align="center">3. Choose level (if you the sender)</td>
+      <td align="center">3. Choose level (if you the sender)</td>
+  </tr>
+     <td align="center"><img src="https://user-images.githubusercontent.com/71986226/177057804-1a081408-e25f-4685-a050-9d499baa9359.png" width="500px;"/></td>
+     <td align="center"><img src="https://user-images.githubusercontent.com/71986226/177057804-1a081408-e25f-4685-a050-9d499baa9359.png" width="500px;"/></td>
+  </tr>
+  <tr>
+     <td align="center">4. Enter Forbidden letter</td>
+      <td align="center">4. Enter Forbidden letter</td>
+  </tr>
+     <td align="center"><img src="https://user-images.githubusercontent.com/71986226/177057862-19a143b6-408e-455a-822a-83ac6b81291c.png" width="500px;"/></td>
+     <td align="center"><img src="https://user-images.githubusercontent.com/71986226/177057869-c3f74f5a-b86a-4fb6-bdf5-bec0117fc817.png" width="500px;"/></td>
+  </tr>
+  <tr>
+     <td align="">
+     <p>If you choose level1
+     <a href ="#level1"> ckick here</a>.</p>
+   <p>If you choose level2
+     <a href ="#level2"> ckick here</a>.</p> 
+    </td>
+  </tr>
+  </table>
+  <table id="level1">
+  <tr>
+     <td align="center">5. Start the game</td>
+      <td align="center">5.  Start the game</td>
+  </tr>
+     <td align="center"><img src="https://user-images.githubusercontent.com/71986226/177057900-c503b0e0-a567-4aec-87ff-c110f2825a0e.png" width="500px;"/></td>
+     <td align="center"><img src="https://user-images.githubusercontent.com/71986226/177057900-c503b0e0-a567-4aec-87ff-c110f2825a0e.png" width="500px;"/></td>
+  </tr>
+</table>
+  <table id="level2">
+  <tr>
+     <td align="center">5. Start the game</td>
+      <td align="center">5.  Start the game</td>
+  </tr>
+     <td align="center"><img src="https://user-images.githubusercontent.com/71986226/177057900-c503b0e0-a567-4aec-87ff-c110f2825a0e.png" width="500px;"/></td>
+     <td align="center"><img src="https://user-images.githubusercontent.com/71986226/177057900-c503b0e0-a567-4aec-87ff-c110f2825a0e.png" width="500px;"/></td>
+  </tr>
+</table>
 <hr style="background-color: #4b4c60"></hr>
 
-## <img align= center width=60px height=60px src="https://user-images.githubusercontent.com/71986226/154076698-11ce2920-aba6-48db-8d4b-f55e36faf28e.gif"> File Structure <a id="Structure"> </a>
+## <img align= center width=60px height=60px src="https://media1.giphy.com/media/igsIZv3VwIIlRIpq5G/giphy.gif?cid=ecf05e47faatmwdhcst7c2d4eontr459hjd35zf3an324elo&rid=giphy.gif&ct=s"> File Structure <a id="Structure"> </a>
 
 ```
-Train-Station
-├── Stored Procedures
-│   ├── Change_Department.sql
-│   ├── Change_Rate.sql
-│   ├── Change_Salary.sql
-│   ├── Dno_Department.sql
-│   ├── Employee_data.sql
-│   ├── ID_Station.sql
-│   ├── Insert_Trip.sql
-│   ├── SSN_Employee.sql
-│   ├── SSN_Passenger.sql
-│   ├── get_tele_E.sql
-│   └── get_tele_psql.sql
-├── images
-│   ├── cover.jpg
-│   └── cover.png
-├── TrainStation
-│   ├── Admin_forms
-│   │   ├── Add_admin.Designer.cs
-│   │   ├── Add_admin.cs
-│   │   ├── Add_admin.resx
-│   │   ├── Block_.Designer.cs
-│   │   ├── Block_.cs
-│   │   ├── Block_.resx
-│   │   ├── Remove_admin.Designer.cs
-│   │   ├── Remove_admin.cs
-│   │   └── Remove_admin.resx
-│   │   ├── Employees_data.Designer.cs
+MP-Processor-Game
+├── Game
+│   ├── pahse1
+│   |   ├── BasRel.inc
+│   |   ├── cute.inc
+│   |   ├── des1.inc
+│   |   ├── FL.inc
+│   |   ├── Game.asm
+│   |   ├── GUN.INC
+│   |   ├── ins1.inc
+│   |   ├── ins2.inc
+│   |   ├── MAIN.INC
+│   |   ├── src1.inc
+│   |   ├── src2.inc
+│   |   ├── srcval.inc
+│   |   └── utility.inc
+│   ├── phasse2
+│   |   ├── BasRel.inc
+│   |   ├── cute.inc
+│   |   ├── des1.inc
+│   |   ├── FL.inc
+│   |   ├── Game.asm
+│   |   ├── GUN.INC
+│   |   ├── ins1.inc
+│   |   ├── ins2.inc
+│   |   ├── MAIN.INC
+│   |   ├── src1.inc
+│   |   ├── src2.inc
+│   |   ├── srcval.inc
+│   └── └── utility.inc
+├── HotKey
+│   ├── New AutoHotkey Script.ahk
+│   └── ONE.AMS
+├── Project_Description.pdf
 ├── Lincense
-├── README.md
-├── Report .pdf
-└── Schema.png
+└── README.md
 ```
 
 <hr style="background-color: #4b4c60"></hr>
