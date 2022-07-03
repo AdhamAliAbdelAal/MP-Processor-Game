@@ -165,6 +165,7 @@ game
      <td align="center">5. Start the game</td>
       <td align="center">5.  Start the game</td>
   </tr>
+  <tr>
      <td align="center"><img src="https://user-images.githubusercontent.com/71986226/177057900-c503b0e0-a567-4aec-87ff-c110f2825a0e.png" width="500px;"/></td>
      <td align="center"><img src="https://user-images.githubusercontent.com/71986226/177057900-c503b0e0-a567-4aec-87ff-c110f2825a0e.png" width="500px;"/></td>
   </tr>
@@ -176,25 +177,36 @@ game
      <td align="center">5. Put initial value for register</td>
       <td align="center">5. Put initial value for register</td>
   </tr>
+  <tr>
      <td align="center"><img src="https://user-images.githubusercontent.com/71986226/177058305-629ea542-59cd-49c9-8229-0ffe4bc10c15.png" width="500px;"/></td>
      <td align="center"><img src="https://user-images.githubusercontent.com/71986226/177058308-8ff7e6cc-910a-439d-a68b-de5147aa2b75.png" width="500px;"/></td>
   </tr>
   <tr>
-     <td align="center">5. Choose your oppment's target</td>
-      <td align="center">5.  Choose your oppment's target</td>
+     <td align="center">6. Choose your oppment's target</td>
+      <td align="center">6.  Choose your oppment's target</td>
   </tr>
      <td align="center"><img src="https://user-images.githubusercontent.com/71986226/177058391-5d652faf-1fd4-42ca-802c-69f9b6014701.png" width="500px;"/></td>
      <td align="center"><img src="https://user-images.githubusercontent.com/71986226/177058391-5d652faf-1fd4-42ca-802c-69f9b6014701.png" width="500px;"/></td>
   </tr>
   <tr>
-     <td align="center">5. Start the game</td>
-      <td align="center">5.  Start the game</td>
+     <td align="center">7. Start the game</td>
+      <td align="center">7.  Start the game</td>
   </tr>
+  <tr>
      <td align="center"><img src="https://user-images.githubusercontent.com/71986226/177057900-c503b0e0-a567-4aec-87ff-c110f2825a0e.png" width="500px;"/></td>
      <td align="center"><img src="https://user-images.githubusercontent.com/71986226/177057900-c503b0e0-a567-4aec-87ff-c110f2825a0e.png" width="500px;"/></td>
   </tr>
 </table>
-
+<table>
+  <tr>
+     <td align="center"> End game</td>
+      <td align="center">  End game</td>
+  </tr>
+  <tr>
+     <td align="center"><img src="https://user-images.githubusercontent.com/71986226/177058423-38daca3d-3650-4c20-9926-dba802f4c330.png" width="500px;"/></td>
+     <td align="center"><img src="https://user-images.githubusercontent.com/71986226/177058423-38daca3d-3650-4c20-9926-dba802f4c330.png" width="500px;"/></td>
+  </tr>
+</table>
 
 
 <hr style="background-color: #4b4c60"></hr>
