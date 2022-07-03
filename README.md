@@ -42,6 +42,8 @@ This is an assembly language project.
 <ol>
 <li>Clone the repository
 
+<br>
+
 ```
 git clone https://github.com/AdhamAliAbdelAal/MP-Processor-Game
 ```
@@ -51,6 +53,7 @@ git clone https://github.com/AdhamAliAbdelAal/MP-Processor-Game
 <li> Open DOSBox </li>
 <li>To run the program
 <ol>
+<br>
 <li>
 
 ```
@@ -84,7 +87,7 @@ game
 <hr style="background-color: #4b4c60"></hr>
 
 
-## <img align= center width=80px height=80px src="https://media2.giphy.com/media/LRZc4dV2kf787nbOB3/giphy.gif?cid=ecf05e471nrjgt0m48cmgr8rywtlumaym2b3fsjy689mumdu&rid=giphy.gif&ct=s"> Path of the program <a id ="Path"></a>
+## <img align= center width=80px height=80px src="https://media2.giphy.com/media/dAu3qBzpmXstCTimDv/giphy.gif?cid=ecf05e475rq4hwxg7usfm1go2dc1pl5gpbnvo1izu6ph4yuh&rid=giphy.gif&ct=s"> Path of the program <a id ="Path"></a>
 
 <table>
   <thead >
@@ -116,6 +119,8 @@ game
     </td>
   </tr>
   </table>
+
+  ### Chatting
 <table>
   <a id="chatting"> </a>
   <tr>
@@ -127,10 +132,12 @@ game
   </tr>
 </table>
   <table>
+
+ ### Game
   <a id="game"> </a>
   <tr>
-     <td align="center">3. Choose level (if you the sender)</td>
-      <td align="center">3. Choose level (if you the sender)</td>
+     <td align="center">3. Choose level 1 or 2 (if you the sender)</td>
+      <td align="center">3. Choose level  1 or 2 (if you the sender)</td>
   </tr>
      <td align="center"><img src="https://user-images.githubusercontent.com/71986226/177057804-1a081408-e25f-4685-a050-9d499baa9359.png" width="500px;"/></td>
      <td align="center"><img src="https://user-images.githubusercontent.com/71986226/177057804-1a081408-e25f-4685-a050-9d499baa9359.png" width="500px;"/></td>
@@ -151,6 +158,8 @@ game
     </td>
   </tr>
   </table>
+
+  ### Level 1
   <table id="level1">
   <tr>
      <td align="center">5. Start the game</td>
@@ -160,7 +169,23 @@ game
      <td align="center"><img src="https://user-images.githubusercontent.com/71986226/177057900-c503b0e0-a567-4aec-87ff-c110f2825a0e.png" width="500px;"/></td>
   </tr>
 </table>
+
+ ### Level 2
   <table id="level2">
+  <tr>
+     <td align="center">5. Put initial value for register</td>
+      <td align="center">5. Put initial value for register</td>
+  </tr>
+     <td align="center"><img src="https://user-images.githubusercontent.com/71986226/177058305-629ea542-59cd-49c9-8229-0ffe4bc10c15.png" width="500px;"/></td>
+     <td align="center"><img src="https://user-images.githubusercontent.com/71986226/177058308-8ff7e6cc-910a-439d-a68b-de5147aa2b75.png" width="500px;"/></td>
+  </tr>
+  <tr>
+     <td align="center">5. Choose your oppment's target</td>
+      <td align="center">5.  Choose your oppment's target</td>
+  </tr>
+     <td align="center"><img src="https://user-images.githubusercontent.com/71986226/177058391-5d652faf-1fd4-42ca-802c-69f9b6014701.png" width="500px;"/></td>
+     <td align="center"><img src="https://user-images.githubusercontent.com/71986226/177058391-5d652faf-1fd4-42ca-802c-69f9b6014701.png" width="500px;"/></td>
+  </tr>
   <tr>
      <td align="center">5. Start the game</td>
       <td align="center">5.  Start the game</td>
@@ -169,6 +194,13 @@ game
      <td align="center"><img src="https://user-images.githubusercontent.com/71986226/177057900-c503b0e0-a567-4aec-87ff-c110f2825a0e.png" width="500px;"/></td>
   </tr>
 </table>
+
+
+
+<hr style="background-color: #4b4c60"></hr>
+
+## <img  align= center width= 70px height =70px src="https://img.genial.ly/5f91608064ad990c6ee12237/bd7195a3-a8bb-494b-8a6d-af48dd4deb4b.gif?genial&1643587200063">  GIF Demo <a id ="Video"></a>
+
 <hr style="background-color: #4b4c60"></hr>
 
 ## <img align= center width=60px height=60px src="https://media1.giphy.com/media/igsIZv3VwIIlRIpq5G/giphy.gif?cid=ecf05e47faatmwdhcst7c2d4eontr459hjd35zf3an324elo&rid=giphy.gif&ct=s"> File Structure <a id="Structure"> </a>
