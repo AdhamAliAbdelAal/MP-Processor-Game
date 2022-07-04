@@ -134,7 +134,7 @@ game
 </table>
   <table>
 
- ### <img align= "center" width=50px height=60px src="https://media0.giphy.com/media/ZZlFeURejAu7o0esKN/giphy.gif?cid=ecf05e47o6pup8tjgb8lpuqopr4x8e8cdyhvz9fggbakyryj&rid=giphy.gif&ct=s"> Game
+ ### <img align= "center" width=50px height=50px src="https://media0.giphy.com/media/ZZlFeURejAu7o0esKN/giphy.gif?cid=ecf05e47o6pup8tjgb8lpuqopr4x8e8cdyhvz9fggbakyryj&rid=giphy.gif&ct=s"> Game
   <a id="game"> </a>
   <tr>
      <td align="center">3. Choose level 1 or 2 (if you the sender)</td>
