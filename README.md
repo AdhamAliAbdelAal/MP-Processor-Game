@@ -20,7 +20,8 @@
 - <a href ="#Path"> 📷 Path of the program</a>
 - <a href ="#Video">  📽 GIF Demo</a>
 - <a href ="#Structure"> 📁  File Structure</a>
-- <a href ="#Contributors"> ✨ Contributors</a>
+- <a href ="#Contributors"> ✨ Contributors</a> 
+- <a href ="#License"> 🔒 License</a> 
 <hr style="background-color: #4b4c60"></hr>
 
 ## <img align="center"  width =60px  height =70px src="https://media2.giphy.com/media/Yn4nioYWSZMqiPNVuD/giphy.gif?cid=ecf05e47m5h78yoqhdkg8pq54o5qsxhdoltjxyfe08d4vxvg&rid=giphy.gif&ct=s"> Overview <a id = "about"></a>
@@ -304,3 +305,7 @@ MP-Processor-Game
      <td align="center"><a href="https://github.com/EslamAsHhraf"><img src="https://avatars.githubusercontent.com/u/71986226?v=4" width="150px;" alt=""/><br /><sub><b>Eslam Ashraf</b></sub></a><br /></td>
   </tr>
 </table>
+
+## License <a id ="License"></a>
+
+> This software is licensed under MIT License, See [License](https://github.com/AdhamAliAbdelAal/MP-Processor-Game/blob/master/LICENSE) for more information ©AdhamAliAbdelAal.
