@@ -6,7 +6,7 @@
 
 </div>
 <p align="center">
-   <img align="center" src="https://c.tenor.com/QlCbchFpeN4AAAAC/mobile-soc-smartphone-soc.gif" alt="logo">
+   <img align="center" src="https://media4.giphy.com/media/QJ8bR5An4VC59FvVcx/giphy.gif?cid=ecf05e47ek100ungvjb1rmlo1d3ztpqxr81p2qgqzum7tggu&rid=giphy.gif&ct=s" alt="logo">
 </p>
 
 <p align="center"> 
@@ -121,9 +121,9 @@ game
   </tr>
   </table>
 
-  ### Chatting
+  ### <img align= "center" width=50px height=50px src="https://media2.giphy.com/media/G9iNGjpV4sD4O6o778/giphy.gif?cid=ecf05e47qb9kis3brwka2jbzoh4m8ch2ovpeshjzaiznzyqt&rid=giphy.gif&ct=s"> Chatting
 <table>
-  <a id="chatting"> </a>
+  <a id="chatting"></a> </a>
   <tr>
      <td align="center">3. Press enter to write after writting press enter again to send</td>
       <td align="center">3. Press enter to write after writting press enter again to send</td>
@@ -134,13 +134,13 @@ game
 </table>
   <table>
 
- ### Game
+ ### <img align= "center" width=50px height=60px src="https://media0.giphy.com/media/ZZlFeURejAu7o0esKN/giphy.gif?cid=ecf05e47o6pup8tjgb8lpuqopr4x8e8cdyhvz9fggbakyryj&rid=giphy.gif&ct=s"> Game
   <a id="game"> </a>
   <tr>
      <td align="center">3. Choose level 1 or 2 (if you the sender)</td>
       <td align="center">3. Choose level  1 or 2 (if you the sender)</td>
   </tr>
-     <td align="center"><img src="https://user-images.githubusercontent.com/71986226/177057804-1a081408-e25f-4685-a050-9d499baa9359.png" width="500px;"/></td>
+     <td align="center" ><img src="https://user-images.githubusercontent.com/71986226/177057804-1a081408-e25f-4685-a050-9d499baa9359.png" width="500px;"/></td>
      <td align="center"><img src="https://user-images.githubusercontent.com/71986226/177057804-1a081408-e25f-4685-a050-9d499baa9359.png" width="500px;"/></td>
   </tr>
   <tr>
@@ -208,8 +208,9 @@ game
      <td align="center"><img src="https://user-images.githubusercontent.com/71986226/177058423-38daca3d-3650-4c20-9926-dba802f4c330.png" width="500px;"/></td>
   </tr>
 </table>
+<hr style="background-color: #4b4c60"></hr>
 
-### Notes
+### <img align= "center" width=50px height=60px src="https://media2.giphy.com/media/8pEnqbR2gapFekW4KK/giphy.gif?cid=ecf05e47ire2dp6wrcli5orn0gddraxve7sug4v3753pquxa&rid=giphy.gif&ct=s"> Notes
 <ol>
 <li>
 You should press enter in every screen to go forward and you will wait oppment to press enter.
@@ -289,10 +290,15 @@ MP-Processor-Game
 
 <hr style="background-color: #4b4c60"></hr>
 
-## <img  width= 70px height =70px src="https://user-images.githubusercontent.com/71986226/154076804-fe8b1364-8a22-4f4c-a9b0-990ea68ea227.gif"> Contributors <a id ="Contributors"></a>
+## <img  align="center" width= 70px height =55px src="https://media0.giphy.com/media/Xy702eMOiGGPzk4Zkd/giphy.gif?cid=ecf05e475vmf48k83bvzye3w2m2xl03iyem3tkuw2krpkb7k&rid=giphy.gif&ct=s"> Contributors <a id ="Contributors"></a>
 
 <table align="center" >
   <tr>
+     <td align="center"><a href="https://github.com/MahmoudAbdelhamidAli"><img src="https://avatars.githubusercontent.com/u/87570209?v=4" width="150px;" alt=""/><br /><sub><b>Mahmoud Abdlhamid</b></sub></a><br /></td>
+    <td align="center"><a href="https://github.com/AdhamAliAbdelAal" ><img src="https://avatars.githubusercontent.com/u/83884426?v=4" width="150px;" alt=""/><br /><sub><b>Adham Ali</b></sub></a><br />
+    </td>
+    <td align="center"><a href="https://github.com/Fathi79"><img src="https://avatars.githubusercontent.com/u/96377553?v=4" width="150px;" alt=""/><br /><sub><b>Abd Elrhman Fathi</b></sub></a><br /></td>
+    <td align="center"><a href="https://github.com/abdelrahman0123"><img src="https://avatars.githubusercontent.com/u/67989900?v=4" width="150px;" alt=""/><br /><sub><b>Abdelrahman Hamdy</b></sub></a><br /></td>
      <td align="center"><a href="https://github.com/EslamAsHhraf"><img src="https://avatars.githubusercontent.com/u/71986226?v=4" width="150px;" alt=""/><br /><sub><b>Eslam Ashraf</b></sub></a><br /></td>
   </tr>
 </table>
