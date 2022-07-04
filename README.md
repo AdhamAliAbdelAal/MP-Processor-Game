@@ -223,22 +223,15 @@ You have 2 bullets only in the gun.
 <br>
 <li>
 In the gun, if you hit
-<ol>
-<li>
-green --> 1 poit
-</li>
-<li>
-light blue --> 2 poits
-</li>
-<li>
-yellow --> 3 poits
-</li>
-<li>
-red --> 4 poits
-</li>
-<li>blue --> 5 poits
-</li>
-</ol>
+
+````
+1. Green      -->  1 poit
+2. Light blue --> 2 poits
+3. Yellow     --> 3 poits
+4. Red        --> 4 poits
+5. Blue       --> 5 poits
+````
+
 </li>
 </ol>
 
