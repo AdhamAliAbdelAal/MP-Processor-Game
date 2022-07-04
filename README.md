@@ -6,7 +6,7 @@
 
 </div>
 <p align="center">
-   <img align="center"  src="https://cdn.dribbble.com/users/3191392/screenshots/6733329/dribbble.gif" alt="logo">
+   <img align="center" src="https://c.tenor.com/QlCbchFpeN4AAAAC/mobile-soc-smartphone-soc.gif" alt="logo">
 </p>
 
 <p align="center"> 
@@ -17,8 +17,9 @@
 
 - <a href ="#about"> 📙 overview</a>
 - <a href ="#Started"> 💻 Get Started</a>
-- <a href ="#Screenshots"> 📷 Demo Screenshots</a>
+- <a href ="#Path"> 📷 Path of the program</a>
 - <a href ="#Video">  📽 GIF Demo</a>
+- <a href ="#Structure"> 📁  File Structure</a>
 - <a href ="#Contributors"> ✨ Contributors</a>
 <hr style="background-color: #4b4c60"></hr>
 
@@ -193,8 +194,8 @@ game
       <td align="center">7.  Start the game</td>
   </tr>
   <tr>
-     <td align="center"><img src="https://user-images.githubusercontent.com/71986226/177057900-c503b0e0-a567-4aec-87ff-c110f2825a0e.png" width="500px;"/></td>
-     <td align="center"><img src="https://user-images.githubusercontent.com/71986226/177057900-c503b0e0-a567-4aec-87ff-c110f2825a0e.png" width="500px;"/></td>
+     <td align="center"><img src="https://user-images.githubusercontent.com/71986226/177060391-6359d810-029c-4744-8ec0-7c20759e6c26.png" width="500px;"/></td>
+     <td align="center"><img src="https://user-images.githubusercontent.com/71986226/177060391-6359d810-029c-4744-8ec0-7c20759e6c26.png" width="500px;"/></td>
   </tr>
 </table>
 <table>
@@ -208,10 +209,40 @@ game
   </tr>
 </table>
 
+### Notes
+<ol>
+<li>
+You should press enter in every screen to go forward and you will wait oppment to press enter.
+</li>
+<li>
+You have 2 bullets only in the gun.
+</li>
+<li>
+In the gun, if you hit
+<ol>
+<li>
+green --> 1 poit
+</li>
+<li>
+light blue --> 2 poits
+</li>
+<li>
+yellow --> 3 poits
+</li>
+<li>
+red --> 4 poits
+</li>
+<li>blue --> 5 poits
+</li>
+</ol>
+</li>
+</ol>
 
 <hr style="background-color: #4b4c60"></hr>
 
 ## <img  align= center width= 70px height =70px src="https://img.genial.ly/5f91608064ad990c6ee12237/bd7195a3-a8bb-494b-8a6d-af48dd4deb4b.gif?genial&1643587200063">  GIF Demo <a id ="Video"></a>
+
+<img src="https://user-images.githubusercontent.com/71986226/177061002-d93b2d8b-831f-4eac-8538-5f9719a30fb3.gif" width="500px;"/>
 
 <hr style="background-color: #4b4c60"></hr>
 
