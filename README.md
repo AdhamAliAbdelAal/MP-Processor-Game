@@ -6,7 +6,7 @@
 
 </div>
 <p align="center">
-   <img align="center" width=500px src="https://media4.giphy.com/media/QJ8bR5An4VC59FvVcx/giphy.gif?cid=ecf05e47ek100ungvjb1rmlo1d3ztpqxr81p2qgqzum7tggu&rid=giphy.gif&ct=s" alt="logo">
+   <img align="center" width=500px src="https://c.tenor.com/QlCbchFpeN4AAAAC/mobile-soc-smartphone-soc.gif" alt="logo">
 </p>
 
 <p align="center"> 
