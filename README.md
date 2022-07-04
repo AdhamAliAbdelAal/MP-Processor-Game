@@ -215,9 +215,11 @@ game
 <li>
 You should press enter in every screen to go forward and you will wait oppment to press enter.
 </li>
+<br>
 <li>
 You have 2 bullets only in the gun.
 </li>
+<br>
 <li>
 In the gun, if you hit
 <ol>
